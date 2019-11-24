@@ -9,6 +9,18 @@
 *.user
 *.userosscache
 *.sln.docstates
+.idea
+/out
+.idea/workspace.xml
+.idea/
+idea/
+out
+**/out
+\out
+.out
+*..keystore
+.keystore
+/.keystore
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
