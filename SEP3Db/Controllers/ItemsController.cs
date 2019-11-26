@@ -43,7 +43,7 @@ namespace SEP3Db.Controllers
         //}
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<string>> GetItem(int id)
+        public async Task<ActionResult<String>> GetItem(int id)
         {
             var item = await _context.Items.FindAsync(id);
 
@@ -51,8 +51,8 @@ namespace SEP3Db.Controllers
             {
                 return NotFound();
             }
-
-            return item.Author;
+          
+            return item.ItemId+","+item.Author+","+item.Title+","+item.Type + ","+item.Quantity;
         }
 
         // PUT: api/Items/5
