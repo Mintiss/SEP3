@@ -28,22 +28,9 @@ namespace SEP3Db.Controllers
             return await _context.Items.ToListAsync();
         }
 
-        // GET: api/Items/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Item>> GetItem(int id)
-        //{
-        //    var item = await _context.Items.FindAsync(id);
-
-        //    if (item == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return item;
-        //}
-
+        //GET: api/Items/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<String>> GetItem(int id)
+        public async Task<ActionResult<Item>> GetItem(int id)
         {
             var item = await _context.Items.FindAsync(id);
 
@@ -51,9 +38,11 @@ namespace SEP3Db.Controllers
             {
                 return NotFound();
             }
-          
-            return item.ItemId+","+item.Author+","+item.Title+","+item.Type + ","+item.Quantity;
+
+            return item;
         }
+
+
 
         // PUT: api/Items/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
