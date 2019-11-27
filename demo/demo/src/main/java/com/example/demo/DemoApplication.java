@@ -61,5 +61,6 @@ public class DemoApplication {
 	public static void main(String[] args) {
 		ItemController ic=new ItemController();
 		System.out.println(ic.getItem());
+		//System.out.println(ic.getItems());
 	}
 }
