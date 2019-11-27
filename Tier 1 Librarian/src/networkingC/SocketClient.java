@@ -1,9 +1,10 @@
-package com.example.networkingC;
+package networkingC;
 
 
 
-import com.example.demo.DemoApplication;
-import com.example.forSocketsTest.Book;
+import Model.Model;
+import Shared.Item;
+import Shared.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,11 +14,14 @@ import java.util.List;
 
 public class SocketClient implements Client{
 
-    DemoApplication demoApplication;
+    Model model;
 
     ClientSocketHandler socketHandler;
 
-    public SocketClient(DemoApplication model){
+    public SocketClient(Model model){
+
+        this.model=model;
+        model.setClient(this);
 
         try {
             Socket socket= new Socket("localhost", 2910);
@@ -33,12 +37,17 @@ public class SocketClient implements Client{
 
     }
 
-    public void searchBookResult(List<Book> books) {
+    public void searchBookResult(List<Item> items) {
         ;
     }
 
     @Override
     public void searchBook(String bookName) {
         socketHandler.searchForBook(bookName);
+    }
+
+    @Override
+    public void sendLoginInfo(User user){
+        socketHandler.sendLoginInfo(user);
     }
 }

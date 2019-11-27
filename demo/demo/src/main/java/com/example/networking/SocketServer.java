@@ -30,8 +30,8 @@ public class SocketServer {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(DemoApplication.class, args);
-        ServerModel m = new ServerModel();
+        /*SpringApplication.run(DemoApplication.class, args);
+        */ServerModel m = new ServerModel();
         SocketServer server = new SocketServer(m);
         try {
             server.runServer();

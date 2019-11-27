@@ -1,7 +1,8 @@
-package com.example.networking;
+package  com.example.networking;
 
 
 
+import com.example.Shared.User;
 import com.example.forSocketsTest.Book;
 import com.example.networking.model.ServerModel;
 
@@ -44,6 +45,11 @@ public class ServerSocketHandler implements Runnable{
                 {
                     String bookForSearch=(String) obj;
                     model.searchForBook(bookForSearch);
+                }
+
+                if (obj instanceof User){
+                    User userGotFromClient=(User) obj;
+                    model.checkUserInfoOnLogin(userGotFromClient);
                 }
 
             } catch (IOException e) {

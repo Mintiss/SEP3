@@ -1,6 +1,7 @@
 package ViewModel.LoginViewModel;
 
 import Model.IModel;
+import Model.Model;
 import View.ViewHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -25,6 +26,6 @@ public class LoginViewModel {
 
 
     public void ConfirmPassword() {
-        viewHandler.openMainView();
+        model.logInAction(username.getValue(),password.getValue());
     }
 }
