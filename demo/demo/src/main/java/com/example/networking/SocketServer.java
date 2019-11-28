@@ -2,6 +2,7 @@ package com.example.networking;
 
 
 import com.example.demo.DemoApplication;
+import com.example.demo.UserController;
 import com.example.networking.model.ServerModel;
 import org.springframework.boot.SpringApplication;
 
@@ -30,8 +31,9 @@ public class SocketServer {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(DemoApplication.class, args);
-        ServerModel m = new ServerModel();
+        /*SpringApplication.run(DemoApplication.class, args);
+
+      */ServerModel m = new ServerModel();
         SocketServer server = new SocketServer(m);
         try {
             server.runServer();

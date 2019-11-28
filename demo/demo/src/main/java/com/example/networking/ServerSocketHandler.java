@@ -1,7 +1,8 @@
-package com.example.networking;
+package  com.example.networking;
 
 
 
+import com.example.Shared.User;
 import com.example.forSocketsTest.Book;
 import com.example.networking.model.ServerModel;
 
@@ -29,6 +30,8 @@ public class ServerSocketHandler implements Runnable{
         }
 
         model.addListener("SearchBook",this::sendBooksResultToUser);
+        model.addListener("LogInSuccess",this::logInTheUser);
+        model.addListener("LogInFailed",this::failLogInTheUser);
 
     }
 
@@ -39,11 +42,15 @@ public class ServerSocketHandler implements Runnable{
             try {
                 Object obj=inFromClient.readObject();
 
-
                 if (obj instanceof String)
                 {
                     String bookForSearch=(String) obj;
                     model.searchForBook(bookForSearch);
+                }
+
+                if (obj instanceof User){
+                    User userGotFromClient=(User) obj;
+                    model.checkUserInfoOnLogin(userGotFromClient);
                 }
 
             } catch (IOException e) {
@@ -58,6 +65,24 @@ public class ServerSocketHandler implements Runnable{
         List<Book> books= (List<Book>) evt.getNewValue();
         try {
             outToClient.writeObject(books);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void logInTheUser(PropertyChangeEvent evt){
+        try {
+            outToClient.writeObject("Log");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void failLogInTheUser(PropertyChangeEvent evt){
+        try {
+            outToClient.writeObject("LogFail");
         } catch (IOException e) {
             e.printStackTrace();
         }

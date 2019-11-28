@@ -1,7 +1,9 @@
 package com.example.networking.model;
 
 
+import com.example.Shared.User;
 import com.example.demo.DemoApplication;
+import com.example.demo.UserController;
 import com.example.forSocketsTest.Book;
 
 import java.beans.PropertyChangeListener;
@@ -15,7 +17,7 @@ public class ServerModel {
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     private Connection conn;
-
+    UserController uc=new UserController();
 
     public ServerModel() {
     }
@@ -30,8 +32,22 @@ public class ServerModel {
 
     public void searchForBook(String book)
     {
-
         List<Book> books=null;
         support.firePropertyChange("SearchBook",null,books);
+    }
+
+    public void checkUserInfoOnLogin(User user){
+        User userGotFromDB= uc.getUserFromDB(user.getUsername());
+        if (userGotFromDB==null)
+        {
+        support.firePropertyChange("LogInFailed",null,null);
+        }
+        else if (userGotFromDB.getUsername().equals(user.getUsername())){
+            if (userGotFromDB.getType()==1)
+            {
+                support.firePropertyChange("LogInSuccess",null,null);
+            }
+            support.firePropertyChange("LogInFailed",null,null);
+        }
     }
 }

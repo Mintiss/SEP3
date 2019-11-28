@@ -1,12 +1,12 @@
-package com.example.networkingC;
+package networkingC;
 
 
-import com.example.forSocketsTest.Book;
+import Shared.Item;
+import Shared.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClientSocketHandler implements Runnable {
@@ -29,9 +29,19 @@ public class ClientSocketHandler implements Runnable {
             while (true) {
                 Object obj=inFromServer.readObject();
 
+                if (obj instanceof  String){
+                    if ("Log".equals(obj)){
+                        client.logIn();
+                    }
+                    if ("LogFail".equals(obj)){
+                        client.logInFailed();
+                    }
+                }
+
+
                 if (obj instanceof List) {
-                    List<Book> blist = (List<Book>) obj;
-                    client.searchBookResult(blist);
+                    List<Item> ilist = (List<Item>) obj;
+                    client.searchBookResult(ilist);
                 }
 
             }
@@ -43,6 +53,14 @@ public class ClientSocketHandler implements Runnable {
     public void searchForBook(String search){
         try {
             outToServer.writeObject(search);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendLoginInfo(User user){
+        try {
+            outToServer.writeObject(user);
         } catch (IOException e) {
             e.printStackTrace();
         }
