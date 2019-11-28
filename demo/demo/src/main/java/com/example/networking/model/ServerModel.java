@@ -2,14 +2,12 @@ package com.example.networking.model;
 
 
 import com.example.Shared.User;
-import com.example.demo.DemoApplication;
-import com.example.demo.UserController;
+import com.example.SharedControllers.UserController;
 import com.example.forSocketsTest.Book;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ServerModel {

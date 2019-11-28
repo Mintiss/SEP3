@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.SharedControllers;
 
 
 import java.lang.reflect.Type;
@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.example.Shared.Item;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

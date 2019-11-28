@@ -1,11 +1,18 @@
 package com.example.Shared;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
-    private int id;
+    @JsonProperty("username")
     private String Username;
+    @JsonProperty("password")
     private String Password;
+    @JsonProperty("type")
     private int type;
 
     public String getUsername() {
@@ -20,23 +27,13 @@ public class User implements Serializable {
         return type;
     }
 
-    public User(String string){
-        String array[]= string.split(",");
-
-        this.Username=array[0];
-        this.Password= array[1];
-        this.type=Integer.parseInt(array[2]);
-    }
-
     public User(String username, String password){
-        this.id=-1;
         this.type=-1;
         this.Username=username;
         this.Password=password;
     }
 
-    public User(int id, String username, String password, int type) {
-        this.id = id;
+    public User( String username, String password, int type) {
         Username = username;
         Password = password;
         this.type = type;
