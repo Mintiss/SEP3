@@ -6,6 +6,7 @@ import com.example.Shared.User;
 import com.example.forSocketsTest.Book;
 import com.example.networking.model.ServerModel;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class ServerSocketHandler implements Runnable{
     public ServerSocketHandler(Socket socket, ServerModel model) {
         this.socket = socket;
         this.model = model;
+        this.gson=new Gson();
         try {
             outToClient = new ObjectOutputStream(socket.getOutputStream());
             inFromClient = new ObjectInputStream(socket.getInputStream());
@@ -44,11 +46,11 @@ public class ServerSocketHandler implements Runnable{
             try {
                 Object obj=inFromClient.readObject();
 
+
                 if (obj instanceof String)
                 {
-                    //String bookForSearch=(String) obj;
-                    User user = gson.fromJson((String)obj, User.class);
-                    //model.searchForBook(bookForSearch);
+                    System.out.println(obj);
+                    User user = gson.fromJson((String) obj, User.class);
                     model.checkUserInfoOnLogin(user);
                 }
 

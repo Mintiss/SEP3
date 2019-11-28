@@ -27,15 +27,22 @@ public class User implements Serializable {
         return type;
     }
 
-    public User(String username, String password){
-        this.type=-1;
-        this.Username=username;
-        this.Password=password;
+    public User() {
+
     }
 
     public User( String username, String password, int type) {
         Username = username;
         Password = password;
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "Username='" + Username + '\'' +
+                ", Password='" + Password + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

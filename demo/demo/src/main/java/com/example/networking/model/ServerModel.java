@@ -35,8 +35,8 @@ public class ServerModel {
     }
 
     public void checkUserInfoOnLogin(User user){
-        User userGotFromDB= uc.getUserFromDB(user.getUsername());
-        if (userGotFromDB==null)
+        User userGotFromDB =uc.getUserFromDB(user.getUsername());
+        if (userGotFromDB.getUsername()==null)
         {
         support.firePropertyChange("LogInFailed",null,null);
         }

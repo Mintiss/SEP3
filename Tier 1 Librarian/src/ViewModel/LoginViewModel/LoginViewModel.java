@@ -3,6 +3,7 @@ package ViewModel.LoginViewModel;
 import Model.IModel;
 import Model.Model;
 import View.ViewHandler;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
@@ -16,6 +17,7 @@ public class LoginViewModel {
 
     private IModel model;
     private ViewHandler viewHandler;
+
 
     public LoginViewModel(IModel model, ViewHandler viewHandler) {
         this.model = model;
@@ -37,13 +39,12 @@ public class LoginViewModel {
     }
 
     public void logInFailed(PropertyChangeEvent evt){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText("Invalid user info");
-        alert.showAndWait();
+       // Platform.runLater(()->new Alert(Alert.AlertType.ERROR));
     }
 
     public void logInConfirmed(PropertyChangeEvent evt){
-        viewHandler.openMainView();
+        Platform.runLater(()->viewHandler.openMainView());
     }
+
+
 }

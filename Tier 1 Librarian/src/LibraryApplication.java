@@ -9,7 +9,7 @@ import networkingC.SocketClient;
 public class LibraryApplication extends Application {
 
     public void start (Stage stage) throws  Exception{
-        Model model = new Model();
+        IModel model = new Model();
         Client client=new SocketClient(model);
         ViewHandler viewHandler = new ViewHandler(stage, model);
         viewHandler.start();

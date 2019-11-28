@@ -5,6 +5,7 @@ package networkingC;
 import Model.Model;
 import Shared.Item;
 import Shared.User;
+import Model.IModel;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,11 +15,11 @@ import java.util.List;
 
 public class SocketClient implements Client{
 
-    Model model;
+    IModel model;
 
     ClientSocketHandler socketHandler;
 
-    public SocketClient(Model model){
+    public SocketClient(IModel model){
 
         this.model=model;
         model.setClient(this);
