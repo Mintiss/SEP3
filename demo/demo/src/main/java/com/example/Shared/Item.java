@@ -1,4 +1,4 @@
-package com.example.Shared;
+package demo.demo.src.main.java.com.example.Shared;
 
 public class Item {
 }

@@ -29,6 +29,16 @@ public class ClientSocketHandler implements Runnable {
             while (true) {
                 Object obj=inFromServer.readObject();
 
+                if (obj instanceof  String){
+                    if ("Log".equals(obj)){
+                        client.logIn();
+                    }
+                    if ("LogFail".equals(obj)){
+                        client.logInFailed();
+                    }
+                }
+
+
                 if (obj instanceof List) {
                     List<Item> ilist = (List<Item>) obj;
                     client.searchBookResult(ilist);

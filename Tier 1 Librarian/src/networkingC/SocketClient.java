@@ -41,6 +41,14 @@ public class SocketClient implements Client{
         ;
     }
 
+    public void logIn(){
+        model.logInConfirmed();
+    }
+
+    public void logInFailed(){
+        model.logInFailed();
+    }
+
     @Override
     public void searchBook(String bookName) {
         socketHandler.searchForBook(bookName);

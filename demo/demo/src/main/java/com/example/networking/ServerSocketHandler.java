@@ -30,6 +30,8 @@ public class ServerSocketHandler implements Runnable{
         }
 
         model.addListener("SearchBook",this::sendBooksResultToUser);
+        model.addListener("LogInSuccess",this::logInTheUser);
+        model.addListener("LogInFailed",this::failLogInTheUser);
 
     }
 
@@ -39,7 +41,6 @@ public class ServerSocketHandler implements Runnable{
 
             try {
                 Object obj=inFromClient.readObject();
-
 
                 if (obj instanceof String)
                 {
@@ -64,6 +65,24 @@ public class ServerSocketHandler implements Runnable{
         List<Book> books= (List<Book>) evt.getNewValue();
         try {
             outToClient.writeObject(books);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void logInTheUser(PropertyChangeEvent evt){
+        try {
+            outToClient.writeObject("Log");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void failLogInTheUser(PropertyChangeEvent evt){
+        try {
+            outToClient.writeObject("LogFail");
         } catch (IOException e) {
             e.printStackTrace();
         }
