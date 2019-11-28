@@ -43,7 +43,8 @@ public class ServerModel {
         else if (userGotFromDB.getUsername().equals(user.getUsername())){
             if (userGotFromDB.getType()==1)
             {
-                support.firePropertyChange("LogInSuccess",null,null);
+                if (userGotFromDB.getPassword().equals(user.getPassword()))
+                    support.firePropertyChange("LogInSuccess",null,null);
             }
             support.firePropertyChange("LogInFailed",null,null);
         }

@@ -33,6 +33,7 @@ public class LoginViewModel {
 
     public void ConfirmPassword() {
         model.logInAction(username.getValue(),password.getValue());
+
     }
 
     public void logInFailed(PropertyChangeEvent evt){
