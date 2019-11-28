@@ -26,7 +26,7 @@ public class ItemController {
 
     private RestTemplate restTemplate;
     private Gson gson;
-    Type arrayOfItemsType;
+    private Type arrayOfItemsType;
 
 
     public ItemController(){

@@ -36,15 +36,5 @@ public class Item {
                 ", Quantity=" + quantity +
                 '}';
     }
-
-    /*public Item(String string){
-        String array[]= string.split(",");
-
-        this.itemId=Integer.parseInt(array[0]);
-        this.author= array[1];
-        this.title=array[2];
-        this.type=array[3];
-        this.quantity=Integer.parseInt(array[4]);
-    }*/
 }
 

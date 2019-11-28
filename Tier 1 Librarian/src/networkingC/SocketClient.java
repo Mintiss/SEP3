@@ -55,7 +55,7 @@ public class SocketClient implements Client{
     }
 
     @Override
-    public void sendLoginInfo(User user){
-        socketHandler.sendLoginInfo(user);
+    public void sendLoginInfo(String userJson){
+        socketHandler.sendLoginInfo(userJson);
     }
 }

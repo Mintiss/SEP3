@@ -58,9 +58,9 @@ public class ClientSocketHandler implements Runnable {
         }
     }
 
-    public void sendLoginInfo(User user){
+    public void sendLoginInfo(String userJson){
         try {
-            outToServer.writeObject(user);
+            outToServer.writeChars(userJson);
         } catch (IOException e) {
             e.printStackTrace();
         }

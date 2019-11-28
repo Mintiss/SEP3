@@ -1,6 +1,7 @@
 package Model;
 
 import Shared.User;
+import com.google.gson.Gson;
 import networkingC.Client;
 
 import java.beans.PropertyChangeListener;
@@ -10,6 +11,8 @@ public class Model implements IModel {
 
     private Client client;
     private PropertyChangeSupport support=new PropertyChangeSupport(this);
+    private Gson gson = new Gson();
+    private String json;
 
 
 
@@ -30,7 +33,8 @@ public class Model implements IModel {
     }
 
     public void logInAction(String username,String password){
-        client.sendLoginInfo(new User(username,password));
+
+        client.sendLoginInfo(json =gson.toJson(new User(username,password)));
     }
 
 
