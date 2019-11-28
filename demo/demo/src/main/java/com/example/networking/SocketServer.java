@@ -1,10 +1,7 @@
 package com.example.networking;
 
 
-import com.example.demo.DemoApplication;
-import com.example.demo.UserController;
 import com.example.networking.model.ServerModel;
-import org.springframework.boot.SpringApplication;
 
 import java.io.IOException;
 import java.net.ServerSocket;

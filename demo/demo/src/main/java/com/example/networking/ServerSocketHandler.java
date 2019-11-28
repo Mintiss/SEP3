@@ -46,12 +46,17 @@ public class ServerSocketHandler implements Runnable{
                 {
                     String bookForSearch=(String) obj;
                     model.searchForBook(bookForSearch);
+
+                    if ("Admin".equals(obj)){
+                        model.checkUserInfoOnLogin(new User("Admin","123"));
+                    }
                 }
 
                 if (obj instanceof User){
                     User userGotFromClient=(User) obj;
                     model.checkUserInfoOnLogin(userGotFromClient);
                 }
+
 
             } catch (IOException e) {
                 e.printStackTrace();
