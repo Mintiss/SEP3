@@ -2,6 +2,7 @@ package  com.example.networking;
 
 
 
+import com.example.Shared.JsonInstruction;
 import com.example.Shared.User;
 import com.example.forSocketsTest.Book;
 import com.example.networking.model.ServerModel;
@@ -46,18 +47,25 @@ public class ServerSocketHandler implements Runnable{
             try {
                 Object obj=inFromClient.readObject();
 
-
                 if (obj instanceof String)
                 {
                     System.out.println(obj);
-                    User user = gson.fromJson((String) obj, User.class);
-                    model.checkUserInfoOnLogin(user);
+                    if (((String)obj).equals("UpdateMainTable"))
+                    {
+                        model.UpdateMainTable();
+                    }
+                    else {
+                        JsonInstruction jsonInstruction = gson.fromJson((String) obj, JsonInstruction.class);
+
+                        if (jsonInstruction.getInstruction().equals("LoginInfo")) {
+                            System.out.println(jsonInstruction.getInstruction());
+                            User user = gson.fromJson(jsonInstruction.getJson(), User.class);
+                            model.checkUserInfoOnLogin(user);
+                        }
+                    }
                 }
 
-                if (obj instanceof User){
-                    User userGotFromClient=(User) obj;
-                    model.checkUserInfoOnLogin(userGotFromClient);
-                }
+
 
 
             } catch (IOException e) {
