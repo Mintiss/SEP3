@@ -11,5 +11,7 @@ namespace BlazorApp1.Data
         public string Type { get; set; } 
 
         public string Author { get; set; } 
+
+        public int Quantity { get; set; }
     }
 }

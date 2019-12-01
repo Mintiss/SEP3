@@ -15,6 +15,10 @@ namespace BlazorApp1.Data
         {
             "Shakespeare", "Donne", "Tolstoy", "Keats", "Blake", "Howard", "Aristotle", "Hemingway", "Herzl", "Joyce"
         };
+        private static readonly string[] Types = new[]
+        {
+            "Book", "Article", "Magazine", "Journal", "CD", "Game"
+        };
 
         public Task<Item[]> GetItemAsync(DateTime startDate)
         {
@@ -23,8 +27,10 @@ namespace BlazorApp1.Data
             {
                 Date = startDate.AddDays(index),
                 Title = Titles[rng.Next(Titles.Length)],
-                 Author = Authors[rng.Next(Authors.Length)]
-            }).ToArray());
+                Author = Authors[rng.Next(Authors.Length)],
+                Type = Types[rng.Next(Types.Length)],
+                Quantity = rng.Next(0, 200)
+            }).ToArray()) ;
         }
     }
 }
