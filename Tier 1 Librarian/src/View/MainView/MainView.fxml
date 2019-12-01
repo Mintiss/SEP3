@@ -24,8 +24,11 @@
             <Button layoutX="846.0" layoutY="60.0" mnemonicParsing="false" onAction="#OpenFineList" text="Fines" />
             <TableView fx:id="mainTable" layoutX="73.0" layoutY="121.0" prefHeight="474.0" prefWidth="619.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Name" />
-                <TableColumn prefWidth="75.0" text="Author" />
+                <TableColumn fx:id="IdColumn" prefWidth="75.0" text="Id" />
+                <TableColumn fx:id="AuthorColumn" prefWidth="164.00001525878906" text="Author" />
+                  <TableColumn fx:id="TitleColumn" prefWidth="224.79998779296875" text="Title" />
+                  <TableColumn fx:id="TypeColumn" prefWidth="88.0" text="Type" />
+                  <TableColumn fx:id="QuantityColumn" prefWidth="69.5999755859375" text="Quantity" />
               </columns>
             </TableView>
          </children>

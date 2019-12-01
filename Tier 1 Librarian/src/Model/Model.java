@@ -1,5 +1,6 @@
 package Model;
 
+import Shared.JsonInstruction;
 import Shared.User;
 import com.google.gson.Gson;
 import networkingC.Client;
@@ -34,7 +35,12 @@ public class Model implements IModel {
 
     public void logInAction(String username,String password){
 
-        client.sendLoginInfo(json =gson.toJson(new User(username,password)));
+        //client.sendLoginInfo(json =gson.toJson(new User(username,password)));
+        JsonInstruction jsonInstruction = new JsonInstruction(json =gson.toJson(new User(username,password)),"LoginInfo");
+        client.sendInfo(json = gson.toJson(jsonInstruction));
+
+
+
     }
 
 
@@ -45,6 +51,10 @@ public class Model implements IModel {
 
     public void logInFailed() {
         support.firePropertyChange("LogInFailed",null,null);
+    }
+
+    public void updateMainTable(){
+        client.sendInfo("UpdateMainTable");
     }
 
 }

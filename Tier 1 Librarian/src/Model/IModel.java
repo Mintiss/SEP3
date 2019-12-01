@@ -10,4 +10,5 @@ public interface IModel {
     void logInConfirmed();
     void logInFailed();
     void addListener(String eventName, PropertyChangeListener listener);
+    void updateMainTable();
 }

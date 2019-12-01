@@ -51,6 +51,7 @@ public class LoginViewModel {
     }
 
     public void logInConfirmed(PropertyChangeEvent evt){
+        //model.
         Platform.runLater(()->viewHandler.openMainView());
     }
 
