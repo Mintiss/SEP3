@@ -93,10 +93,8 @@ namespace SEP3Db.Migrations
 
             modelBuilder.Entity("SEP3Db.Models.Entities.User.User", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
 
                     b.Property<string>("Password")
                         .HasColumnType("text");
@@ -104,10 +102,7 @@ namespace SEP3Db.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId");
+                    b.HasKey("Username");
 
                     b.ToTable("Users");
                 });
