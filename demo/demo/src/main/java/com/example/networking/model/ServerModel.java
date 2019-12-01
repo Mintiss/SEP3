@@ -15,9 +15,11 @@ public class ServerModel {
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     private Connection conn;
-    UserController uc=new UserController();
+    private UserController uc;
 
     public ServerModel() {
+        uc=new UserController();
+
     }
 
     public void addListener(String eventName, PropertyChangeListener listener) {
@@ -38,6 +40,7 @@ public class ServerModel {
         User userGotFromDB =uc.getUserFromDB(user.getUsername());
         if (userGotFromDB.getUsername()==null)
         {
+            System.out.println("null");
         support.firePropertyChange("LogInFailed",null,null);
         }
         else if (userGotFromDB.getUsername().equals(user.getUsername())){
@@ -45,8 +48,12 @@ public class ServerModel {
             {
                 if (userGotFromDB.getPassword().equals(user.getPassword()))
                     support.firePropertyChange("LogInSuccess",null,null);
+                else
+                    support.firePropertyChange("LogInFailed",null,null);
+
             }
-            support.firePropertyChange("LogInFailed",null,null);
+            else
+                support.firePropertyChange("LogInFailed",null,null);
         }
     }
 }

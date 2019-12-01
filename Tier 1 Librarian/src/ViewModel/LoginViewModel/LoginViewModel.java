@@ -39,7 +39,15 @@ public class LoginViewModel {
     }
 
     public void logInFailed(PropertyChangeEvent evt){
-       // Platform.runLater(()->new Alert(Alert.AlertType.ERROR));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("fasf");
+                alert.setContentText("asf");
+                alert.showAndWait();
+            }
+        });
     }
 
     public void logInConfirmed(PropertyChangeEvent evt){
