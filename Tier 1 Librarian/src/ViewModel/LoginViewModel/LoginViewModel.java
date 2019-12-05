@@ -51,7 +51,7 @@ public class LoginViewModel {
     }
 
     public void logInConfirmed(PropertyChangeEvent evt){
-        //model.
+        model.updateMainTable();
         Platform.runLater(()->viewHandler.openMainView());
     }
 

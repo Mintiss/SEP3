@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import com.example.Shared.Item;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -32,17 +33,19 @@ public class ItemController {
 
     public ItemController(){
         restTemplate=new RestTemplate();
-        gson = new Gson();
+        gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
         arrayOfItemsType = new TypeToken<ArrayList<Item>>() {}.getType();
     }
 
 
-    public Item getItem()
+    /*public Item getItem()
     {
         Item item=restTemplate.getForObject("http://localhost:5000/api/Items/1", Item.class);
 
         return item;
-    }
+    }*/
 
     public ArrayList<Item> getItems()
     {
@@ -52,5 +55,17 @@ public class ItemController {
         ArrayList<Item> items = gson.fromJson(itemsJson, arrayOfItemsType);
 
         return items;
+    }
+
+    public void putItem(Item item){
+        restTemplate.put("http://localhost:5000/api/Items/" + item.getItemId(),item);
+    }
+
+    public void postItem(Item fromJson) {
+        restTemplate.postForObject("http://localhost:5000/api/Items",fromJson, Item.class);
+    }
+
+    public void deleteItem(String id) {
+        restTemplate.delete("http://localhost:5000/api/Items/" + id);
     }
 }

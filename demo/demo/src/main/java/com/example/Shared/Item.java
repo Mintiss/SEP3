@@ -26,6 +26,11 @@ public class Item {
         this.type = type;
         this.quantity = quantity;
     }
+
+    public int getItemId() {
+        return itemId;
+    }
+
     @Override
     public String toString() {
         return "Item{" +

@@ -2,11 +2,13 @@ package  com.example.networking;
 
 
 
+import com.example.Shared.Item;
 import com.example.Shared.JsonInstruction;
 import com.example.Shared.User;
 import com.example.forSocketsTest.Book;
 import com.example.networking.model.ServerModel;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 
 import java.beans.PropertyChangeEvent;
@@ -14,6 +16,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServerSocketHandler implements Runnable{
@@ -26,7 +30,9 @@ public class ServerSocketHandler implements Runnable{
     public ServerSocketHandler(Socket socket, ServerModel model) {
         this.socket = socket;
         this.model = model;
-        this.gson=new Gson();
+        this.gson=new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
         try {
             outToClient = new ObjectOutputStream(socket.getOutputStream());
             inFromClient = new ObjectInputStream(socket.getInputStream());
@@ -37,8 +43,12 @@ public class ServerSocketHandler implements Runnable{
         model.addListener("SearchBook",this::sendBooksResultToUser);
         model.addListener("LogInSuccess",this::logInTheUser);
         model.addListener("LogInFailed",this::failLogInTheUser);
+        model.addListener("UpdateMainTable", this::updateMainTable);
+        model.addListener("UpdateBorrowedTable", this::updateBorrowedTable);
 
     }
+
+
 
     @Override
     public void run() {
@@ -54,6 +64,10 @@ public class ServerSocketHandler implements Runnable{
                     {
                         model.UpdateMainTable();
                     }
+                    else if(((String)obj).equals("UpdateBorrowedTable"))
+                    {
+                        model.UpdateBorrowedTable();
+                    }
                     else {
                         JsonInstruction jsonInstruction = gson.fromJson((String) obj, JsonInstruction.class);
 
@@ -62,17 +76,32 @@ public class ServerSocketHandler implements Runnable{
                             User user = gson.fromJson(jsonInstruction.getJson(), User.class);
                             model.checkUserInfoOnLogin(user);
                         }
+                        if(jsonInstruction.getInstruction().equals("EditItem")){
+                            model.editItem(gson.fromJson(jsonInstruction.getJson(), Item.class));
+                        }
+                        if(jsonInstruction.getInstruction().equals("AddItem")){
+                            model.addItem(gson.fromJson(jsonInstruction.getJson(), Item.class));
+                        }
+                        if(jsonInstruction.getInstruction().equals("DeleteItem")){
+                            model.deleteItem(jsonInstruction.getJson());
+                        }
                     }
                 }
-
-
-
-
+            } catch (SocketException e)
+            {
+                try {
+                    System.out.println("Client Disconnected");
+                    socket.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            }
+            catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
@@ -85,6 +114,22 @@ public class ServerSocketHandler implements Runnable{
         }
     }
 
+    private void updateMainTable(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getItems()),"UpdateMainTable")));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void updateBorrowedTable(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getBorrowed()),"UpdateBorrowedTable")));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
     public void logInTheUser(PropertyChangeEvent evt){
         try {

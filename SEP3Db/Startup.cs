@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using SEP3Db.Models;
-using SEP3Db.Models.Entities.Item;
+using SEP3Db.Models.Entities;
 
 namespace SEP3Db
 {

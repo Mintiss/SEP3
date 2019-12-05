@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SEP3Db.Models;
-using SEP3Db.Models.Entities.Borrowed;
+using SEP3Db.Models.Entities;
 
 namespace SEP3Db.Controllers
 {
