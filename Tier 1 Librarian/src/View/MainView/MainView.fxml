@@ -11,24 +11,23 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="423.0" prefWidth="683.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button layoutX="834.0" layoutY="108.0" mnemonicParsing="false" onAction="#LentItemAction" text="Lent Item" />
-            <Button layoutX="835.0" layoutY="171.0" mnemonicParsing="false" onAction="#AddtemAction" text="Add Item" />
-            <Button layoutX="838.0" layoutY="233.0" mnemonicParsing="false" onAction="#SeeInfoAction" text="See info" />
-            <Button layoutX="836.0" layoutY="295.0" mnemonicParsing="false" onAction="#EditItemAction" text="Edit Item" />
+            <Button layoutX="734.0" layoutY="121.0" mnemonicParsing="false" onAction="#LentItemAction" text="Lent Item" />
+            <Button layoutX="835.0" layoutY="121.0" mnemonicParsing="false" onAction="#AddItemAction" text="Add Item" />
+            <Button layoutX="735.0" layoutY="175.0" mnemonicParsing="false" onAction="#EditItemAction" text="Edit Item" />
             <TextField fx:id="SearchField" layoutX="73.0" layoutY="60.0" onAction="#SearchTextField" promptText="Search" />
             <Button layoutX="225.0" layoutY="57.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
-            <Button layoutX="829.0" layoutY="357.0" mnemonicParsing="false" onAction="#DeleteItemAction" text="Delete Item" />
-            <Button layoutX="817.0" layoutY="423.0" mnemonicParsing="false" onAction="#OpenReservedItemsList" text="Reserved Items" />
-            <Button layoutX="832.0" layoutY="484.0" mnemonicParsing="false" onAction="#OpenLentItemsList" text="Lent Items" />
-            <Button layoutX="832.0" layoutY="553.0" mnemonicParsing="false" onAction="#OpenBorrowersList" text="Borrowers" />
-            <Button layoutX="846.0" layoutY="60.0" mnemonicParsing="false" onAction="#OpenFineList" text="Fines" />
+            <Button layoutX="829.0" layoutY="175.0" mnemonicParsing="false" onAction="#DeleteItemAction" text="Delete Item" />
+            <Button layoutX="719.0" layoutY="325.0" mnemonicParsing="false" onAction="#OpenReservedItemsList" text="Reserved Items" />
+            <Button layoutX="831.0" layoutY="325.0" mnemonicParsing="false" onAction="#OpenLentItemsList" text="Lent Items" />
+            <Button layoutX="833.0" layoutY="384.0" mnemonicParsing="false" onAction="#OpenBorrowersList" text="Borrowers" />
+            <Button layoutX="745.0" layoutY="384.0" mnemonicParsing="false" onAction="#OpenFineList" text="Fines" />
             <TableView fx:id="mainTable" layoutX="73.0" layoutY="121.0" prefHeight="474.0" prefWidth="619.0">
               <columns>
-                <TableColumn fx:id="IdColumn" prefWidth="75.0" text="Id" />
-                <TableColumn fx:id="AuthorColumn" prefWidth="164.00001525878906" text="Author" />
-                  <TableColumn fx:id="TitleColumn" prefWidth="224.79998779296875" text="Title" />
-                  <TableColumn fx:id="TypeColumn" prefWidth="88.0" text="Type" />
-                  <TableColumn fx:id="QuantityColumn" prefWidth="69.5999755859375" text="Quantity" />
+                <TableColumn fx:id="IdColumn" prefWidth="44.79998779296875" text="Id" />
+                <TableColumn fx:id="AuthorColumn" prefWidth="127.99996948242188" text="Author" />
+                  <TableColumn fx:id="TitleColumn" prefWidth="319.2000274658203" text="Title" />
+                  <TableColumn fx:id="TypeColumn" prefWidth="61.5999755859375" text="Type" />
+                  <TableColumn fx:id="QuantityColumn" prefWidth="67.99993896484375" text="Quantity" />
               </columns>
             </TableView>
          </children>

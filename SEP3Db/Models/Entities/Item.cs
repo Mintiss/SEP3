@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SEP3Db.Models.Entities.Item
+namespace SEP3Db.Models.Entities
 {
     public class Item
     {

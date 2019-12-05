@@ -3,6 +3,7 @@ package com.example.SharedControllers;
 import com.example.Shared.Item;
 import com.example.Shared.User;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +20,9 @@ public class UserController {
 
         public UserController(){
             restTemplate=new RestTemplate();
-            gson = new Gson();
+            gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                    .create();
             arrayOfItemsType = new TypeToken<ArrayList<Item>>() {}.getType();
         }
 

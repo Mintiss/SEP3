@@ -1,8 +1,10 @@
 package com.example.networking.model;
 
 
+import com.example.Shared.Borrowed;
 import com.example.Shared.Item;
 import com.example.Shared.User;
+import com.example.SharedControllers.BorrowedController;
 import com.example.SharedControllers.ItemController;
 import com.example.SharedControllers.UserController;
 import com.example.forSocketsTest.Book;
@@ -20,11 +22,16 @@ public class ServerModel {
     private Connection conn;
     private UserController uc;
     private ItemController ic;
+    private BorrowedController bc;
+    private ArrayList<Item> items;
+    private ArrayList<Borrowed> borrowed;
 
     public ServerModel() {
         uc=new UserController();
         ic = new ItemController();
-
+        bc = new BorrowedController();
+        items = new ArrayList<Item>();
+        borrowed = new ArrayList<Borrowed>();
     }
 
     public void addListener(String eventName, PropertyChangeListener listener) {
@@ -63,9 +70,40 @@ public class ServerModel {
     }
 
     public void UpdateMainTable() {
-        ArrayList<Item> items = new ArrayList<Item>();
-        items = ic.getItems();
-
-
+        this.items = ic.getItems();
+        support.firePropertyChange("UpdateMainTable",null,null);
     }
+
+    public ArrayList<Borrowed> getBorrowed() {
+        return borrowed;
+    }
+
+    public void UpdateBorrowedTable() {
+        this.borrowed = bc.getBorrowed();
+        support.firePropertyChange("UpdateBorrowedTable", null, null);
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void editItem(Item fromJson) {
+        ic.putItem(fromJson);
+        this.items = ic.getItems();
+        support.firePropertyChange("UpdateMainTable",null,null);
+    }
+
+    public void addItem(Item fromJson) {
+        ic.postItem(fromJson);
+        this.items = ic.getItems();
+        support.firePropertyChange("UpdateMainTable",null,null);
+    }
+
+    public void deleteItem(String json) {
+        ic.deleteItem(json);
+        this.items = ic.getItems();
+        support.firePropertyChange("UpdateMainTable",null,null);
+    }
+
+
 }

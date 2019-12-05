@@ -6,10 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Npgsql;
 using Npgsql.EntityFrameworkCore;
-using SEP3Db.Models.Entities.Reservation;
-using SEP3Db.Models.Entities.Item;
-using SEP3Db.Models.Entities.Borrowed;
-using SEP3Db.Models.Entities.User;
+using SEP3Db.Models.Entities;
+
 
 
 

@@ -3,6 +3,7 @@ package networkingC;
 
 
 import Model.Model;
+import Shared.Borrowed;
 import Shared.Item;
 import Shared.User;
 import Model.IModel;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SocketClient implements Client{
@@ -58,5 +60,14 @@ public class SocketClient implements Client{
     @Override
     public void sendInfo(String jsonInstruction){
         socketHandler.sendInfo(jsonInstruction);
+    }
+
+    @Override
+    public void updateMainTable(ArrayList<Item> items) {
+        model.setMainTable(items);
+    }
+    @Override
+    public void updateBorrowedTable(ArrayList<Borrowed> borrowed){
+        model.setBorrowedTable(borrowed);
     }
 }

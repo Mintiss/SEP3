@@ -1,12 +1,18 @@
 package networkingC;
 
 
+import Shared.Borrowed;
 import Shared.Item;
+import Shared.JsonInstruction;
 import Shared.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientSocketHandler implements Runnable {
@@ -14,11 +20,15 @@ public class ClientSocketHandler implements Runnable {
     private ObjectOutputStream outToServer;
     private ObjectInputStream inFromServer;
     private SocketClient client;
+    private Gson gson;
 
     public ClientSocketHandler(ObjectOutputStream outToServer, ObjectInputStream inFromServer, SocketClient _client) {
         client = _client;
         this.inFromServer = inFromServer;
         this.outToServer = outToServer;
+        gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
     }
 
 
@@ -33,17 +43,22 @@ public class ClientSocketHandler implements Runnable {
                     if ("Log".equals(obj)){
                         client.logIn();
                     }
-                    if ("LogFail".equals(obj)){
+                    else if ("LogFail".equals(obj)){
                         client.logInFailed();
                     }
+                    else {
+                        JsonInstruction jsonInstruction = gson.fromJson((String) obj, JsonInstruction.class);
+
+                        if (jsonInstruction.getInstruction().equals("UpdateMainTable")) {
+                            System.out.println(jsonInstruction);
+                            client.updateMainTable(gson.fromJson(jsonInstruction.getJson(),new TypeToken<ArrayList<Item>>(){}.getType()));
+                        }
+                        if (jsonInstruction.getInstruction().equals("UpdateBorrowedTable")) {
+                            System.out.println(jsonInstruction);
+                            client.updateBorrowedTable(gson.fromJson(jsonInstruction.getJson(),new TypeToken<ArrayList<Borrowed>>(){}.getType()));
+                        }
+                    }
                 }
-
-
-                if (obj instanceof List) {
-                    List<Item> ilist = (List<Item>) obj;
-                    client.searchBookResult(ilist);
-                }
-
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
