@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+using BlazorApp1.Data;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+
 
 namespace BlazorApp1
 {
@@ -17,19 +12,17 @@ namespace BlazorApp1
     {
         public static void Main(string[] args)
         {
-            String toSend = "test";
+            Model asdf = new Model();
 
-            IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse("10.152.220.1"), 2910);
+            /*
+                        IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 2910);
 
-            Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            clientSocket.Connect(serverAddress);
+                        Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                        clientSocket.Connect(serverAddress);
+            */
 
-            int toSendLen = System.Text.Encoding.ASCII.GetByteCount(toSend);
-            byte[] toSendBytes = System.Text.Encoding.ASCII.GetBytes(toSend);
-            byte[] toSendLenBytes = System.BitConverter.GetBytes(toSendLen);
-            clientSocket.Send(toSendLenBytes);
-            clientSocket.Send(toSendBytes);
-
+            asdf.getItem();
+            
             CreateHostBuilder(args).Build().Run();
         }
 

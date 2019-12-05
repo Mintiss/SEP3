@@ -4,29 +4,34 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
+using BlazorApp1.Data;
+using System.Threading;
 
 namespace BlazorApp1.SocketClient
 {
-
-    public class SocketClient
+    public class SocketClientT
     {
-        public static void main()
+        ClientSocketHandler clientSocketHandler;
+        Model model;
+        Socket clientSocket;
+
+        public SocketClientT()
         {
+            IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 2910);
 
-            String toSend = "test";
-
-            IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse("localhost"),2910);
-
-            Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             clientSocket.Connect(serverAddress);
 
-            int toSendLen = System.Text.Encoding.ASCII.GetByteCount(toSend);
-            byte[] toSendBytes = System.Text.Encoding.ASCII.GetBytes(toSend);
-            byte[] toSendLenBytes = System.BitConverter.GetBytes(toSendLen);
-            clientSocket.Send(toSendLenBytes);
-            clientSocket.Send(toSendBytes);
+            clientSocketHandler = new ClientSocketHandler(this,model);
 
-            clientSocket.Close();
+            Thread th = new Thread(new ThreadStart(clientSocketHandler.run));
+            th.Start();
         }
+
+        public Socket getClientSocket()
+        {
+            return clientSocket;
+        }
+    
     }
 }

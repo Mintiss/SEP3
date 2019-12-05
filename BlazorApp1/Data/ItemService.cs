@@ -1,11 +1,24 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using BlazorApp1.SocketClient;
 
 namespace BlazorApp1.Data
 {
     public class ItemService
     {
+        Model model;
+        
+        public ItemService()
+        {
+            this.model = new Model();
+        }
+
+        public void GetItemFromServer()
+        {
+            model.getItem();
+        }
+
         private static readonly string[] Authors = new[]
         {
             "Shakespeare", "Donne", "Tolstoy", "Keats", "Blake", "Howard", "Aristotle", "Hemingway", "Herzl", "Joyce"
