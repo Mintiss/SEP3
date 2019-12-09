@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 
-namespace BlazorApp1
+namespace Tier1User
 {
     public class Program
     {
