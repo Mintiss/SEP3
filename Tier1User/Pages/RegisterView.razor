@@ -1,0 +1,50 @@
+﻿@page "/register"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager goTo
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using Tier1User.Data
+@inject Model model
+
+
+<div class="register">
+
+    <div class="content px-4">
+        <h3>RegisterView</h3>
+
+        <h5>Enter Your Email</h5>
+        <input placeholder="Email" type="email" @bind="emailInput" />
+        <h5>Enter Your Password</h5>
+        <input placeholder="Password" type="password" @bind="passwordInput" />
+        <h5>Repeat Your Password</h5>
+        <input placeholder="Password" type="password" @bind="passwordImput2" />
+
+        <button @onclick="checkData">Submit</button>
+    </div>
+</div>
+
+
+@code {
+
+    string emailInput = string.Empty;
+    string passwordInput = string.Empty;
+    string passwordImput2 = string.Empty;
+
+
+
+    public void checkData()
+    {
+
+        if (Equals(passwordInput, passwordImput2))
+        {
+            bool isValid = model.registerUser(emailInput, passwordInput).Result;
+
+            if (isValid == true)
+            {
+                goTo.NavigateTo("");
+            }
+        }
+        
+
+    }
+
+}
