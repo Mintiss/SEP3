@@ -5,11 +5,9 @@ package  com.example.networking;
 import com.example.Shared.Item;
 import com.example.Shared.JsonInstruction;
 import com.example.Shared.User;
-import com.example.forSocketsTest.Book;
 import com.example.networking.model.ServerModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -17,8 +15,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ServerSocketHandler implements Runnable{
     private ObjectOutputStream outToClient;
@@ -40,7 +36,6 @@ public class ServerSocketHandler implements Runnable{
             e.printStackTrace();
         }
 
-        model.addListener("SearchBook",this::sendBooksResultToUser);
         model.addListener("LogInSuccess",this::logInTheUser);
         model.addListener("LogInFailed",this::failLogInTheUser);
         model.addListener("UpdateMainTable", this::updateMainTable);
@@ -105,14 +100,6 @@ public class ServerSocketHandler implements Runnable{
         }
     }
 
-    public void sendBooksResultToUser(PropertyChangeEvent evt){
-        List<Book> books= (List<Book>) evt.getNewValue();
-        try {
-            outToClient.writeObject(books);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void updateMainTable(PropertyChangeEvent propertyChangeEvent) {
         try {

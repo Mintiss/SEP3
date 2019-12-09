@@ -1,7 +1,6 @@
 package com.example.SharedControllers;
 
 import com.example.Shared.Borrowed;
-import com.example.Shared.Item;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -29,7 +28,7 @@ public class BorrowedController {
 
     public ArrayList<Borrowed> getBorrowed()
     {
-        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Borrowed", String.class);
+        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Borrowed", String.class);
 
         System.out.println(itemsJson);
         ArrayList<Borrowed> borrowed = gson.fromJson(itemsJson, arrayOfItemsType);

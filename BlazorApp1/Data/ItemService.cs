@@ -14,10 +14,10 @@ namespace BlazorApp1.Data
             this.model = new Model();
         }
 
-        public void GetItemFromServer()
+       /* public void GetItemFromServer()
         {
             model.getItem();
-        }
+        }*/
 
         private static readonly string[] Authors = new[]
         {

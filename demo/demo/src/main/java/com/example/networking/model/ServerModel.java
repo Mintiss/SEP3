@@ -7,13 +7,11 @@ import com.example.Shared.User;
 import com.example.SharedControllers.BorrowedController;
 import com.example.SharedControllers.ItemController;
 import com.example.SharedControllers.UserController;
-import com.example.forSocketsTest.Book;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.sql.*;
+import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ServerModel {
 
@@ -40,12 +38,6 @@ public class ServerModel {
         } else {
             support.addPropertyChangeListener(eventName, listener);
         }
-    }
-
-    public void searchForBook(String book)
-    {
-        List<Book> books=null;
-        support.firePropertyChange("SearchBook",null,books);
     }
 
     public void checkUserInfoOnLogin(User user){

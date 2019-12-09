@@ -17,10 +17,11 @@ namespace BlazorApp1.SocketClient
 
         public SocketClientT()
         {
-            IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 2910);
+            IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6969);
 
             clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             clientSocket.Connect(serverAddress);
+
 
             clientSocketHandler = new ClientSocketHandler(this,model);
 
