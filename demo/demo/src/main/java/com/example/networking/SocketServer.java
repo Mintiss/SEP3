@@ -2,12 +2,15 @@ package com.example.networking;
 
 
 import com.example.networking.model.ServerModel;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
+@Component
 public class SocketServer {
+
     private ServerModel model;
 
     public SocketServer(ServerModel model) {
@@ -23,19 +26,6 @@ public class SocketServer {
             ServerSocketHandler ssh = new ServerSocketHandler(socket, model);
             Thread t = new Thread(ssh);
             t.start();
-        }
-    }
-
-    public static void main(String[] args) {
-
-        /*SpringApplication.run(DemoApplication.class, args);
-
-      */ServerModel m = new ServerModel();
-        SocketServer server = new SocketServer(m);
-        try {
-            server.runServer();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-
-
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 
 @RestController
+@RequestMapping ("/Items")
 public class ItemController {
 
     private RestTemplate restTemplate;
@@ -38,14 +38,6 @@ public class ItemController {
                 .create();
         arrayOfItemsType = new TypeToken<ArrayList<Item>>() {}.getType();
     }
-
-
-    /*public Item getItemId()
-    {
-        Item itemId=restTemplate.getForObject("http://localhost:5000/api/Items/1", Item.class);
-
-        return itemId;
-    }*/
 
     public ArrayList<Item> getItems()
     {
@@ -68,4 +60,17 @@ public class ItemController {
     public void deleteItem(String id) {
         restTemplate.delete("http://localhost:5000/api/Items/" + id);
     }
+
+
+
+    //Exposing web api
+
+
+    @RequestMapping(method = GET)
+    public String getItemsBlazor() {
+        return gson.toJson(getItems());
+    }
+
+
+
 }

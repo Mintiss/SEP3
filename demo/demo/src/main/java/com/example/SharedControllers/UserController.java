@@ -4,13 +4,18 @@ import com.example.Shared.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 @RestController
+@RequestMapping("/Users")
 public class UserController {
 
         private RestTemplate restTemplate;
@@ -33,7 +38,7 @@ public class UserController {
         ArrayList<User> users = gson.fromJson(usersJson, arrayOfItemsType);
         return users;
     }
-        public User getUserFromDB(java.lang.String userFromLogin)
+        public User getUserFromDB(String userFromLogin)
         {
             User userGotFromDB;
 
@@ -53,6 +58,15 @@ public class UserController {
 
     public void changePassword(User user){
         restTemplate.put("http://localhost:5000/api/Users/" + user.getUsername(),user);
+    }
+
+
+    //Exposing web api
+
+    @RequestMapping(method = GET, value = "/{id}")
+    public String getUserBlazor(@PathVariable String id) {
+        System.out.println(gson.toJson(getUserFromDB(id)));
+        return gson.toJson(getUserFromDB(id));
     }
 
 }
