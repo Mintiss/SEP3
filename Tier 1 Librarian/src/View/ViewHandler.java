@@ -3,9 +3,12 @@ package View;
 import Model.IModel;
 import View.AddView.AddView;
 import View.BorrowedView.BorrowedView;
+import View.ChangePassView.ChangePassView;
 import View.EditView.EditView;
 import View.LoginView.LoginView;
 import View.MainView.MainView;
+import View.ReservedView.ReservedView;
+import View.UsersView.UsersView;
 import ViewModel.ViewModelProvider;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -121,6 +124,63 @@ public class ViewHandler {
         BorrowedView view = loader.getController();
         view.init(viewModelProvider.getBorrowedViewModel());
         mainStage.setTitle("Borrowed Items Screen");
+
+        Scene scene = new Scene(root);
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+    public void openReservedView() {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("ReservedView/ReservedView.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ReservedView view = loader.getController();
+        view.init(viewModelProvider.getReservedViewModel());
+        mainStage.setTitle("Reserved Items Screen");
+
+        Scene scene = new Scene(root);
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+    public void openUsersView() {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("UsersView/UsersView.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        UsersView view = loader.getController();
+        view.init(viewModelProvider.getUsersViewModel());
+        mainStage.setTitle("Users Screen");
+
+        Scene scene = new Scene(root);
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+    public void openChangePasswordView() {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("ChangePassView/ChangePassView.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ChangePassView view = loader.getController();
+        view.init(viewModelProvider.getChangePassViewModel());
+        mainStage.setTitle("Change Password Screen");
 
         Scene scene = new Scene(root);
         mainStage.setScene(scene);

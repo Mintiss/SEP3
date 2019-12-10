@@ -23,7 +23,7 @@ public class BorrowedView {
     @FXML
     private TableColumn<String, String> IdColumn, UsernameColumn;
     @FXML
-    private TableColumn<String, String> ItemIdColumn, ItemTitleColumn;
+    private TableColumn<String, String> ItemIdColumn;
     @FXML
     private TableColumn<String,String> BorrowedAtColumn, ReturnByColumn;
 
@@ -33,26 +33,12 @@ public class BorrowedView {
         this.borrowedViewModel= borrowedViewModel;
 
         IdColumn.setCellValueFactory(new PropertyValueFactory<>("borrowedId"));
-        ItemIdColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        ItemTitleColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        BorrowedAtColumn.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+        ItemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        UsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         BorrowedAtColumn.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
         ReturnByColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
-        ItemTitleColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Borrowed, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Borrowed, String> c) {
-                return new SimpleStringProperty(c.getValue().getItem().getTitle().);
-            }
-        });
 
-        BorrowedAtColumn.setCellValueFactory(
-                Borrowed -> {
-                    SimpleObjectProperty property = new SimpleObjectProperty();
-                    property.setValue(Borrowed.getValue().);
-                    return property;
-                }
-        );
 
 
         mainTable.itemsProperty().bind(borrowedViewModel.getList());

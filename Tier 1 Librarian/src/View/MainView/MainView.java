@@ -70,15 +70,18 @@ public class MainView {
     }
 
     public void OpenReservedItemsList(ActionEvent actionEvent) {
+        mainViewModel.openReservedView();
     }
 
     public void OpenLentItemsList(ActionEvent actionEvent) {
         mainViewModel.openBorrowedView();
     }
-
-    public void OpenBorrowersList(ActionEvent actionEvent) {
-    }
+    
 
     public void OpenFineList(ActionEvent actionEvent) {
+    }
+
+    public void OpenUserList(ActionEvent actionEvent) {
+        mainViewModel.openUsersView();
     }
 }

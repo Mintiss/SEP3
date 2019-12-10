@@ -12,4 +12,6 @@ public interface Client {
     void updateMainTable(ArrayList<Item> items);
 
     void updateBorrowedTable(ArrayList<Borrowed> borrowed);
+
+    void updateUsersTable(ArrayList<User> users);
 }

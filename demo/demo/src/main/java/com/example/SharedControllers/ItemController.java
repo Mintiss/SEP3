@@ -34,17 +34,17 @@ public class ItemController {
     public ItemController(){
         restTemplate=new RestTemplate();
         gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .setDateFormat("yyyy-MM-dd")
                 .create();
         arrayOfItemsType = new TypeToken<ArrayList<Item>>() {}.getType();
     }
 
 
-    /*public Item getItem()
+    /*public Item getItemId()
     {
-        Item item=restTemplate.getForObject("http://localhost:5000/api/Items/1", Item.class);
+        Item itemId=restTemplate.getForObject("http://localhost:5000/api/Items/1", Item.class);
 
-        return item;
+        return itemId;
     }*/
 
     public ArrayList<Item> getItems()

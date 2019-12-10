@@ -1,12 +1,8 @@
 package Model;
 
-import Shared.Borrowed;
-import Shared.Item;
-import Shared.JsonInstruction;
-import Shared.User;
+import Shared.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import networkingC.Client;
 
@@ -19,16 +15,21 @@ public class Model implements IModel {
     private Client client;
     private PropertyChangeSupport support=new PropertyChangeSupport(this);
     private Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            .setDateFormat("yyyy-MM-dd")
             .create();
     private ArrayList<Item> mainTable;
     private ArrayList<Borrowed> borrowedTable;
+    private ArrayList<Reservation> reservationTable;
+    private ArrayList<User> usersTable;
     private Item storedItem;
+    private User storedUser;
 
 
     public Model() {
         mainTable = new ArrayList<Item>();
         borrowedTable = new ArrayList<Borrowed>();
+        reservationTable = new ArrayList<Reservation>();
+        usersTable = new ArrayList<User>();
     }
 
     @Override
@@ -44,7 +45,7 @@ public class Model implements IModel {
         this.client=client;
     }
 
-    public void logInAction(String username,String password){
+    public void logInAction(String username, String password){
         client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(new User(username,password)),"LoginInfo")));
     }
 
@@ -53,6 +54,14 @@ public class Model implements IModel {
         support.firePropertyChange("LogInConfirmed",null,null);
     }
 
+    @Override
+    public User getStoredUser() {
+        return storedUser;
+    }
+    @Override
+    public void setStoredUser(User storedUser) {
+        this.storedUser = storedUser;
+    }
 
     public void logInFailed() {
         support.firePropertyChange("LogInFailed",null,null);
@@ -68,17 +77,49 @@ public class Model implements IModel {
     }
 
     @Override
+    public void updateUsersTable() { client.sendInfo("UpdateUsersTable");}
+
+    @Override
     public void setMainTable(ArrayList<Item> items) {
         mainTable = items;
         System.out.println("main table" + mainTable.toString());
         support.firePropertyChange("UpdateMainTable",null,null);
     }
+    @Override
+    public void setUsersTable(ArrayList<User> users) {
+        usersTable = users;
+        System.out.println("users table" + usersTable.toString());
+        support.firePropertyChange("UpdateUsersTable",null,null);
+    }
+
 
     @Override
     public void setBorrowedTable(ArrayList<Borrowed> borrowed) {
         borrowedTable = borrowed;
         System.out.println("borrowed table" + borrowedTable.toString());
         support.firePropertyChange("UpdateBorrowedTable",null,null);
+    }
+
+    @Override
+    public ArrayList<Reservation> getReservedTable() {
+        return reservationTable;
+    }
+    @Override
+    public ArrayList<User> getUsersTable() {
+        return usersTable;
+    }
+
+
+    @Override
+    public void updateReservedTable() {
+        client.sendInfo("UpdateReservationTable");
+    }
+
+    @Override
+    public void setReservedTable(ArrayList<Reservation> reservations) {
+        reservationTable = reservations;
+        System.out.println("reservation table" + reservationTable.toString());
+        support.firePropertyChange("UpdateReservationTable",null,null);
     }
 
     @Override
@@ -124,6 +165,18 @@ public class Model implements IModel {
     public void deleteItem() {
         client.sendInfo(gson.toJson(new JsonInstruction(Integer.toString(getStoredItem().getItemId()),"DeleteItem")));
         info("Item Deleted.");
+    }
+
+    @Override
+    public void deleteUser() {
+        client.sendInfo(gson.toJson(new JsonInstruction(getStoredUser().getUsername(),"DeleteUser")));
+        info("String Deleted.");
+    }
+
+    @Override
+    public void changePassword(User user) {
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(user),"ChangePassword")));
+        info("Password Changed");
     }
 
     @Override

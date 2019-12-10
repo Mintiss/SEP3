@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SEP3Db.Models;
@@ -9,9 +10,10 @@ using SEP3Db.Models;
 namespace SEP3Db.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20191205142957_Relationships2")]
+    partial class Relationships2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +41,10 @@ namespace SEP3Db.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("BorrowedId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("Username");
 
                     b.ToTable("Borrowed");
                 });
@@ -109,6 +115,19 @@ namespace SEP3Db.Migrations
                     b.HasKey("Username");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SEP3Db.Models.Entities.Borrowed", b =>
+                {
+                    b.HasOne("SEP3Db.Models.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SEP3Db.Models.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("Username");
                 });
 
             modelBuilder.Entity("SEP3Db.Models.Entities.Reservation", b =>

@@ -7,13 +7,11 @@ import com.example.Shared.User;
 import com.example.SharedControllers.BorrowedController;
 import com.example.SharedControllers.ItemController;
 import com.example.SharedControllers.UserController;
-import com.example.forSocketsTest.Book;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ServerModel {
 
@@ -25,6 +23,7 @@ public class ServerModel {
     private BorrowedController bc;
     private ArrayList<Item> items;
     private ArrayList<Borrowed> borrowed;
+    private ArrayList<User> users;
 
     public ServerModel() {
         uc=new UserController();
@@ -32,20 +31,15 @@ public class ServerModel {
         bc = new BorrowedController();
         items = new ArrayList<Item>();
         borrowed = new ArrayList<Borrowed>();
+        users = new ArrayList<User>();
     }
 
-    public void addListener(String eventName, PropertyChangeListener listener) {
+    public void addListener(java.lang.String eventName, PropertyChangeListener listener) {
         if (eventName == null || "".equals(eventName)) {
             support.addPropertyChangeListener(listener);
         } else {
             support.addPropertyChangeListener(eventName, listener);
         }
-    }
-
-    public void searchForBook(String book)
-    {
-        List<Book> books=null;
-        support.firePropertyChange("SearchBook",null,books);
     }
 
     public void checkUserInfoOnLogin(User user){
@@ -99,11 +93,33 @@ public class ServerModel {
         support.firePropertyChange("UpdateMainTable",null,null);
     }
 
-    public void deleteItem(String json) {
+    public void deleteItem(java.lang.String json) {
         ic.deleteItem(json);
         this.items = ic.getItems();
         support.firePropertyChange("UpdateMainTable",null,null);
     }
 
 
+    public void UpdateUsersTable() {
+        this.users = uc.getUsers();
+        support.firePropertyChange("UpdateUsersTable", null, null);
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void deleteUser(java.lang.String json) {
+        uc.deleteUser(json);
+        this.users = uc.getUsers();
+        support.firePropertyChange("UpdateUsersTable",null,null);
+
+    }
+
+    public void changePassword(User user) {
+        uc.changePassword(user);
+        this.users = uc.getUsers();
+        support.firePropertyChange("UpdateUsersTable",null,null);
+
+    }
 }

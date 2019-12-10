@@ -18,10 +18,9 @@
               <columns>
                 <TableColumn fx:id="IdColumn" prefWidth="44.79998779296875" text="Id" />
                 <TableColumn fx:id="UsernameColumn" prefWidth="89.60000610351562" text="User Name" />
-                  <TableColumn fx:id="ItemIdColumn" prefWidth="55.19996643066406" text="Item Id" />
-                  <TableColumn fx:id="ItemTitleColumn" minWidth="0.0" prefWidth="244.0" text="Item Title" />
-                  <TableColumn fx:id="BorrowedAtColumn" minWidth="0.0" prefWidth="113.5999755859375" text="Borrowed At" />
-                  <TableColumn fx:id="ReturnByColumn" prefWidth="94.4000244140625" text="Return By" />
+                  <TableColumn fx:id="ItemIdColumn" prefWidth="117.59999084472656" text="Item Id" />
+                  <TableColumn fx:id="BorrowedAtColumn" minWidth="0.0" prefWidth="191.99993896484375" text="Borrowed At" />
+                  <TableColumn fx:id="ReturnByColumn" prefWidth="198.4000244140625" text="Return By" />
               </columns>
             </TableView>
             <Button layoutX="768.0" layoutY="121.0" mnemonicParsing="false" onAction="#EditInfo" text="Edit Information" />

@@ -1,6 +1,5 @@
 package com.example.SharedControllers;
 
-import com.example.Shared.Item;
 import com.example.Shared.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,18 +15,25 @@ public class UserController {
 
         private RestTemplate restTemplate;
         private Gson gson;
-        Type arrayOfItemsType;
+        private Type arrayOfItemsType;
 
         public UserController(){
             restTemplate=new RestTemplate();
             gson = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                    .setDateFormat("yyyy-MM-dd")
                     .create();
-            arrayOfItemsType = new TypeToken<ArrayList<Item>>() {}.getType();
+            arrayOfItemsType = new TypeToken<ArrayList<User>>() {}.getType();
         }
 
+    public ArrayList<User> getUsers()
+    {
+        java.lang.String usersJson=restTemplate.getForObject("http://localhost:5000/api/Users", java.lang.String.class);
 
-        public User getUserFromDB(String userFromLogin)
+        System.out.println(usersJson);
+        ArrayList<User> users = gson.fromJson(usersJson, arrayOfItemsType);
+        return users;
+    }
+        public User getUserFromDB(java.lang.String userFromLogin)
         {
             User userGotFromDB;
 
@@ -40,4 +46,13 @@ public class UserController {
             return userGotFromDB;
 
         }
+
+    public void deleteUser(java.lang.String id) {
+        restTemplate.delete("http://localhost:5000/api/Users/" + id);
+    }
+
+    public void changePassword(User user){
+        restTemplate.put("http://localhost:5000/api/Users/" + user.getUsername(),user);
+    }
+
 }

@@ -11,7 +11,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="423.0" prefWidth="683.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button layoutX="734.0" layoutY="121.0" mnemonicParsing="false" onAction="#LentItemAction" text="Lent Item" />
+            <Button layoutX="734.0" layoutY="121.0" mnemonicParsing="false" onAction="#LentItemAction" text="Lend Item" />
             <Button layoutX="835.0" layoutY="121.0" mnemonicParsing="false" onAction="#AddItemAction" text="Add Item" />
             <Button layoutX="735.0" layoutY="175.0" mnemonicParsing="false" onAction="#EditItemAction" text="Edit Item" />
             <TextField fx:id="SearchField" layoutX="73.0" layoutY="60.0" onAction="#SearchTextField" promptText="Search" />
@@ -19,7 +19,7 @@
             <Button layoutX="829.0" layoutY="175.0" mnemonicParsing="false" onAction="#DeleteItemAction" text="Delete Item" />
             <Button layoutX="719.0" layoutY="325.0" mnemonicParsing="false" onAction="#OpenReservedItemsList" text="Reserved Items" />
             <Button layoutX="831.0" layoutY="325.0" mnemonicParsing="false" onAction="#OpenLentItemsList" text="Lent Items" />
-            <Button layoutX="833.0" layoutY="384.0" mnemonicParsing="false" onAction="#OpenBorrowersList" text="Borrowers" />
+            <Button layoutX="845.0" layoutY="384.0" mnemonicParsing="false" onAction="#OpenUserList" text="Users" />
             <Button layoutX="745.0" layoutY="384.0" mnemonicParsing="false" onAction="#OpenFineList" text="Fines" />
             <TableView fx:id="mainTable" layoutX="73.0" layoutY="121.0" prefHeight="474.0" prefWidth="619.0">
               <columns>

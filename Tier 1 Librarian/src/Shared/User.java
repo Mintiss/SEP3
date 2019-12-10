@@ -3,28 +3,39 @@ package Shared;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private String Username;
-    private String Password;
+    private String username;
+    private String password;
     private int type;
 
+    public User(String username, String password, int type) {
+        this.username = username;
+        this.password = password;
+        this.type=type;
+    }
+
+    public User(String username, String password){
+        this.username =username;
+        this.password =password;
+        this.type=-1;
+    }
     public String getUsername() {
-        return Username;
+        return username;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
-
-    public User(String username, String password){
-        this.Username=username;
-        this.Password=password;
-        this.type=-1;
+    public int getType() {
+        return type;
     }
 
-    public User(String username, String password,int type) {
-        Username = username;
-        Password = password;
-        this.type=type;
+    @Override
+    public String toString() {
+        return "String{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", type=" + type +
+                '}';
     }
 }
