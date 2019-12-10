@@ -5,14 +5,18 @@ import com.example.Shared.Item;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 
 @RestController
-@RequestMapping ("/Items")
+@RequestMapping("/Items")
 public class ItemController {
 
     private RestTemplate restTemplate;

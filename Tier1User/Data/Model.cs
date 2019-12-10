@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Tier1User.Networking;
 using Tier1User.Shared;
@@ -10,11 +11,12 @@ namespace Tier1User.Data
 {
     public class Model
     {
-        private Service client;
-
+        public Service service;
+     
 
         public Model()
         {
+            service = new Service();
         }
 
         public string email = "123";
@@ -40,20 +42,15 @@ namespace Tier1User.Data
 
             Debug.WriteLine(jsonall);
 */
-            var gotFromServer=
+            
+            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Users/"+emailInput).ConfigureAwait(false);
 
-            System.Threading.Thread.Sleep(500);
+            var jsonall = Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
 
-
-            if (this.LogInConfirmed == true)
+            if (jsonall != null)
             {
                 return true;
             }
-            if (this.LogInFalse == false)
-            {
-                return false;
-            }
-
             return false;
         }
 

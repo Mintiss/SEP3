@@ -45,7 +45,7 @@ public class UserController {
             try {
                 userGotFromDB = restTemplate.getForObject("https://localhost:44376/api/Users/" + userFromLogin, User.class);
             } catch (Exception e){
-                userGotFromDB=new User(null,null,0);
+                userGotFromDB=null;
             }
 
             return userGotFromDB;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,9 +16,12 @@ namespace Tier1User.Networking
     {
         HttpClient client;
 
-        public Service(IHttpClientFactory clientA)
+        public Service()
         {
-            client=clientA.CreateClient();
+            client = new HttpClient();
+
+            client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public HttpClient getClient()
