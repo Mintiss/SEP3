@@ -5,12 +5,12 @@ import java.util.Date;
 public class Reservation {
 
     public int ReservationId;
-    public User User;
+    public String User;
     public Item Item;
     public Date ReservedAt;
     public Date ReservationExpirationDate;
 
-    public Reservation(int reservationId, Shared.User user, Shared.Item item, Date reservedAt, Date reservationExpirationDate) {
+    public Reservation(int reservationId, String user, Shared.Item item, Date reservedAt, Date reservationExpirationDate) {
         ReservationId = reservationId;
         User = user;
         Item = item;
@@ -26,11 +26,11 @@ public class Reservation {
         ReservationId = reservationId;
     }
 
-    public Shared.User getUser() {
+    public String getUser() {
         return User;
     }
 
-    public void setUser(Shared.User user) {
+    public void setUser(String user) {
         User = user;
     }
 
@@ -62,7 +62,7 @@ public class Reservation {
     public String toString() {
         return "Reservation{" +
                 "ReservationId=" + ReservationId +
-                ", User=" + User +
+                ", String=" + User +
                 ", Item=" + Item +
                 ", ReservedAt=" + ReservedAt +
                 ", ReservationExpirationDate=" + ReservationExpirationDate +

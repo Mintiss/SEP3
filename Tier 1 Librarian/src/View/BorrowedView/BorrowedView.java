@@ -17,7 +17,7 @@ public class BorrowedView {
     @FXML
     private TableColumn<String, String> IdColumn, UsernameColumn;
     @FXML
-    private TableColumn<String, String> ItemIdColumn, ItemTitleColumn;
+    private TableColumn<String, String> ItemIdColumn;
     @FXML
     private TableColumn<String,String> BorrowedAtColumn, ReturnByColumn;
 
@@ -27,9 +27,8 @@ public class BorrowedView {
         this.borrowedViewModel= borrowedViewModel;
 
         IdColumn.setCellValueFactory(new PropertyValueFactory<>("borrowedId"));
-        ItemIdColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        ItemTitleColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        BorrowedAtColumn.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+        ItemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        UsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         BorrowedAtColumn.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
         ReturnByColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 

@@ -74,4 +74,14 @@ public class MainViewModel {
         model.updateBorrowedTable();
         viewHandler.openBorrowedView();
     }
+
+    public void openReservedView() {
+
+        viewHandler.openReservedView();
+    }
+
+    public void openUsersView() {
+        model.updateUsersTable();
+        viewHandler.openUsersView();
+    }
 }

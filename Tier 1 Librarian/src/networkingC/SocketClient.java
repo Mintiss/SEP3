@@ -2,11 +2,10 @@ package networkingC;
 
 
 
-import Model.Model;
 import Shared.Borrowed;
 import Shared.Item;
-import Shared.User;
 import Model.IModel;
+import Shared.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -69,5 +68,9 @@ public class SocketClient implements Client{
     @Override
     public void updateBorrowedTable(ArrayList<Borrowed> borrowed){
         model.setBorrowedTable(borrowed);
+    }
+    @Override
+    public void updateUsersTable(ArrayList<User> users){
+        model.setUsersTable(users);
     }
 }

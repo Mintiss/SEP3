@@ -4,7 +4,6 @@ package networkingC;
 import Shared.Borrowed;
 import Shared.Item;
 import Shared.JsonInstruction;
-import Shared.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClientSocketHandler implements Runnable {
 
@@ -27,7 +25,7 @@ public class ClientSocketHandler implements Runnable {
         this.inFromServer = inFromServer;
         this.outToServer = outToServer;
         gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .setDateFormat("yyyy-MM-dd")
                 .create();
     }
 
@@ -39,7 +37,7 @@ public class ClientSocketHandler implements Runnable {
             while (true) {
                 Object obj=inFromServer.readObject();
 
-                if (obj instanceof  String){
+                if (obj instanceof String){
                     if ("Log".equals(obj)){
                         client.logIn();
                     }
@@ -56,6 +54,10 @@ public class ClientSocketHandler implements Runnable {
                         if (jsonInstruction.getInstruction().equals("UpdateBorrowedTable")) {
                             System.out.println(jsonInstruction);
                             client.updateBorrowedTable(gson.fromJson(jsonInstruction.getJson(),new TypeToken<ArrayList<Borrowed>>(){}.getType()));
+                        }
+                        if (jsonInstruction.getInstruction().equals("UpdateUsersTable")) {
+                            System.out.println(jsonInstruction);
+                            client.updateUsersTable(gson.fromJson(jsonInstruction.getJson(),new TypeToken<ArrayList<String>>(){}.getType()));
                         }
                     }
                 }

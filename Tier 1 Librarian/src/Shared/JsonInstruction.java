@@ -29,8 +29,8 @@ public class JsonInstruction {
     @Override
     public String toString() {
         return "JsonInstruction{" +
-                "json='" + json + '\'' +
-                ", instruction='" + instruction + '\'' +
+                "json=" + json +
+                ", instruction=" + instruction +
                 '}';
     }
 }

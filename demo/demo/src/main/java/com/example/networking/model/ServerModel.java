@@ -23,6 +23,7 @@ public class ServerModel {
     private BorrowedController bc;
     private ArrayList<Item> items;
     private ArrayList<Borrowed> borrowed;
+    private ArrayList<User> users;
 
     public ServerModel() {
         uc=new UserController();
@@ -30,9 +31,10 @@ public class ServerModel {
         bc = new BorrowedController();
         items = new ArrayList<Item>();
         borrowed = new ArrayList<Borrowed>();
+        users = new ArrayList<User>();
     }
 
-    public void addListener(String eventName, PropertyChangeListener listener) {
+    public void addListener(java.lang.String eventName, PropertyChangeListener listener) {
         if (eventName == null || "".equals(eventName)) {
             support.addPropertyChangeListener(listener);
         } else {
@@ -91,11 +93,33 @@ public class ServerModel {
         support.firePropertyChange("UpdateMainTable",null,null);
     }
 
-    public void deleteItem(String json) {
+    public void deleteItem(java.lang.String json) {
         ic.deleteItem(json);
         this.items = ic.getItems();
         support.firePropertyChange("UpdateMainTable",null,null);
     }
 
 
+    public void UpdateUsersTable() {
+        this.users = uc.getUsers();
+        support.firePropertyChange("UpdateUsersTable", null, null);
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void deleteUser(java.lang.String json) {
+        uc.deleteUser(json);
+        this.users = uc.getUsers();
+        support.firePropertyChange("UpdateUsersTable",null,null);
+
+    }
+
+    public void changePassword(User user) {
+        uc.changePassword(user);
+        this.users = uc.getUsers();
+        support.firePropertyChange("UpdateUsersTable",null,null);
+
+    }
 }

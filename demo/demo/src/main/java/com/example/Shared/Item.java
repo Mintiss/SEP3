@@ -32,13 +32,13 @@ public class Item {
     }
 
     @Override
-    public String toString() {
+    public java.lang.String toString() {
         return "Item{" +
-                "ItemId=" + itemId +
-                ", Author='" + author + '\'' +
-                ", Title='" + title + '\'' +
-                ", Type='" + type + '\'' +
-                ", Quantity=" + quantity +
+                "itemId=" + itemId +
+                ", author=" + author +
+                ", title=" + title +
+                ", type=" + type +
+                ", quantity=" + quantity +
                 '}';
     }
 }

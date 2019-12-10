@@ -1,34 +1,34 @@
 package Shared;
 
 import java.util.Date;
-import java.time.LocalDate;
 
 public class Borrowed {
 
     private int borrowedId;
-    private User user;
-    private Item item;
+    private String username;
+    private int itemId;
     private Date returnDate;
     private Date borrowDate;
 
-    public Borrowed(int borrowedId, User user, Item item, Date returnDate, Date borrowDate) {
+    public Borrowed(int borrowedId, String user, int itemid, Date returnDate, Date borrowDate) {
         this.borrowedId = borrowedId;
-        this.user = user;
-        this.item = item;
+        this.username = user;
+        this.itemId = itemid;
         this.returnDate = returnDate;
         this.borrowDate = borrowDate;
+
     }
 
     public int getBorrowedId() {
         return borrowedId;
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public Item getItem() {
-        return item;
+    public int getItemId() {
+        return itemId;
     }
 
 
@@ -44,8 +44,8 @@ public class Borrowed {
     public String toString() {
         return "Borrowed{" +
                 "borrowedId=" + borrowedId +
-                ", user=" + user +
-                ", item=" + item +
+                ", username=" + username +
+                ", itemId=" + itemId +
                 ", returnDate=" + returnDate +
                 ", borrowDate=" + borrowDate +
                 '}';

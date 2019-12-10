@@ -27,7 +27,7 @@ public class ServerSocketHandler implements Runnable{
         this.socket = socket;
         this.model = model;
         this.gson=new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .setDateFormat("yyyy-MM-dd")
                 .create();
         try {
             outToClient = new ObjectOutputStream(socket.getOutputStream());
@@ -40,8 +40,12 @@ public class ServerSocketHandler implements Runnable{
         model.addListener("LogInFailed",this::failLogInTheUser);
         model.addListener("UpdateMainTable", this::updateMainTable);
         model.addListener("UpdateBorrowedTable", this::updateBorrowedTable);
+        model.addListener("UpdateUsersTable", this::updateUsersTable);
+
+
 
     }
+
 
 
 
@@ -52,19 +56,23 @@ public class ServerSocketHandler implements Runnable{
             try {
                 Object obj=inFromClient.readObject();
 
-                if (obj instanceof String)
+                if (obj instanceof java.lang.String)
                 {
                     System.out.println(obj);
-                    if (((String)obj).equals("UpdateMainTable"))
+                    if (((java.lang.String)obj).equals("UpdateMainTable"))
                     {
                         model.UpdateMainTable();
                     }
-                    else if(((String)obj).equals("UpdateBorrowedTable"))
+                    else if(((java.lang.String)obj).equals("UpdateBorrowedTable"))
                     {
                         model.UpdateBorrowedTable();
                     }
+                    else if(((java.lang.String)obj).equals("UpdateUsersTable"))
+                    {
+                        model.UpdateUsersTable();
+                    }
                     else {
-                        JsonInstruction jsonInstruction = gson.fromJson((String) obj, JsonInstruction.class);
+                        JsonInstruction jsonInstruction = gson.fromJson((java.lang.String) obj, JsonInstruction.class);
 
                         if (jsonInstruction.getInstruction().equals("LoginInfo")) {
                             System.out.println(jsonInstruction.getInstruction());
@@ -80,6 +88,13 @@ public class ServerSocketHandler implements Runnable{
                         if(jsonInstruction.getInstruction().equals("DeleteItem")){
                             model.deleteItem(jsonInstruction.getJson());
                         }
+                        if(jsonInstruction.getInstruction().equals("DeleteUser")){
+                            model.deleteUser(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("ChangePassword")){
+                            model.changePassword(gson.fromJson(jsonInstruction.getJson(), User.class));
+                        }
+
                     }
                 }
             } catch (SocketException e)
@@ -100,10 +115,17 @@ public class ServerSocketHandler implements Runnable{
         }
     }
 
-
     private void updateMainTable(PropertyChangeEvent propertyChangeEvent) {
         try {
             outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getItems()),"UpdateMainTable")));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    private void updateUsersTable(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getUsers()),"UpdateUsersTable")));
         }
         catch (IOException e){
             e.printStackTrace();

@@ -21,7 +21,7 @@ public class BorrowedController {
     public BorrowedController(){
         restTemplate=new RestTemplate();
         gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .setDateFormat("yyyy-MM-dd")
                 .create();
         arrayOfItemsType = new TypeToken<ArrayList<Borrowed>>() {}.getType();
     }
