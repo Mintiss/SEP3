@@ -1,18 +1,34 @@
 ﻿@inherits LayoutComponentBase
+@inject Model model;
 
-<div class="sidebar">
-    <NavMenu />
-</div>
+
+@if (model.LoggedIn == true)
+{
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+}
+else
+{
+    <div class="sidebar">
+        <NavMenuNotLoggedIn />
+    </div>
+}
+
 
 <div class="main">
+
     <div class="top-row px-4">
-        @*<LoginDisplay/>*@
         <a href="/login">Log In</a>
         <a href="/register">Register</a>
-        <a href="https://docs.microsoft.com/en-us/aspnet/" target="_blank">About</a>
     </div>
 
     <div class="content px-4">
         @Body
     </div>
 </div>
+
+@code
+{
+
+}

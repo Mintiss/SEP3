@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tier1User.Data;
+using Microsoft.AspNetCore.Components.Authorization;
+
 
 namespace Tier1User
 {
@@ -28,11 +30,13 @@ namespace Tier1User
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
-            services.AddAuthentication();
-            //services.AddAuthorization();
+            services.AddServerSideBlazor()
+                .AddCircuitOptions(options => { options.DetailedErrors = true; });
+            
             services.AddSingleton<Model>();
+            services.AddAuthentication();
+            services.AddAuthorization();
+            //services.AddSingleton<ItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

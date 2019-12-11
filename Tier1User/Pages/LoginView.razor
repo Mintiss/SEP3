@@ -1,9 +1,10 @@
 ﻿@page "/login"
 @using Microsoft.AspNetCore.Components.Authorization
+@using Tier1User.Data
 @inject NavigationManager goTo
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@using Tier1User.Data
 @inject Model model
+@inject IJSRuntime jsRuntime
 
 
 <h3>LoginView</h3>
@@ -11,15 +12,21 @@
 <div class="login">
 
     <div class="content px-4">
-
+        @if(isValid == false)
+        {
+            <div class="alert alert-danger" role="alert" @on>
+                Wrong username or password
+            </div> 
+        }
         
         <h5>Enter Your Email</h5>
         <input placeholder="Email" type="email" @bind="emailInput" />
         <h5>Enter Your Password</h5>
         <input placeholder="Password" type="password" @bind="passwordInput" />
 
-        <button  @onclick="checkData">Submit</button>
+        <button @onclick="checkData">Submit</button>
     </div>
+
 </div>
 
 
@@ -29,18 +36,20 @@
 
     string emailInput = string.Empty;
     string passwordInput = string.Empty;
+    bool isValid = true;
 
 
 
     public void checkData()
     {
 
-        bool isValid = model.checkUser(emailInput, passwordInput).Result;
+        isValid = model.CheckUser(emailInput, passwordInput).Result;
 
         if (isValid == true)
         {
             goTo.NavigateTo("");
         }
+        
 
     }
 
