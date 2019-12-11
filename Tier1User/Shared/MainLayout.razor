@@ -2,7 +2,7 @@
 @inject Model model;
 
 
-@if (model.LoggedIn == true)
+@if (model.LoggedInCheck() == true)
 {
     <div class="sidebar">
         <NavMenu />

@@ -63,7 +63,5 @@ public class ItemController {
     public String getItemsBlazor() {
         return gson.toJson(getItems());
     }
-
-
-
+    
 }

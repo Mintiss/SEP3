@@ -46,7 +46,7 @@ else
                 <td>@item.Type</td>
                 <td>@item.Author</td>
                 <td>@item.InStock</td>
-                <td><button class="btn btn-success" @onclick="ReserveItemClickAsync">Reserve</button></td>
+                <td><button class="btn btn-success" //@onclick="ReserveItemClickAsync">Reserve</button></td>
                 @if (reservation == true)
                 {
                     <div class="alert alert-success">
@@ -68,7 +68,7 @@ else
 
 
 
-    protected override async Task OnInitializedAsync()
+    /*protected override async Task OnInitializedAsync()
     {
         items = await model.GetItemAsync(DateTime.Now);
     }
@@ -80,7 +80,7 @@ else
 
 
 
-    }
+    }*/
 
     protected void SearchClick()
     {

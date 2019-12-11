@@ -15,14 +15,17 @@ namespace Tier1User.Data
     public class Model
     {
         public Service service;
-     
+
+        public bool LoggedIn;
+
+        public List<Item> arrayOfItems;
 
         public Model()
         {
             service = new Service();
         }
 
-        public async Task<bool> checkUser(string emailInput, string passwordInput)
+        public async Task<bool> CheckUser(string emailInput, string passwordInput)
         {            
             var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Users/"+emailInput).ConfigureAwait(false);
 
@@ -30,6 +33,11 @@ namespace Tier1User.Data
 
             if (jsonall != null)
             {
+                this.arrayOfItems = GetItemsAsync().Result;
+
+                Debug.WriteLine(this.arrayOfItems.ElementAt(0).Author);
+
+                this.LoggedIn = true;
                 return true;
             }
             return false;
@@ -50,23 +58,39 @@ namespace Tier1User.Data
             return true;
         
         }
-        public Task<Item[]> GetItemAsync(DateTime startDate)
+
+        public async Task<List<Item>> GetItemsAsync()
         {
-            var rng = new Random();
-            return Task.FromResult(Enumerable.Range(1, 5).Select(index => new Item
-            {
-                Date = startDate.AddDays(index),
-                Title = Titles[rng.Next(Titles.Length)],
-                Author = Authors[rng.Next(Authors.Length)],
-                Type = Types[rng.Next(Types.Length)],
-                InStock = InStocks[rng.Next(InStocks.Length)],
-            }).ToArray()) ;
+            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Items");
+
+            Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
+
+            List<Item> itemArray = array.ToObject < List < Item >> ();
+
+            return itemArray;
         }
+        //public Task<Item[]> GetItemAsync(DateTime startDate)
+        //{
+        /* var rng = new Random();
+         return Task.FromResult(Enumerable.Range(1, 5).Select(index => new Item
+         {
+             Date = startDate.AddDays(index),
+             Title = Titles[rng.Next(Titles.Length)],
+             Author = Authors[rng.Next(Authors.Length)],
+             Type = Types[rng.Next(Types.Length)],
+             InStock = InStocks[rng.Next(InStocks.Length)],
+         }).ToArray()) ;*/
+        //}
 
         public async Task<bool> ReserveItemAsync()
         {
             //should make InStock value in stock 
             return true;
+        }
+
+        public bool LoggedInCheck()
+        {
+            return this.LoggedIn;
         }
     }
 }
