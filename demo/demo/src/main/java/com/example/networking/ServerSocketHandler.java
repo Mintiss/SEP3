@@ -2,6 +2,7 @@ package  com.example.networking;
 
 
 
+import com.example.Shared.Borrowed;
 import com.example.Shared.Item;
 import com.example.Shared.JsonInstruction;
 import com.example.Shared.User;
@@ -41,11 +42,10 @@ public class ServerSocketHandler implements Runnable{
         model.addListener("UpdateMainTable", this::updateMainTable);
         model.addListener("UpdateBorrowedTable", this::updateBorrowedTable);
         model.addListener("UpdateUsersTable", this::updateUsersTable);
-
-
-
+        model.addListener("UpdateFinesTable", this::updateFinesTable);
+        model.addListener("NoItemsLeft", this::noItemsLeft);
+        model.addListener("ItemBorrowed", this::ItemBorrowed);
     }
-
 
 
 
@@ -59,17 +59,21 @@ public class ServerSocketHandler implements Runnable{
                 if (obj instanceof java.lang.String)
                 {
                     System.out.println(obj);
-                    if (((java.lang.String)obj).equals("UpdateMainTable"))
+                    if (((String)obj).equals("UpdateMainTable"))
                     {
                         model.UpdateMainTable();
                     }
-                    else if(((java.lang.String)obj).equals("UpdateBorrowedTable"))
+                    else if(((String)obj).equals("UpdateBorrowedTable"))
                     {
                         model.UpdateBorrowedTable();
                     }
-                    else if(((java.lang.String)obj).equals("UpdateUsersTable"))
+                    else if(((String)obj).equals("UpdateUsersTable"))
                     {
                         model.UpdateUsersTable();
+                    }
+                    else if(((String)obj).equals("UpdateFinesTable"))
+                    {
+                        model.UpdateFinesTable();
                     }
                     else {
                         JsonInstruction jsonInstruction = gson.fromJson((java.lang.String) obj, JsonInstruction.class);
@@ -94,6 +98,23 @@ public class ServerSocketHandler implements Runnable{
                         if(jsonInstruction.getInstruction().equals("ChangePassword")){
                             model.changePassword(gson.fromJson(jsonInstruction.getJson(), User.class));
                         }
+                        if(jsonInstruction.getInstruction().equals("BorrowItem")){
+                            model.borrowItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class));
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchMainId")){
+                            model.searchMainId(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchMainTitle")){
+                            model.searchMainTitle(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchMainAuthor")){
+                            model.searchMainAuthor(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("ReturnedItem")){
+                            model.returnItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class));
+                        }
+
+
 
                     }
                 }
@@ -123,6 +144,16 @@ public class ServerSocketHandler implements Runnable{
             e.printStackTrace();
         }
     }
+
+    private void updateFinesTable(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getFines()),"UpdateFinesTable")));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
     private void updateUsersTable(PropertyChangeEvent propertyChangeEvent) {
         try {
             outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getUsers()),"UpdateUsersTable")));
@@ -143,6 +174,20 @@ public class ServerSocketHandler implements Runnable{
     public void logInTheUser(PropertyChangeEvent evt){
         try {
             outToClient.writeObject("Log");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void noItemsLeft(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject("NoItemsLeft");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void ItemBorrowed(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject("ItemBorrowed");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -23,7 +23,7 @@ public class BorrowedView {
     @FXML
     private TableColumn<String, String> IdColumn, UsernameColumn;
     @FXML
-    private TableColumn<String, String> ItemIdColumn;
+    private TableColumn<String, Boolean> ItemIdColumn, IsReturnedColumn;
     @FXML
     private TableColumn<String,String> BorrowedAtColumn, ReturnByColumn;
 
@@ -37,12 +37,9 @@ public class BorrowedView {
         UsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         BorrowedAtColumn.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
         ReturnByColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
-
-
-
+        IsReturnedColumn.setCellValueFactory(new PropertyValueFactory<>("isReturned"));
 
         mainTable.itemsProperty().bind(borrowedViewModel.getList());
-
     }
 
     public void SearchTextField(ActionEvent actionEvent) {
@@ -55,6 +52,8 @@ public class BorrowedView {
         borrowedViewModel.backToMain();
     }
 
-    public void EditInfo(ActionEvent actionEvent) {
+    public void ReturnItemAction(ActionEvent actionEvent) {
+        borrowedViewModel.setStoredValue(mainTable.getSelectionModel().getSelectedItem());
+        borrowedViewModel.returnItem();
     }
 }

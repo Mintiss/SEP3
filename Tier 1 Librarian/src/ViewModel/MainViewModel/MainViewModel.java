@@ -16,6 +16,7 @@ public class MainViewModel {
 
     private ListProperty<Item> list;
     private Item storedValue;
+    private SimpleStringProperty search;
 
 
     private IModel model;
@@ -30,7 +31,7 @@ public class MainViewModel {
         list.setValue(oList);
 
         model.addListener("UpdateMainTable",this::updateList);
-
+        search = new SimpleStringProperty();
     }
 
     private void updateList(PropertyChangeEvent propertyChangeEvent) {
@@ -56,6 +57,8 @@ public class MainViewModel {
             viewHandler.openEditView();
         }
     }
+
+    public SimpleStringProperty searchProperty(){return search;}
 
     public void addItem() {
         viewHandler.openAddView();
@@ -83,5 +86,40 @@ public class MainViewModel {
     public void openUsersView() {
         model.updateUsersTable();
         viewHandler.openUsersView();
+    }
+
+    public void openLendItemView() {
+
+        if(getStoredValue()==null){
+            model.error("Please select an item");
+        }else {
+            model.setStoredItem(getStoredValue());
+            model.updateUsersTable();
+            viewHandler.openLendItemView();
+
+        }
+    }
+
+    public void refreshTable() {
+        model.updateMainTable();
+    }
+
+    public void searchId() {
+        model.searchMainId(search.getValue());
+    }
+    public void searchTitle() {
+        model.searchMainTitle(search.getValue());
+    }
+    public void searchAuthor() {
+        model.searchMainAuthor(search.getValue());
+    }
+
+    public void noSearchSelected() {
+        model.error("Please select a search category");
+    }
+
+    public void openFineList() {
+        model.updateFinesTable();
+        viewHandler.openFinesView();
     }
 }

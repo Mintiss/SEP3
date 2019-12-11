@@ -6,6 +6,8 @@ import ViewModel.AddViewModel.AddViewModel;
 import ViewModel.BorrowedViewModel.BorrowedViewModel;
 import ViewModel.ChangePassViewModel.ChangePassViewModel;
 import ViewModel.EditViewModel.EditViewModel;
+import ViewModel.FinesViewModel.FinesViewModel;
+import ViewModel.LendItemViewModel.LendItemViewModel;
 import ViewModel.LoginViewModel.LoginViewModel;
 import ViewModel.MainViewModel.MainViewModel;
 import ViewModel.ReservedViewModel.ReservedViewModel;
@@ -22,6 +24,8 @@ public class ViewModelProvider {
     private ReservedViewModel reservedViewModel;
     private UsersViewModel usersViewModel;
     private ChangePassViewModel changePassViewModel;
+    private LendItemViewModel lendItemViewModel;
+    private FinesViewModel finesViewModel;
 
     public ViewModelProvider(IModel model, ViewHandler viewHandler) {
         loginViewModel = new LoginViewModel(model, viewHandler);
@@ -32,9 +36,12 @@ public class ViewModelProvider {
         reservedViewModel = new ReservedViewModel(model, viewHandler);
         usersViewModel = new UsersViewModel(model, viewHandler);
         changePassViewModel = new ChangePassViewModel(model, viewHandler);
+        lendItemViewModel = new LendItemViewModel(model,viewHandler);
+        finesViewModel = new FinesViewModel(model,viewHandler);
 
     }
 
+    public FinesViewModel getFinesViewModel() { return finesViewModel; }
     public ChangePassViewModel getChangePassViewModel() {return changePassViewModel;}
     public  BorrowedViewModel getBorrowedViewModel() {return  borrowedViewModel;}
     public AddViewModel getAddViewModel() { return  addViewModel;}
@@ -43,4 +50,5 @@ public class ViewModelProvider {
     public EditViewModel getEditViewModel() {return  editViewModel;}
     public ReservedViewModel getReservedViewModel() {return  reservedViewModel;}
     public UsersViewModel getUsersViewModel() {return usersViewModel;}
+    public LendItemViewModel getLendItemViewModel() {return lendItemViewModel;}
 }

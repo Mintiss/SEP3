@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SEP3Db.Models;
@@ -9,9 +10,10 @@ using SEP3Db.Models;
 namespace SEP3Db.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20191211172942_borrowedboolisreturned")]
+    partial class borrowedboolisreturned
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,9 +30,6 @@ namespace SEP3Db.Migrations
 
                     b.Property<DateTime>("BorrowDate")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsReturned")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("ItemId")
                         .HasColumnType("integer");

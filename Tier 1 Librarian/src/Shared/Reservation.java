@@ -1,16 +1,17 @@
 package Shared;
 
-import java.util.Date;
+
+import java.time.LocalDate;
 
 public class Reservation {
 
     public int ReservationId;
     public String User;
     public Item Item;
-    public Date ReservedAt;
-    public Date ReservationExpirationDate;
+    public LocalDate ReservedAt;
+    public LocalDate ReservationExpirationDate;
 
-    public Reservation(int reservationId, String user, Shared.Item item, Date reservedAt, Date reservationExpirationDate) {
+    public Reservation(int reservationId, String user, Shared.Item item, LocalDate reservedAt, LocalDate reservationExpirationDate) {
         ReservationId = reservationId;
         User = user;
         Item = item;
@@ -42,19 +43,19 @@ public class Reservation {
         Item = item;
     }
 
-    public Date getReservedAt() {
+    public LocalDate getReservedAt() {
         return ReservedAt;
     }
 
-    public void setReservedAt(Date reservedAt) {
+    public void setReservedAt(LocalDate reservedAt) {
         ReservedAt = reservedAt;
     }
 
-    public Date getReservationExpirationDate() {
+    public LocalDate getReservationExpirationDate() {
         return ReservationExpirationDate;
     }
 
-    public void setReservationExpirationDate(Date reservationExpirationDate) {
+    public void setReservationExpirationDate(LocalDate reservationExpirationDate) {
         ReservationExpirationDate = reservationExpirationDate;
     }
 

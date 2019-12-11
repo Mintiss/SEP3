@@ -39,6 +39,12 @@ public class ItemController {
         arrayOfItemsType = new TypeToken<ArrayList<Item>>() {}.getType();
     }
 
+    public Item getItem(int id)
+    {
+        String itemJson=restTemplate.getForObject("http://localhost:5000/api/Items/" + id, String.class);
+        return gson.fromJson(itemJson,Item.class);
+    }
+
     public ArrayList<Item> getItems()
     {
         String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Items", String.class);
