@@ -19,7 +19,7 @@
     </div>
 </div>
 
-@if (items == null)
+@if (model.arrayOfItems == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -29,7 +29,6 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
                 <th>Title</th>
                 <th>Type</th>
                 <th>Author</th>
@@ -38,14 +37,15 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in items)
+            @foreach (var item in model.arrayOfItems)
             {
             <tr>
+                <td>@item.ItemId</td>
                 <td>@item.Title</td>
                 <td>@item.Type</td>
                 <td>@item.Author</td>
-                <td>@item.InStock</td>
-                <td><button class="btn btn-success" //@onclick="ReserveItemClickAsync">Reserve</button></td>
+                <td>@item.Quantity</td>
+                <td><button class="btn btn-success" @onclick="@(async ()  =>  await Do(item.ItemId))">Reserve</button></td>
                 @if (reservation == true)
                 {
                     <div class="alert alert-success">
@@ -60,26 +60,18 @@ else
     </table>
 }
 
+@functions{
+    async Task Do(int id)
+    {
+        await this.model.ReserveItemAsync(id);
+    }
+}
+
 @code {
     Item[] items;
     string search = string.Empty;
     bool reservation;
 
-
-
-    /*protected override async Task OnInitializedAsync()
-    {
-        items = await model.GetItemAsync(DateTime.Now);
-    }
-
-    public async void ReserveItemClickAsync()
-    {
-
-        reservation = await this.model.ReserveItemAsync();
-
-
-
-    }*/
 
     protected void SearchClick()
     {

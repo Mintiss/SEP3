@@ -44,7 +44,7 @@ public class BorrowedController {
 
     public ArrayList<Borrowed> getBorrowedByUsername(String username)
     {
-        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Borrowed/User/"+username, String.class);
+        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Borrowed/User/"+username, String.class);
 
         ArrayList<Borrowed> borrowed = gson.fromJson(itemsJson, arrayOfItemsType);
 
@@ -56,7 +56,7 @@ public class BorrowedController {
 
     public ArrayList<Borrowed> getFinesByUsername(String username)
     {
-        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Borrowed/User/Fines/"+username, String.class);
+        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Borrowed/User/Fines/"+username, String.class);
 
         ArrayList<Borrowed> borrowed = gson.fromJson(itemsJson, arrayOfItemsType);
 

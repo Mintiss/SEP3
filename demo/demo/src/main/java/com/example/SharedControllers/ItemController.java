@@ -40,7 +40,7 @@ public class ItemController {
 
     public ArrayList<Item> getItems()
     {
-        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Items", String.class);
+        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Items", String.class);
 
         System.out.println(itemsJson);
         ArrayList<Item> items = gson.fromJson(itemsJson, arrayOfItemsType);
