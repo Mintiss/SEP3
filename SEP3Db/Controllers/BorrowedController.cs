@@ -42,6 +42,37 @@ namespace SEP3Db.Controllers
             return borrowed;
         }
 
+
+        [HttpGet("User/{username}")]
+        public async Task<List<Borrowed>> GetBorrowedBeforeDate(string username)
+        {
+            var borrowed = _context.Borrowed.Where(Borrowed => Borrowed.Username.Equals(username) && Borrowed.IsReturned==false && Borrowed.ReturnDate>DateTime.Now).ToList();
+            
+            if (borrowed == null)
+            {
+                return null;
+            }
+
+           
+            return borrowed;
+        }
+
+
+        [HttpGet("User/Fines/{username}")]
+        public async Task<List<Borrowed>> GetFines(string username)
+        {
+            var borrowed = _context.Borrowed.Where(Borrowed => Borrowed.Username.Equals(username) && Borrowed.IsReturned == false && Borrowed.ReturnDate < DateTime.Now).ToList();
+
+            if (borrowed == null)
+            {
+                return null;
+            }
+
+
+            return borrowed;
+        }
+
+
         // PUT: api/Borrowed/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

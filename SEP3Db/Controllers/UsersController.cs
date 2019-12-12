@@ -99,6 +99,7 @@ namespace SEP3Db.Controllers
 
             return CreatedAtAction("GetUser", new { id = user.Username }, user);
         }
+      
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]

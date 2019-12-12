@@ -1,0 +1,50 @@
+﻿@page "/finelist"
+
+@using Microsoft.AspNetCore.Components.Authorization
+@using Tier1User.Data
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject Model model
+
+
+<h1>Someone is in trouble</h1>
+
+<p>The Items are in the code, not in the DB</p>
+
+@if (items == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Author</th>
+                <th>Fine</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in items)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Type</td>
+                    <td>@item.Author</td>
+                    <td>Pay back da money</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    Item[] items;
+
+    /*protected override async Task OnInitializedAsync()
+    {
+        items = await model.GetItemAsync(DateTime.Now);
+    }*/
+}

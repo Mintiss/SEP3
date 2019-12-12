@@ -1,10 +1,12 @@
 package com.example.SharedControllers;
 
+import com.example.Shared.StringContent;
 import com.example.Shared.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -13,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/Users")
@@ -43,9 +46,9 @@ public class UserController {
             User userGotFromDB;
 
             try {
-                userGotFromDB = restTemplate.getForObject("http://localhost:5000/api/Users/" + userFromLogin, User.class);
+                userGotFromDB = restTemplate.getForObject("https://localhost:44376/api/Users/" + userFromLogin, User.class);
             } catch (Exception e){
-                userGotFromDB=new User(null,null,0);
+                userGotFromDB=null;
             }
 
             return userGotFromDB;
@@ -69,4 +72,17 @@ public class UserController {
         return gson.toJson(getUserFromDB(id));
     }
 
+
+    @RequestMapping(method = POST, value = "/", consumes = "application/json")
+    public void postRegisterUserBlazor(@RequestBody StringContent body){
+            System.out.println(body);
+            String bodyString=body.toString();
+
+            String[] parts = bodyString.split(",");
+            String part1 = parts[0];
+            String part2 = parts[1];
+            User user=new User(part1,part2,0);
+
+            restTemplate.postForObject("https://localhost:44376/api/Users",user,User.class);
+    }
 }
