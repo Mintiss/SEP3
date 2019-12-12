@@ -47,10 +47,10 @@ namespace Tier1User.Data
 
                 Debug.WriteLine(this.arrayOfBorrwedItems.ElementAt(0).ItemId);
 
-/*                this.arrayOfReservedItems = GetReservedForUserAsync(emailInput).Result;
+                this.arrayOfReservedItems = GetReservedForUserAsync(emailInput).Result;
 
-                Debug.WriteLine(this.arrayOfReservedItems.ElementAt(0).User);
-*/
+                Debug.WriteLine(this.arrayOfReservedItems.ElementAt(0).ReservationExpirationDate);
+
                 this.arrayOfFines = GetFinesForUserAsync(emailInput).Result;
 
                 Debug.WriteLine(this.arrayOfFines.ElementAt(0).ReturnDate);
@@ -114,7 +114,7 @@ namespace Tier1User.Data
 
         public async Task<List<Reservation>> GetReservedForUserAsync(string email)
         {
-            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Reservation/"+email);
+            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Reservations/User/"+email);
 
             Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
 

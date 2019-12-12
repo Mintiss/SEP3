@@ -28,7 +28,7 @@ public class ItemController {
         restTemplate=new RestTemplate();
         gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")
-                .create();
+                 .create();
         arrayOfItemsType = new TypeToken<ArrayList<Item>>() {}.getType();
     }
 
