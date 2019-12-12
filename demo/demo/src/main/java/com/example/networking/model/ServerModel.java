@@ -3,9 +3,11 @@ package com.example.networking.model;
 
 import com.example.Shared.Borrowed;
 import com.example.Shared.Item;
+import com.example.Shared.Reservation;
 import com.example.Shared.User;
 import com.example.SharedControllers.BorrowedController;
 import com.example.SharedControllers.ItemController;
+import com.example.SharedControllers.ReservationsController;
 import com.example.SharedControllers.UserController;
 
 import java.beans.PropertyChangeListener;
@@ -23,17 +25,20 @@ public class ServerModel {
     private UserController uc;
     private ItemController ic;
     private BorrowedController bc;
+    private ReservationsController rc;
     private ArrayList<Item> items;
     private ArrayList<Borrowed> borrowed;
     private ArrayList<Borrowed> fines;
-
+    private ArrayList<Reservation> reservations;
     private ArrayList<User> users;
 
     public ServerModel() {
         uc=new UserController();
         ic = new ItemController();
         bc = new BorrowedController();
+        rc = new ReservationsController();
         items = new ArrayList<Item>();
+        reservations = new ArrayList<Reservation>();
         borrowed = new ArrayList<Borrowed>();
         fines = new ArrayList<Borrowed>();
         users = new ArrayList<User>();
@@ -107,7 +112,10 @@ public class ServerModel {
         this.items = ic.getItems();
         support.firePropertyChange("UpdateMainTable",null,null);
     }
-
+    public void UpdateReservationTable() {
+        this.reservations = rc.getReservations();
+        support.firePropertyChange("UpdateReservationsTable", null, null);
+    }
 
     public void UpdateUsersTable() {
         this.users = uc.getUsers();
@@ -138,6 +146,10 @@ public class ServerModel {
 
     public ArrayList<User> getUsers() {
         return users;
+    }
+
+    public ArrayList<Reservation> getReservations() {
+        return reservations;
     }
 
     public void deleteUser(java.lang.String json) {
@@ -226,4 +238,6 @@ public class ServerModel {
         support.firePropertyChange("UpdateMainTable", null, null);
         support.firePropertyChange("UpdateBorrowedTable", null, null);
     }
+
+
 }

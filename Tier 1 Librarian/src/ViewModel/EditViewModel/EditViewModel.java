@@ -34,15 +34,20 @@ public class EditViewModel {
     public String getTitle() { return model.getStoredItem().getTitle();}
     public int getQuantity() { return model.getStoredItem().getQuantity();}
     public String getMonth() { return model.getStoredItem().getType();}
+    public String getLocation() {return model.getStoredItem().getLocation();}
 
     public void backToMain() {
         viewHandler.openMainView();
     }
 
-    public void editItem() {
+    public void editItem(String location) {
         int id = model.getStoredItem().getItemId();
-        model.editItem(new Item(id, author.getValue(), title.getValue(), type.getValue(), Integer.parseInt(quantity.getValue())));
+        model.editItem(new Item(id, author.getValue(), title.getValue(), type.getValue(), Integer.parseInt(quantity.getValue()), location));
         model.info("Item has been edited.");
 
+    }
+
+    public void selectLocation() {
+        model.error("Please select item location");
     }
 }

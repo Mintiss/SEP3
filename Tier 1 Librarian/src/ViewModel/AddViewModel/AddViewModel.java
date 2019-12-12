@@ -36,14 +36,18 @@ public class AddViewModel {
         viewHandler.openMainView();
     }
 
-    public void addItem() {
+    public void addItem(String location) {
         try {
-            model.addItem(new Item(0,author.getValue(),title.getValue(), type.getValue(), Integer.parseInt(quantity.getValue())));
+            model.addItem(new Item(0,author.getValue(),title.getValue(), type.getValue(), Integer.parseInt(quantity.getValue()), location));
             model.info("Item has been added.");
         }
         catch (NumberFormatException e)
         {
             model.error("Quantity must be a number.");
         }
+    }
+
+    public void selectLocation() {
+        model.error("Please select Item location");
     }
 }

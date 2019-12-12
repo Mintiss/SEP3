@@ -1,4 +1,4 @@
-package Shared;
+package com.example.Shared;
 
 
 import java.time.LocalDate;
@@ -10,6 +10,9 @@ public class Reservation {
     private int itemId;
     private String reservedAt;
     private String reservationExpirationDate;
+
+    public Reservation() {
+    }
 
     public Reservation(int reservationId, String username, int itemId, LocalDate reservedAt, LocalDate reservationExpirationDate) {
 

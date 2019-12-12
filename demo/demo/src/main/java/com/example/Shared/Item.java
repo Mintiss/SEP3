@@ -14,17 +14,20 @@ public class Item {
         private String type;
 @JsonProperty("quantity")
         private int quantity;
+    @JsonProperty("location")
+    private String location;
 
     public Item(){
 
     }
 
-    public Item(int itemId, String author, String title, String type, int quantity) {
+    public Item(int itemId, String author, String title, String type, int quantity, String location) {
         this.itemId = itemId;
         this.author = author;
         this.title = title;
         this.type = type;
         this.quantity = quantity;
+        this.location = location;
     }
 
     public int getItemId() {
@@ -47,14 +50,23 @@ public class Item {
         this.quantity = quantity;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
                 "itemId=" + itemId +
-                ", author=" + author +
-                ", title=" + title +
-                ", type=" + type +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", type='" + type + '\'' +
                 ", quantity=" + quantity +
+                ", location='" + location + '\'' +
                 '}';
     }
 }

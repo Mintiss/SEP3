@@ -23,20 +23,26 @@
             <Button layoutX="831.0" layoutY="325.0" mnemonicParsing="false" onAction="#OpenLentItemsList" text="Lent Items" />
             <Button layoutX="845.0" layoutY="384.0" mnemonicParsing="false" onAction="#OpenUserList" text="Users" />
             <Button layoutX="745.0" layoutY="384.0" mnemonicParsing="false" onAction="#OpenFineList" text="Fines" />
-            <TableView fx:id="mainTable" layoutX="73.0" layoutY="121.0" prefHeight="474.0" prefWidth="619.0">
+            <TableView fx:id="mainTable" layoutX="73.0" layoutY="121.0" prefHeight="474.0" prefWidth="614.0">
               <columns>
                 <TableColumn fx:id="IdColumn" prefWidth="44.79998779296875" text="Id" />
                 <TableColumn fx:id="AuthorColumn" prefWidth="127.99996948242188" text="Author" />
-                  <TableColumn fx:id="TitleColumn" prefWidth="319.2000274658203" text="Title" />
-                  <TableColumn fx:id="TypeColumn" prefWidth="61.5999755859375" text="Type" />
-                  <TableColumn fx:id="QuantityColumn" prefWidth="67.99993896484375" text="Quantity" />
+                  <TableColumn fx:id="TitleColumn" prefWidth="223.20005798339844" text="Title" />
+                  <TableColumn fx:id="TypeColumn" prefWidth="72.7999267578125" text="Type" />
+                  <TableColumn fx:id="QuantityColumn" prefWidth="56.0" text="Quantity" />
+                  <TableColumn fx:id="LocationColumn" prefWidth="88.0" text="Location" />
               </columns>
             </TableView>
-            <Label layoutX="355.0" layoutY="32.0" text="Search by:" />
+            <Label layoutX="380.0" layoutY="34.0" text="Search by:" />
             <RadioButton fx:id="IdRadio" layoutX="323.0" layoutY="64.0" mnemonicParsing="false" onAction="#IdRadioAction" text="Id" />
             <RadioButton fx:id="AuthorRadio" layoutX="367.0" layoutY="64.0" mnemonicParsing="false" onAction="#AuthorRadioAction" text="Author" />
             <RadioButton fx:id="TitleRadio" layoutX="439.0" layoutY="64.0" mnemonicParsing="false" onAction="#TitleRadioAction" selected="true" text="Title" />
             <Button layoutX="508.0" layoutY="60.0" mnemonicParsing="false" onAction="#RefreshListAction" text="Refresh List" />
+            <RadioButton fx:id="BothRadio" layoutX="806.0" layoutY="64.0" mnemonicParsing="false" onAction="#BothRadioAction" selected="true" text="Both" />
+            <RadioButton fx:id="AarhusRadio" layoutX="877.0" layoutY="64.0" mnemonicParsing="false" onAction="#AarhusRadioAction" text="Aarhus" />
+            <RadioButton fx:id="HorsensRadio" layoutX="719.0" layoutY="64.0" mnemonicParsing="false" onAction="#HorsensRadioAction" text="Horsens" />
+            <Label layoutX="798.0" layoutY="34.0" text="Select Library:" />
+            <Button layoutX="620.0" layoutY="60.0" mnemonicParsing="false" onAction="#SelectLibraryAction" text="Select Library" />
          </children>
     </AnchorPane>
   </children>

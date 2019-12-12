@@ -43,10 +43,10 @@ public class ServerSocketHandler implements Runnable{
         model.addListener("UpdateBorrowedTable", this::updateBorrowedTable);
         model.addListener("UpdateUsersTable", this::updateUsersTable);
         model.addListener("UpdateFinesTable", this::updateFinesTable);
+        model.addListener("UpdateReservationsTable", this::updateReservationsTable);
         model.addListener("NoItemsLeft", this::noItemsLeft);
         model.addListener("ItemBorrowed", this::ItemBorrowed);
     }
-
 
 
     @Override
@@ -74,6 +74,10 @@ public class ServerSocketHandler implements Runnable{
                     else if(((String)obj).equals("UpdateFinesTable"))
                     {
                         model.UpdateFinesTable();
+                    }
+                    else if(((String)obj).equals("UpdateReservationTable"))
+                    {
+                        model.UpdateReservationTable();
                     }
                     else {
                         JsonInstruction jsonInstruction = gson.fromJson((java.lang.String) obj, JsonInstruction.class);
@@ -139,6 +143,15 @@ public class ServerSocketHandler implements Runnable{
     private void updateMainTable(PropertyChangeEvent propertyChangeEvent) {
         try {
             outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getItems()),"UpdateMainTable")));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void updateReservationsTable(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getReservations()),"UpdateReservationsTable")));
         }
         catch (IOException e){
             e.printStackTrace();
