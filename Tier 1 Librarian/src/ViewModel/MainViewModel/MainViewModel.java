@@ -79,7 +79,7 @@ public class MainViewModel {
     }
 
     public void openReservedView() {
-
+        model.updateReservedTable();
         viewHandler.openReservedView();
     }
 

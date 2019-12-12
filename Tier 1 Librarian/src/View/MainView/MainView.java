@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 
 
 public class MainView {
@@ -23,10 +24,10 @@ public class MainView {
     @FXML
     private TableColumn<String, String> TitleColumn, TypeColumn;
     @FXML
-    private TableColumn<String,String> QuantityColumn;
+    private TableColumn<String,String> QuantityColumn, LocationColumn;
 
     @FXML
-    private RadioButton IdRadio, AuthorRadio, TitleRadio;
+    private RadioButton IdRadio, AuthorRadio, TitleRadio, AarhusRadio, HorsensRadio, BothRadio;
 
     private Item storedItem;
 
@@ -41,6 +42,8 @@ public class MainView {
         TitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         TypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         QuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        LocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+
 
         mainViewModel.searchProperty().bindBidirectional(SearchField.textProperty());
 
@@ -114,5 +117,27 @@ public class MainView {
 
     public void RefreshListAction(ActionEvent actionEvent) {
         mainViewModel.refreshTable();
+
+    }
+
+    public void BothRadioAction(ActionEvent actionEvent) {
+        BothRadio.setSelected(true);
+        AarhusRadio.setSelected(false);
+        HorsensRadio.setSelected(false);
+    }
+
+    public void AarhusRadioAction(ActionEvent actionEvent) {
+        AarhusRadio.setSelected(true);
+        BothRadio.setSelected(false);
+        HorsensRadio.setSelected(false);
+    }
+
+    public void HorsensRadioAction(ActionEvent actionEvent) {
+        HorsensRadio.setSelected(true);
+        AarhusRadio.setSelected(false);
+        BothRadio.setSelected(false);
+    }
+
+    public void SelectLibraryAction(ActionEvent actionEvent) {
     }
 }

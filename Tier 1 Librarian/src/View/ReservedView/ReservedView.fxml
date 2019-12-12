@@ -11,7 +11,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="423.0" prefWidth="683.0" VBox.vgrow="ALWAYS">
          <children>
-            <TextField fx:id="SearchField" layoutX="73.0" layoutY="60.0" onAction="#SearchTextField" promptText="Search" />
+            <TextField fx:id="SearchField" layoutX="73.0" layoutY="60.0" promptText="Search" />
             <Button layoutX="225.0" layoutY="57.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
             <Button layoutX="727.0" layoutY="569.0" mnemonicParsing="false" onAction="#BackToMain" text="Back" />
             <TableView fx:id="mainTable" layoutX="73.0" layoutY="121.0" prefHeight="474.0" prefWidth="642.0">

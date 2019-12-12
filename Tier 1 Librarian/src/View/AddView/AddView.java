@@ -3,6 +3,8 @@ package View.AddView;
 import ViewModel.AddViewModel.AddViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.AccessibleAction;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
 
@@ -15,6 +17,9 @@ public class AddView {
     private TextField TypeField;
     @FXML
     private TextField QuantityField;
+
+    @FXML
+    private RadioButton AarhusRadio, HorsensRadio;
 
     private AddViewModel addViewModel;
 
@@ -31,6 +36,23 @@ public class AddView {
     }
 
     public void AddItemAction(ActionEvent actionEvent) {
-        addViewModel.addItem();
+        if(HorsensRadio.isSelected())
+            addViewModel.addItem("Horsens");
+        else if(AarhusRadio.isSelected())
+            addViewModel.addItem("Aarhus");
+        else
+            addViewModel.selectLocation();
+
+
+    }
+
+    public void HorsensRadioAction(ActionEvent actionEvent) {
+        HorsensRadio.setSelected(true);
+        AarhusRadio.setSelected(false);
+    }
+
+    public void AarhusRadioAction(ActionEvent actionEvent) {
+        HorsensRadio.setSelected(false);
+        AarhusRadio.setSelected(true);
     }
 }

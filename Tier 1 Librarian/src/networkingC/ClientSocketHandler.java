@@ -1,10 +1,7 @@
 package networkingC;
 
 
-import Shared.Borrowed;
-import Shared.Item;
-import Shared.JsonInstruction;
-import Shared.User;
+import Shared.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -67,6 +64,10 @@ public class ClientSocketHandler implements Runnable {
                         if (jsonInstruction.getInstruction().equals("UpdateFinesTable")) {
                             System.out.println(jsonInstruction);
                             client.UpdateFinesTable(gson.fromJson(jsonInstruction.getJson(),new TypeToken<ArrayList<Borrowed>>(){}.getType()));
+                        }
+                        if (jsonInstruction.getInstruction().equals("UpdateReservationsTable")) {
+                            System.out.println(jsonInstruction);
+                            client.UpdateReservationsTable(gson.fromJson(jsonInstruction.getJson(),new TypeToken<ArrayList<Reservation>>(){}.getType()));
                         }
                     }
                 }

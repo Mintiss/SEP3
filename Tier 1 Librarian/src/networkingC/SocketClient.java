@@ -5,6 +5,7 @@ package networkingC;
 import Shared.Borrowed;
 import Shared.Item;
 import Model.IModel;
+import Shared.Reservation;
 import Shared.User;
 import javafx.application.Platform;
 
@@ -80,6 +81,11 @@ public class SocketClient implements Client{
     @Override
     public void UpdateFinesTable(ArrayList<Borrowed> fines) {
         model.setFinesTable(fines);
+    }
+
+    @Override
+    public void UpdateReservationsTable(ArrayList<Reservation> fromJson) {
+        model.setReservedTable(fromJson);
     }
 
     @Override
