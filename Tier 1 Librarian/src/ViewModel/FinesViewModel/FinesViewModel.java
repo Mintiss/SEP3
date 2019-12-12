@@ -3,6 +3,7 @@ package ViewModel.FinesViewModel;
 import Model.IModel;
 import Shared.Borrowed;
 import View.ViewHandler;
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -34,7 +35,7 @@ public class FinesViewModel {
 
     private void updateList(PropertyChangeEvent propertyChangeEvent) {
         ObservableList<Borrowed> oList = FXCollections.observableArrayList(model.getFinesTable());
-        list.setValue(oList);
+        Platform.runLater(()->list.setValue(oList));
     }
 
     public Borrowed getStoredValue() {
@@ -49,5 +50,14 @@ public class FinesViewModel {
 
     public void backToMain() {
         viewHandler.openMainView();
+    }
+
+    public void payFine() {
+        if(getStoredValue()==null)
+            model.error("Please select fine");
+        else {
+            model.setStoredFine(getStoredValue());
+            model.payFine(getStoredValue());
+        }
     }
 }

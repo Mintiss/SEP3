@@ -14,11 +14,13 @@ public class ReservedView {
     @FXML
     private TextField SearchField;
     @FXML
+    private TextField MonthsField;
+    @FXML
     private TableView<Reservation> mainTable;
     @FXML
     private TableColumn<String, String> IdColumn, UsernameColumn;
     @FXML
-    private TableColumn<String, String> ItemIdColumn, ItemTitleColumn;
+    private TableColumn<String, String> ItemIdColumn;
     @FXML
     private TableColumn<String,String> ReservedAtColumn, ExpiresAtColumn;
 
@@ -33,6 +35,8 @@ public class ReservedView {
         ReservedAtColumn.setCellValueFactory(new PropertyValueFactory<>("reservedAt"));
         ExpiresAtColumn.setCellValueFactory(new PropertyValueFactory<>("reservationExpirationDate"));
 
+        reservedViewModel.monthsProperty().bindBidirectional(MonthsField.textProperty());
+
         mainTable.itemsProperty().bind(reservedViewModel.getList());
     }
 
@@ -44,6 +48,14 @@ public class ReservedView {
         reservedViewModel.backToMain();
     }
 
-    public void EditInfo(ActionEvent actionEvent) {
+
+    public void MoveToBorrowedAction(ActionEvent actionEvent) {
+        reservedViewModel.setStoredValue(mainTable.getSelectionModel().getSelectedItem());
+        reservedViewModel.moveToBorrowed();
+    }
+
+    public void DeleteReservation(ActionEvent actionEvent) {
+        reservedViewModel.setStoredValue(mainTable.getSelectionModel().getSelectedItem());
+        reservedViewModel.deleteReservation();
     }
 }

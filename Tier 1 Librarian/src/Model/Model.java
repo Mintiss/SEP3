@@ -4,6 +4,8 @@ import Shared.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import networkingC.Client;
 
@@ -27,6 +29,8 @@ public class Model implements IModel {
     private Item storedItem;
     private User storedUser;
     private Borrowed storedBorrow;
+    private Borrowed storedFine;
+    private Reservation storedReservation;
 
 
     public Model() {
@@ -64,6 +68,23 @@ public class Model implements IModel {
         return storedUser;
     }
     @Override
+    public Borrowed getStoredFine() {
+        return storedFine;
+    }
+    @Override
+    public void setStoredFine(Borrowed storedFine) {
+        this.storedFine = storedFine;
+    }
+    @Override
+    public Reservation getStoredReservation() {
+        return storedReservation;
+    }
+    @Override
+    public void setStoredReservation(Reservation storedReservation) {
+        this.storedReservation = storedReservation;
+    }
+
+    @Override
     public void setStoredUser(User storedUser) {
         this.storedUser = storedUser;
     }
@@ -90,6 +111,33 @@ public class Model implements IModel {
     {
         client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(storedBorrow),"ReturnedItem")));
     }
+
+    @Override
+    public void deleteReservation() {
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(getStoredReservation()),"DeleteReservation")));
+
+    }
+
+    @Override
+    public void payFine(Borrowed storedValue) {
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(storedValue),"PayFine")));
+    }
+
+    @Override
+    public void moveToBorrowed(String months) {
+        try{
+
+            client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(Integer.parseInt(months)),"Months")));
+            client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(getStoredReservation()),"MoveToBorrowed")));
+
+        }
+        catch (Exception e)
+        {
+            error("Enter a number in the months field");
+        }
+
+    }
+
     @Override
     public void updateBorrowedTable() {
         client.sendInfo("UpdateBorrowedTable");
@@ -203,13 +251,37 @@ public class Model implements IModel {
 
     @Override
     public void searchMainId(String value) {
-        client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainId")));
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainId")));
     }@Override
     public void searchMainTitle(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
         client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainTitle")));
     }@Override
     public void searchMainAuthor(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
         client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainAuthor")));
+    }
+    @Override
+    public void searchLendItem(String search) {
+        if(search.equals("")|| search==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(search,"SearchLendItem")));
+    }
+
+    @Override
+    public void searchUserList(String search) {
+        if(search.equals("")|| search==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(search,"SearchUserList")));
     }
 
     @Override

@@ -12,8 +12,8 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="423.0" prefWidth="683.0" VBox.vgrow="ALWAYS">
          <children>
             <Button layoutX="761.0" layoutY="134.0" mnemonicParsing="false" onAction="#ChangePasswordAction" text="Change Password" />
-            <TextField fx:id="SearchField" layoutX="73.0" layoutY="60.0" onAction="#SearchTextField" promptText="Search" />
-            <Button layoutX="225.0" layoutY="57.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
+            <TextField fx:id="SearchField" layoutX="73.0" layoutY="60.0" promptText="Search" />
+            <Button layoutX="237.0" layoutY="60.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
             <Button layoutX="731.0" layoutY="563.0" mnemonicParsing="false" onAction="#BackToMain" text="Back" />
             <TableView fx:id="mainTable" layoutX="73.0" layoutY="121.0" prefHeight="474.0" prefWidth="619.0">
               <columns>
@@ -22,6 +22,7 @@
               </columns>
             </TableView>
             <Button layoutX="772.0" layoutY="187.0" mnemonicParsing="false" onAction="#DeleteUserAction" text="Delete User" />
+            <Button layoutX="308.0" layoutY="60.0" mnemonicParsing="false" onAction="#RefreshAction" text="Refresh" />
          </children>
     </AnchorPane>
   </children>

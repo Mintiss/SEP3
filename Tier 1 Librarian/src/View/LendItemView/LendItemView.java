@@ -34,10 +34,8 @@ public class LendItemView {
         mainTable.itemsProperty().bind(lendItemViewModel.getList());
     }
 
-    public void SearchTextField(ActionEvent actionEvent) {
-    }
-
     public void SearchAction(ActionEvent actionEvent) {
+        lendItemViewModel.searchUser();
     }
 
     public void BackToMain(ActionEvent actionEvent) {
@@ -47,5 +45,9 @@ public class LendItemView {
     public void ConfirmBorrow(ActionEvent actionEvent) {
         lendItemViewModel.setStoredValue(mainTable.getSelectionModel().getSelectedItem());
         lendItemViewModel.confirmBorrow();
+    }
+
+    public void RefreshAction(ActionEvent actionEvent) {
+        lendItemViewModel.refreshList();
     }
 }

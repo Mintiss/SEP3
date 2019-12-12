@@ -21,4 +21,5 @@ public interface Client {
     void UpdateFinesTable(ArrayList<Borrowed> fines);
 
     void UpdateReservationsTable(ArrayList<Reservation> fromJson);
+
 }

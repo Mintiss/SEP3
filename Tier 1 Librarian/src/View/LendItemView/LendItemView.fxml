@@ -12,8 +12,8 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="423.0" prefWidth="683.0" VBox.vgrow="ALWAYS">
          <children>
-            <TextField fx:id="SearchField" layoutX="56.0" layoutY="44.0" onAction="#SearchTextField" promptText="Search" />
-            <Button layoutX="205.0" layoutY="44.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
+            <TextField fx:id="SearchField" layoutX="56.0" layoutY="44.0" promptText="Search" />
+            <Button layoutX="219.0" layoutY="18.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
             <Button layoutX="56.0" layoutY="550.0" mnemonicParsing="false" onAction="#BackToMain" text="Back" />
             <TableView fx:id="mainTable" layoutX="56.0" layoutY="113.0" prefHeight="321.0" prefWidth="202.0">
               <columns>
@@ -24,6 +24,7 @@
             <Label layoutX="42.0" layoutY="81.0" text="Select which user wants to borrow the item" />
             <Label layoutX="25.0" layoutY="451.0" prefWidth="282.0" text="For how many months is the user borrowing the item" />
             <TextField fx:id="MonthsTextField" layoutX="126.0" layoutY="491.0" prefHeight="26.0" prefWidth="59.0" promptText="Months" />
+            <Button layoutX="217.0" layoutY="57.0" mnemonicParsing="false" onAction="#RefreshAction" text="Refresh" />
          </children>
     </AnchorPane>
   </children>

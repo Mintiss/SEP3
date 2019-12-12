@@ -8,21 +8,25 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 
 <VBox prefHeight="624.0" prefWidth="987.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainView.MainView">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="423.0" prefWidth="683.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button layoutX="734.0" layoutY="121.0" mnemonicParsing="false" onAction="#LentItemAction" text="Lend Item" />
-            <Button layoutX="835.0" layoutY="121.0" mnemonicParsing="false" onAction="#AddItemAction" text="Add Item" />
-            <Button layoutX="735.0" layoutY="175.0" mnemonicParsing="false" onAction="#EditItemAction" text="Edit Item" />
-            <TextField fx:id="SearchField" layoutX="73.0" layoutY="60.0" promptText="Search" />
-            <Button layoutX="237.0" layoutY="60.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
-            <Button layoutX="829.0" layoutY="175.0" mnemonicParsing="false" onAction="#DeleteItemAction" text="Delete Item" />
-            <Button layoutX="719.0" layoutY="325.0" mnemonicParsing="false" onAction="#OpenReservedItemsList" text="Reserved Items" />
-            <Button layoutX="831.0" layoutY="325.0" mnemonicParsing="false" onAction="#OpenLentItemsList" text="Lent Items" />
-            <Button layoutX="845.0" layoutY="384.0" mnemonicParsing="false" onAction="#OpenUserList" text="Users" />
-            <Button layoutX="745.0" layoutY="384.0" mnemonicParsing="false" onAction="#OpenFineList" text="Fines" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#36df5a" height="119.0" layoutX="705.0" layoutY="253.0" stroke="BLACK" strokeType="INSIDE" width="249.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#36df5a" height="93.0" layoutX="705.0" layoutY="121.0" stroke="BLACK" strokeType="INSIDE" width="249.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#36df5a" height="93.0" layoutX="70.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="431.0" />
+            <Button layoutX="732.0" layoutY="136.0" mnemonicParsing="false" onAction="#LentItemAction" text="Lend Item" />
+            <Button layoutX="850.0" layoutY="136.0" mnemonicParsing="false" onAction="#AddItemAction" prefHeight="26.0" prefWidth="84.0" text="Add Item" />
+            <Button layoutX="730.0" layoutY="175.0" mnemonicParsing="false" onAction="#EditItemAction" prefHeight="26.0" prefWidth="71.0" text="Edit Item" />
+            <TextField fx:id="SearchField" layoutX="79.0" layoutY="60.0" promptText="Search" />
+            <Button layoutX="240.0" layoutY="60.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
+            <Button layoutX="852.0" layoutY="175.0" mnemonicParsing="false" onAction="#DeleteItemAction" text="Delete Item" />
+            <Button layoutX="719.0" layoutY="274.0" mnemonicParsing="false" onAction="#OpenReservedItemsList" text="Reserved Items" />
+            <Button layoutX="855.0" layoutY="274.0" mnemonicParsing="false" onAction="#OpenLentItemsList" text="Lent Items" />
+            <Button layoutX="858.0" layoutY="333.0" mnemonicParsing="false" onAction="#OpenUserList" prefHeight="26.0" prefWidth="66.0" text="Users" />
+            <Button layoutX="719.0" layoutY="333.0" mnemonicParsing="false" onAction="#OpenFineList" prefHeight="26.0" prefWidth="97.0" text="Fines" />
             <TableView fx:id="mainTable" layoutX="73.0" layoutY="121.0" prefHeight="474.0" prefWidth="614.0">
               <columns>
                 <TableColumn fx:id="IdColumn" prefWidth="44.79998779296875" text="Id" />
@@ -33,16 +37,11 @@
                   <TableColumn fx:id="LocationColumn" prefWidth="88.0" text="Location" />
               </columns>
             </TableView>
-            <Label layoutX="380.0" layoutY="34.0" text="Search by:" />
+            <Label layoutX="380.0" layoutY="47.0" text="Search by:" />
             <RadioButton fx:id="IdRadio" layoutX="323.0" layoutY="64.0" mnemonicParsing="false" onAction="#IdRadioAction" text="Id" />
             <RadioButton fx:id="AuthorRadio" layoutX="367.0" layoutY="64.0" mnemonicParsing="false" onAction="#AuthorRadioAction" text="Author" />
             <RadioButton fx:id="TitleRadio" layoutX="439.0" layoutY="64.0" mnemonicParsing="false" onAction="#TitleRadioAction" selected="true" text="Title" />
-            <Button layoutX="508.0" layoutY="60.0" mnemonicParsing="false" onAction="#RefreshListAction" text="Refresh List" />
-            <RadioButton fx:id="BothRadio" layoutX="806.0" layoutY="64.0" mnemonicParsing="false" onAction="#BothRadioAction" selected="true" text="Both" />
-            <RadioButton fx:id="AarhusRadio" layoutX="877.0" layoutY="64.0" mnemonicParsing="false" onAction="#AarhusRadioAction" text="Aarhus" />
-            <RadioButton fx:id="HorsensRadio" layoutX="719.0" layoutY="64.0" mnemonicParsing="false" onAction="#HorsensRadioAction" text="Horsens" />
-            <Label layoutX="798.0" layoutY="34.0" text="Select Library:" />
-            <Button layoutX="620.0" layoutY="60.0" mnemonicParsing="false" onAction="#SelectLibraryAction" text="Select Library" />
+            <Button layoutX="565.0" layoutY="68.0" mnemonicParsing="false" onAction="#RefreshListAction" prefHeight="26.0" prefWidth="84.0" text="Refresh List" />
          </children>
     </AnchorPane>
   </children>

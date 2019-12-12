@@ -16,6 +16,14 @@ public interface IModel {
 
     User getStoredUser();
 
+    Borrowed getStoredFine();
+
+    void setStoredFine(Borrowed storedFine);
+
+    Reservation getStoredReservation();
+
+    void setStoredReservation(Reservation storedReservation);
+
     void setStoredUser(User storedUser);
 
     Borrowed getStoredBorrow();
@@ -78,4 +86,14 @@ public interface IModel {
     void setStoredBorrow(Borrowed storedValue);
 
     void returnItem();
+
+    void payFine(Borrowed storedValue);
+
+    void searchLendItem(String search);
+
+    void searchUserList(String search);
+
+    void deleteReservation();
+
+    void moveToBorrowed(String months);
 }

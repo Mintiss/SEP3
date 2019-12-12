@@ -26,14 +26,15 @@ public class UsersView {
         TypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         UsernameColumn.setCellValueFactory(new PropertyValueFactory<>("Username"));
 
+        usersViewModel.searchProperty().bindBidirectional(SearchField.textProperty());
+
 
         mainTable.itemsProperty().bind(usersViewModel.getList());
     }
 
-    public void SearchTextField(ActionEvent actionEvent) {
-    }
 
     public void SearchAction(ActionEvent actionEvent) {
+        usersViewModel.searchUser();
     }
 
     public void BackToMain(ActionEvent actionEvent) {
@@ -50,5 +51,9 @@ public class UsersView {
         usersViewModel.setStoredValue(mainTable.getSelectionModel().getSelectedItem());
         usersViewModel.deleteUser();
 
+    }
+
+    public void RefreshAction(ActionEvent actionEvent) {
+        usersViewModel.refresh();
     }
 }

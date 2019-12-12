@@ -6,6 +6,8 @@ import View.UsersView.UsersView;
 import View.ViewHandler;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 
 public class UsersViewModel {
 
+    private SimpleStringProperty search;
     private ListProperty<User> list;
     private User storedValue;
 
@@ -27,6 +30,7 @@ public class UsersViewModel {
         ObservableList<User> oList = FXCollections.observableArrayList(model.getUsersTable());
         list.setValue(oList);
 
+        search = new SimpleStringProperty();
         model.addListener("UpdateUsersTable",this::updateList);
 
     }
@@ -39,6 +43,9 @@ public class UsersViewModel {
     public User getStoredValue() {
         return storedValue;
     }
+
+    public StringProperty searchProperty(){return search;}
+
 
     public void setStoredValue(User storedValue) {
         this.storedValue = storedValue;
@@ -66,5 +73,13 @@ public class UsersViewModel {
             model.setStoredUser(getStoredValue());
             viewHandler.openChangePasswordView();
         }
+    }
+
+    public void searchUser() {
+        model.searchUserList(search.getValue());
+    }
+
+    public void refresh() {
+        model.updateUsersTable();
     }
 }

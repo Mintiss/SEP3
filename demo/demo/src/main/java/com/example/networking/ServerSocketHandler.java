@@ -2,10 +2,7 @@ package  com.example.networking;
 
 
 
-import com.example.Shared.Borrowed;
-import com.example.Shared.Item;
-import com.example.Shared.JsonInstruction;
-import com.example.Shared.User;
+import com.example.Shared.*;
 import com.example.networking.model.ServerModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,7 +43,10 @@ public class ServerSocketHandler implements Runnable{
         model.addListener("UpdateReservationsTable", this::updateReservationsTable);
         model.addListener("NoItemsLeft", this::noItemsLeft);
         model.addListener("ItemBorrowed", this::ItemBorrowed);
+        model.addListener("FinePaid", this::FinePaid);
+
     }
+
 
 
     @Override
@@ -114,9 +114,28 @@ public class ServerSocketHandler implements Runnable{
                         if(jsonInstruction.getInstruction().equals("SearchMainAuthor")){
                             model.searchMainAuthor(jsonInstruction.getJson());
                         }
+                        if(jsonInstruction.getInstruction().equals("SearchLendItem")){
+                            model.searchLendItem(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchUserList")){
+                            model.searchLendItem(jsonInstruction.getJson());
+                        }
                         if(jsonInstruction.getInstruction().equals("ReturnedItem")){
                             model.returnItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class));
                         }
+                        if(jsonInstruction.getInstruction().equals("PayFine")){
+                            model.returnItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class));
+                        }
+                        if(jsonInstruction.getInstruction().equals("DeleteReservation")){
+                            model.deleteReservation(gson.fromJson(jsonInstruction.getJson(), Reservation.class));
+                        }
+                        if(jsonInstruction.getInstruction().equals("MoveToBorrowed")){
+                            model.moveToBorrowed(gson.fromJson(jsonInstruction.getJson(), Reservation.class));
+                        }
+                        if(jsonInstruction.getInstruction().equals("Months")){
+                            model.setBorrowedMonths(jsonInstruction.getJson());
+                        }
+
 
 
 
@@ -194,6 +213,14 @@ public class ServerSocketHandler implements Runnable{
     private void noItemsLeft(PropertyChangeEvent propertyChangeEvent) {
         try {
             outToClient.writeObject("NoItemsLeft");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void FinePaid(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject("FinePaid");
         } catch (IOException e) {
             e.printStackTrace();
         }

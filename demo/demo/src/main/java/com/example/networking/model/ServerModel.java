@@ -31,6 +31,7 @@ public class ServerModel {
     private ArrayList<Borrowed> fines;
     private ArrayList<Reservation> reservations;
     private ArrayList<User> users;
+    private int borrowedMonths;
 
     public ServerModel() {
         uc=new UserController();
@@ -133,7 +134,8 @@ public class ServerModel {
             returnDate = LocalDate.parse(borrowedTable.get(i).getReturnDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             System.out.println(returnDate + "    "+LocalDate.parse(LocalDate.now().toString()) );
             if(LocalDate.parse(LocalDate.now().toString()).isAfter(returnDate)){
-                fines.add(borrowedTable.get(i));
+                if(!borrowedTable.get(i).isReturned())
+                    fines.add(borrowedTable.get(i));
             }
         }
         this.fines= fines;
@@ -198,6 +200,7 @@ public class ServerModel {
         this.items = searchItems;
         support.firePropertyChange("UpdateMainTable", null, null);
     }
+
     public void searchMainAuthor(String json) {
         ArrayList<Item> items = ic.getItems();
         ArrayList<Item> searchItems = new ArrayList<Item>();
@@ -226,6 +229,20 @@ public class ServerModel {
         this.items = searchItems;
         support.firePropertyChange("UpdateMainTable", null, null);
     }
+    public void searchLendItem(String json) {
+        ArrayList<User> users = uc.getUsers();
+        ArrayList<User> searchUsers = new ArrayList<User>();
+
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().contains(json)) {
+                searchUsers.add(users.get(i));
+                System.out.println("match found");
+                System.out.println(users.get(i).getUsername());
+            }
+        }
+        this.users = searchUsers;
+        support.firePropertyChange("UpdateUsersTable", null, null);
+    }
 
     public void returnItem(Borrowed borrowed) {
         Item borrowedItem  = ic.getItem(borrowed.getItemId());
@@ -237,7 +254,28 @@ public class ServerModel {
         this.borrowed = bc.getBorrowed();
         support.firePropertyChange("UpdateMainTable", null, null);
         support.firePropertyChange("UpdateBorrowedTable", null, null);
+        UpdateFinesTable();
     }
 
 
-}
+    public void deleteReservation(Reservation fromJson) {
+        rc.deleteReservation(Integer.toString(fromJson.getReservationId()));
+        this.reservations = rc.getReservations();
+        support.firePropertyChange("UpdateReservationTable", null, null);
+    }
+
+    public void setBorrowedMonths(String json) {
+        this.borrowedMonths = Integer.parseInt(json);
+    }
+
+    public void moveToBorrowed(Reservation reservation) {
+        rc.deleteReservation(Integer.toString(reservation.getReservationId()));
+        Borrowed borrowed = new Borrowed(0,reservation.getUsername(), reservation.getItemId(),LocalDate.now().plusMonths(borrowedMonths),LocalDate.now());
+        System.out.println(borrowed);
+        borrowItem(borrowed);
+        UpdateReservationTable();
+    }
+
+
+
+}//return date and borrow date

@@ -40,9 +40,6 @@ public class FinesView {
 
     }
 
-    public void SearchTextField(ActionEvent actionEvent) {
-    }
-
     public void SearchAction(ActionEvent actionEvent) {
     }
 
@@ -51,5 +48,7 @@ public class FinesView {
     }
 
     public void PayFineAction(ActionEvent actionEvent) {
+        finesViewModel.setStoredValue(mainTable.getSelectionModel().getSelectedItem());
+        finesViewModel.payFine();
     }
 }

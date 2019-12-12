@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 @RestController
-@RequestMapping("/Items")
+@RequestMapping("/Reservations")
 public class ReservationsController {
 
     private RestTemplate restTemplate;
@@ -25,6 +25,9 @@ public class ReservationsController {
                 .create();
         arrayOfItemsType = new TypeToken<ArrayList<Reservation>>() {
         }.getType();
+    }
+    public void deleteReservation(String id) {
+        restTemplate.delete("http://localhost:5000/api/Reservations/" + id);
     }
 
     public ArrayList<Reservation> getReservations()

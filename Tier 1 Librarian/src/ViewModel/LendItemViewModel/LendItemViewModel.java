@@ -63,9 +63,21 @@ public class LendItemViewModel {
     public void confirmBorrow() {
         if(getStoredValue()==null){
             model.error("Please select a User");
-        }else {
+        }
+        else if(months.getValue()==""||months.getValue().equals("")||months.getValue()==null){
+            model.error("Please enter months.");
+        }
+        else {
             model.setStoredUser(getStoredValue());
             model.confirmBorrow(months.getValue());
         }
+    }
+
+    public void searchUser() {
+        model.searchLendItem(search.getValue());
+    }
+
+    public void refreshList() {
+        model.updateUsersTable();
     }
 }
