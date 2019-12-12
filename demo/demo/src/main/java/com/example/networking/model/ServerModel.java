@@ -42,8 +42,11 @@ public class ServerModel {
         }
     }
 
+    //FIX IT DO LOGIC IN T3
     public void checkUserInfoOnLogin(User user){
+
         User userGotFromDB =uc.getUserFromDB(user.getUsername());
+
         if (userGotFromDB.getUsername()==null)
         {
             System.out.println("null");
@@ -61,6 +64,7 @@ public class ServerModel {
             else
                 support.firePropertyChange("LogInFailed",null,null);
         }
+
     }
 
     public void UpdateMainTable() {
