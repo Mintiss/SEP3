@@ -41,7 +41,7 @@ namespace Tier1User.Data
             {
                 this.arrayOfItems = GetItemsAsync().Result;
 
-                Debug.WriteLine(this.arrayOfItems.ElementAt(0).Author);
+                Debug.WriteLine(this.arrayOfItems.ElementAt(0).ItemId);
 
                 this.arrayOfBorrwedItems = GetBorrowedForUserAsync(emailInput).Result;
 
@@ -124,8 +124,11 @@ namespace Tier1User.Data
         }
 
 
-        public async Task<bool> ReserveItemAsync()
+        public async Task<bool> ReserveItemAsync(int id)
         {
+
+            Debug.WriteLine("resreved"  + id);
+
             //should make InStock value in stock 
             return true;
         }

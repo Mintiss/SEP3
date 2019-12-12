@@ -7,7 +7,7 @@ namespace Tier1User.Data
 {
     public class Item
     {
-        public int Id { get; set; }
+        public int ItemId { get; set; }
 
         public string Title { get; set; }
 
@@ -15,7 +15,7 @@ namespace Tier1User.Data
 
         public string Author { get; set; }
 
-        public string InStock { get; set; }
+        public string Quantity { get; set; }
 
         //public string Location { get; set; }
     }
