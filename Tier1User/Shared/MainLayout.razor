@@ -16,16 +16,13 @@ else
 }
 
 
-
-
 <div class="main">
-    @if (model.LoggedInCheck() == false)
-    {
-        <div class="top-row px-4">
-            <a href="/login">Log In</a>
-            <a href="/register">Register</a>
-        </div>
-    }
+
+    <div class="top-row px-4">
+        <a href="/login">Log In</a>
+        <a href="/register">Register</a>
+    </div>
+
     <div class="content px-4">
         @Body
     </div>
