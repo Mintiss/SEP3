@@ -17,6 +17,7 @@ namespace SEP3Db.Models.Entities
         public int ItemId { get; set; }
         public DateTime ReturnDate { get; set; }
         public DateTime BorrowDate { get; set; }
+        public bool IsReturned { get; set; }
 
     }
 }

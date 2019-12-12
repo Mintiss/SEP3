@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 @ComponentScan(basePackages = "com.example.SharedControllers")
 @ComponentScan(basePackages = "com.example.networking")
-
 public class Application {
 
     public static void main(String[] args) {

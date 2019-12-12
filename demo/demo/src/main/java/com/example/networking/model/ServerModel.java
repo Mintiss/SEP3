@@ -10,7 +10,9 @@ import com.example.SharedControllers.UserController;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.sql.Connection;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ServerModel {
@@ -23,6 +25,8 @@ public class ServerModel {
     private BorrowedController bc;
     private ArrayList<Item> items;
     private ArrayList<Borrowed> borrowed;
+    private ArrayList<Borrowed> fines;
+
     private ArrayList<User> users;
 
     public ServerModel() {
@@ -31,6 +35,7 @@ public class ServerModel {
         bc = new BorrowedController();
         items = new ArrayList<Item>();
         borrowed = new ArrayList<Borrowed>();
+        fines = new ArrayList<Borrowed>();
         users = new ArrayList<User>();
     }
 
@@ -108,6 +113,28 @@ public class ServerModel {
         this.users = uc.getUsers();
         support.firePropertyChange("UpdateUsersTable", null, null);
     }
+    public void UpdateFinesTable() {
+        ArrayList<Borrowed> borrowedTable = bc.getBorrowed();
+        ArrayList<Borrowed> fines = new ArrayList<Borrowed>();
+        LocalDate returnDate;
+        System.out.println(bc.getBorrowed().toString());
+
+        for(int i=0; i<borrowedTable.size();i++)
+        {
+            System.out.println(borrowedTable.get(i).getReturnDate());
+            returnDate = LocalDate.parse(borrowedTable.get(i).getReturnDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            System.out.println(returnDate + "    "+LocalDate.parse(LocalDate.now().toString()) );
+            if(LocalDate.parse(LocalDate.now().toString()).isAfter(returnDate)){
+                fines.add(borrowedTable.get(i));
+            }
+        }
+        this.fines= fines;
+        support.firePropertyChange("UpdateFinesTable", null, null);
+    }
+
+    public ArrayList<Borrowed> getFines() {
+        return fines;
+    }
 
     public ArrayList<User> getUsers() {
         return users;
@@ -125,5 +152,78 @@ public class ServerModel {
         this.users = uc.getUsers();
         support.firePropertyChange("UpdateUsersTable",null,null);
 
+    }
+
+    public void borrowItem(Borrowed fromJson) {
+        Item borrowItem = ic.getItem(fromJson.getItemId());
+        if (borrowItem.getQuantity()>=1) {
+            borrowItem.setQuantity(borrowItem.getQuantity()-1);
+            ic.putItem(borrowItem);
+            bc.borrowItem(fromJson);
+            this.items = ic.getItems();
+            this.borrowed = bc.getBorrowed();
+            support.firePropertyChange("UpdateBorrowedTable", null, null);
+            support.firePropertyChange("UpdateMainTable", null, null);
+            support.firePropertyChange("ItemBorrowed", null, null);
+
+        }
+        else
+            support.firePropertyChange("NoItemsLeft", null, null);
+
+    }
+
+    public void searchMainId(String json) {
+        ArrayList<Item> items = ic.getItems();
+        ArrayList<Item> searchItems = new ArrayList<Item>();
+
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getItemId()==Integer.parseInt(json)) {
+                searchItems.add(items.get(i));
+                System.out.println("match found");
+                System.out.println(items.get(i).getItemId());
+            }
+        }
+        this.items = searchItems;
+        support.firePropertyChange("UpdateMainTable", null, null);
+    }
+    public void searchMainAuthor(String json) {
+        ArrayList<Item> items = ic.getItems();
+        ArrayList<Item> searchItems = new ArrayList<Item>();
+
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getAuthor().contains(json)) {
+                searchItems.add(items.get(i));
+                System.out.println("match found");
+                System.out.println(items.get(i).getAuthor());
+            }
+        }
+        this.items = searchItems;
+        support.firePropertyChange("UpdateMainTable", null, null);
+    }
+    public void searchMainTitle(String json) {
+        ArrayList<Item> items = ic.getItems();
+        ArrayList<Item> searchItems = new ArrayList<Item>();
+
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getTitle().contains(json)) {
+                searchItems.add(items.get(i));
+                System.out.println("match found");
+                System.out.println(items.get(i).getAuthor());
+            }
+        }
+        this.items = searchItems;
+        support.firePropertyChange("UpdateMainTable", null, null);
+    }
+
+    public void returnItem(Borrowed borrowed) {
+        Item borrowedItem  = ic.getItem(borrowed.getItemId());
+        borrowedItem.setQuantity(borrowedItem.getQuantity()+1);
+        ic.putItem(borrowedItem);
+        borrowed.setReturned(true);
+        bc.putBorrowed(borrowed);
+        this.items = ic.getItems();
+        this.borrowed = bc.getBorrowed();
+        support.firePropertyChange("UpdateMainTable", null, null);
+        support.firePropertyChange("UpdateBorrowedTable", null, null);
     }
 }

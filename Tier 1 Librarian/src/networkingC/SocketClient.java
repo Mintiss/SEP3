@@ -6,6 +6,7 @@ import Shared.Borrowed;
 import Shared.Item;
 import Model.IModel;
 import Shared.User;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -51,6 +52,16 @@ public class SocketClient implements Client{
         model.logInFailed();
     }
 
+    public void noItemsLeft()
+    {
+        model.noItemsLeft();
+    }
+
+    @Override
+    public void itemBorrowed() {
+        Platform.runLater(()->model.info("Item has been borrowed."));
+    }
+
     @Override
     public void searchBook(String bookName) {
         socketHandler.searchForBook(bookName);
@@ -65,6 +76,12 @@ public class SocketClient implements Client{
     public void updateMainTable(ArrayList<Item> items) {
         model.setMainTable(items);
     }
+
+    @Override
+    public void UpdateFinesTable(ArrayList<Borrowed> fines) {
+        model.setFinesTable(fines);
+    }
+
     @Override
     public void updateBorrowedTable(ArrayList<Borrowed> borrowed){
         model.setBorrowedTable(borrowed);

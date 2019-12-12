@@ -5,6 +5,8 @@ import View.AddView.AddView;
 import View.BorrowedView.BorrowedView;
 import View.ChangePassView.ChangePassView;
 import View.EditView.EditView;
+import View.FinesView.FinesView;
+import View.LendItemView.LendItemView;
 import View.LoginView.LoginView;
 import View.MainView.MainView;
 import View.ReservedView.ReservedView;
@@ -181,6 +183,44 @@ public class ViewHandler {
         ChangePassView view = loader.getController();
         view.init(viewModelProvider.getChangePassViewModel());
         mainStage.setTitle("Change Password Screen");
+
+        Scene scene = new Scene(root);
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+    public void openLendItemView() {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("LendItemView/LendItemView.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        LendItemView view = loader.getController();
+        view.init(viewModelProvider.getLendItemViewModel());
+        mainStage.setTitle("Lend Item Screen");
+
+        Scene scene = new Scene(root);
+        mainStage.setScene(scene);
+        mainStage.show();
+    }
+    public void openFinesView() {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("FinesView/FinesView.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        FinesView view = loader.getController();
+        view.init(viewModelProvider.getFinesViewModel());
+        mainStage.setTitle("Fines Screen");
 
         Scene scene = new Scene(root);
         mainStage.setScene(scene);
