@@ -43,7 +43,7 @@ public class ReservationsController {
 
     public ArrayList<Reservation> getBorrowedByReservation(String username)
     {
-        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Reservations/User/"+username, String.class);
+        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Reservations/User/"+username, String.class);
 
         ArrayList<Reservation> reservations = gson.fromJson(itemsJson, arrayOfItemsType);
 

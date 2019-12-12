@@ -33,7 +33,7 @@ public class BorrowedController {
 
     public ArrayList<Borrowed> getBorrowed()
     {
-        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Borrowed", String.class);
+        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Borrowed", String.class);
 
         System.out.println(itemsJson);
         ArrayList<Borrowed> borrowed = gson.fromJson(itemsJson, arrayOfItemsType);

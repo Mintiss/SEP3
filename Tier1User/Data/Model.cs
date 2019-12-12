@@ -129,7 +129,6 @@ namespace Tier1User.Data
 
             Debug.WriteLine("resreved"  + id);
 
-            //should make InStock value in stock 
             return true;
         }
 
