@@ -26,6 +26,8 @@ namespace Tier1User.Data
 
         public List<Reservation> arrayOfReservedItems;
 
+        public string LoggedInEmail;
+
         public Model()
         {
             service = new Service();
@@ -45,15 +47,11 @@ namespace Tier1User.Data
 
                 this.arrayOfBorrwedItems = GetBorrowedForUserAsync(emailInput).Result;
 
-                Debug.WriteLine(this.arrayOfBorrwedItems.ElementAt(0).ItemId);
-
                 this.arrayOfReservedItems = GetReservedForUserAsync(emailInput).Result;
-
-                Debug.WriteLine(this.arrayOfReservedItems.ElementAt(0).ReservationExpirationDate);
 
                 this.arrayOfFines = GetFinesForUserAsync(emailInput).Result;
 
-                Debug.WriteLine(this.arrayOfFines.ElementAt(0).ReturnDate);
+                this.LoggedInEmail = emailInput;
 
                 this.LoggedIn = true;
                 return true;
@@ -127,9 +125,28 @@ namespace Tier1User.Data
         public async Task<bool> ReserveItemAsync(int id)
         {
 
-            Debug.WriteLine("resreved"  + id);
+            Debug.WriteLine(id);
 
-            return true;
+            foreach(Item item in this.arrayOfItems)
+            {
+                if (item.ItemId == id)
+                {
+                    var jsonall = Newtonsoft.Json.JsonConvert.SerializeObject(item.ItemId + "," + this.LoggedInEmail);
+
+                    var stringContent = new StringContent(jsonall, UnicodeEncoding.UTF8, "application/json");
+
+                    Debug.WriteLine(stringContent);
+
+                    await service.getClient().PostAsync("http://localhost:8543/Reservations/", stringContent).ConfigureAwait(false);
+
+                    item.DecrementQuanitity();
+
+                    return true;
+
+                }
+            }
+
+            return false;
         }
 
         public bool LoggedInCheck()
