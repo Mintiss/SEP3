@@ -35,8 +35,6 @@ namespace Tier1User.Data
             {
                 this.arrayOfItems = GetItemsAsync().Result;
 
-                Debug.WriteLine(this.arrayOfItems.ElementAt(0).Author);
-
                 this.LoggedIn = true;
                 return true;
             }
