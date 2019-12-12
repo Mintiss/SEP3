@@ -83,6 +83,6 @@ public class UserController {
             String part2 = parts[1];
             User user=new User(part1,part2,0);
 
-            restTemplate.postForObject("https://localhost:44376/api/Users",user,User.class);
+            restTemplate.postForObject("http://localhost:5000/api/Users",user,User.class);
     }
 }

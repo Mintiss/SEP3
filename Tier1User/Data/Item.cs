@@ -17,7 +17,7 @@ namespace Tier1User.Data
 
         public string Author { get; set; }
 
-        public string InStock { get; set; }
+        public int Quantity { get; set; }
 
         public string Location { get; set; }
     }

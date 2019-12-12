@@ -67,22 +67,10 @@ namespace Tier1User.Data
 
             return itemArray;
         }
-        //public Task<Item[]> GetItemAsync(DateTime startDate)
-        //{
-        /* var rng = new Random();
-         return Task.FromResult(Enumerable.Range(1, 5).Select(index => new Item
-         {
-             Date = startDate.AddDays(index),
-             Title = Titles[rng.Next(Titles.Length)],
-             Author = Authors[rng.Next(Authors.Length)],
-             Type = Types[rng.Next(Types.Length)],
-             InStock = InStocks[rng.Next(InStocks.Length)],
-         }).ToArray()) ;*/
-        //}
 
-        public async Task<bool> ReserveItemAsync()
+        public async Task<bool> ReserveItemAsync(long Id)
         {
-            //should make InStock value in stock 
+            
             return true;
         }
 
