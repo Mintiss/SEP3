@@ -27,19 +27,15 @@ public class ReservedView {
     public void init(ReservedViewModel reservedViewModel){
         this.reservedViewModel= reservedViewModel;
 
-        IdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-        UsernameColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-        ItemIdColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        ItemTitleColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        ReservedAtColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        ExpiresAtColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-
+        IdColumn.setCellValueFactory(new PropertyValueFactory<>("reservationId"));
+        UsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        ItemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        ReservedAtColumn.setCellValueFactory(new PropertyValueFactory<>("reservedAt"));
+        ExpiresAtColumn.setCellValueFactory(new PropertyValueFactory<>("reservationExpirationDate"));
 
         mainTable.itemsProperty().bind(reservedViewModel.getList());
     }
 
-    public void SearchTextField(ActionEvent actionEvent) {
-    }
 
     public void SearchAction(ActionEvent actionEvent) {
     }

@@ -2,6 +2,7 @@ package networkingC;
 
 import Shared.Borrowed;
 import Shared.Item;
+import Shared.Reservation;
 import Shared.User;
 
 import java.util.ArrayList;
@@ -18,4 +19,6 @@ public interface Client {
     void itemBorrowed();
 
     void UpdateFinesTable(ArrayList<Borrowed> fines);
+
+    void UpdateReservationsTable(ArrayList<Reservation> fromJson);
 }

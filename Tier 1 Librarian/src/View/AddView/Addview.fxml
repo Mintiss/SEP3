@@ -2,24 +2,28 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="406.0" prefWidth="345.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.AddView.AddView">
+<VBox prefHeight="475.0" prefWidth="345.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.AddView.AddView">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="478.0" prefWidth="376.0" VBox.vgrow="ALWAYS">
          <children>
             <TextField fx:id="AuthorField" layoutX="98.0" layoutY="71.0" promptText="Author" />
             <TextField fx:id="TitleField" layoutX="96.0" layoutY="213.0" promptText="Title" />
             <TextField fx:id="QuantityField" layoutX="98.0" layoutY="284.0" promptText="Quantity" />
-            <Button layoutX="189.0" layoutY="337.0" mnemonicParsing="false" onAction="#AddItemAction" text="Add" />
-            <Button layoutX="104.0" layoutY="337.0" mnemonicParsing="false" onAction="#BackToMainAction" text="Back" />
+            <Button layoutX="209.0" layoutY="403.0" mnemonicParsing="false" onAction="#AddItemAction" text="Add" />
+            <Button layoutX="98.0" layoutY="403.0" mnemonicParsing="false" onAction="#BackToMainAction" text="Back" />
             <Label layoutX="98.0" layoutY="43.0" text="Enter the author of the item" />
             <Label layoutX="104.0" layoutY="111.0" text="Enter the type of the item" />
             <TextField fx:id="TypeField" layoutX="98.0" layoutY="141.0" promptText="Type" />
             <Label layoutX="104.0" layoutY="180.0" text="Enter the title of the item" />
             <Label layoutX="94.0" layoutY="252.0" text="Enter the quantity of the item" />
+            <Label layoutX="94.0" layoutY="324.0" text="Select the location of the item" />
+            <RadioButton fx:id="HorsensRadio" layoutX="98.0" layoutY="356.0" mnemonicParsing="false" onAction="#HorsensRadioAction" text="Horsens" />
+            <RadioButton fx:id="AarhusRadio" layoutX="199.0" layoutY="356.0" mnemonicParsing="false" onAction="#AarhusRadioAction" text="Aarhus" />
          </children>
     </AnchorPane>
   </children>
