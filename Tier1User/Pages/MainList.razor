@@ -14,12 +14,12 @@
 <div class="row margin-bottom-20">
 
     <div class="col-md-9">
-        <input placeholder="Search" type="text" @bind="search" onkeyup="" />
+        <input placeholder="Search" class="form-control col-4" type="text" @bind="search" onkeyup="" />
         <button class="btn btn-success" type="button" @onclick="SearchClick">Search</button>
     </div>
 </div>
 
-@if (items == null)
+@if (model.arrayOfItems == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -29,7 +29,7 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
+                @*<th>Date</th>*@
                 <th>Title</th>
                 <th>Type</th>
                 <th>Author</th>
@@ -38,14 +38,15 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in items)
+            @foreach (var item in model.arrayOfItems)
             {
             <tr>
+                @*<td>@model.arrayOfItems</td>*@
                 <td>@item.Title</td>
                 <td>@item.Type</td>
                 <td>@item.Author</td>
-                <td>@item.InStock</td>
-                <td><button class="btn btn-success" //@onclick="ReserveItemClickAsync">Reserve</button></td>
+                <td>@item.Quantity</td> 
+                <td><button class="btn btn-success" @onclick="@(() => ReserveItemClickAsync(item.Id) )">Reserve</button></td>
                 @if (reservation == true)
                 {
                     <div class="alert alert-success">
@@ -61,25 +62,18 @@ else
 }
 
 @code {
-    Item[] items;
+    
     string search = string.Empty;
     bool reservation;
 
-
-
-    /*protected override async Task OnInitializedAsync()
+    public async Task ReserveItemClickAsync(long Id)
     {
-        items = await model.GetItemAsync(DateTime.Now);
+
+       // var reservation = await model.ReserveItemAsync(Id);
+
+
+
     }
-
-    public async void ReserveItemClickAsync()
-    {
-
-        reservation = await this.model.ReserveItemAsync();
-
-
-
-    }*/
 
     protected void SearchClick()
     {

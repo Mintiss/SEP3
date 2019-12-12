@@ -41,20 +41,6 @@ namespace Tier1User.Data
             {
                 this.arrayOfItems = GetItemsAsync().Result;
 
-                Debug.WriteLine(this.arrayOfItems.ElementAt(0).Author);
-
-                this.arrayOfBorrwedItems = GetBorrowedForUserAsync(emailInput).Result;
-
-                Debug.WriteLine(this.arrayOfBorrwedItems.ElementAt(0).ItemId);
-
-/*                this.arrayOfReservedItems = GetReservedForUserAsync(emailInput).Result;
-
-                Debug.WriteLine(this.arrayOfReservedItems.ElementAt(0).User);
-*/
-                this.arrayOfFines = GetFinesForUserAsync(emailInput).Result;
-
-                Debug.WriteLine(this.arrayOfFines.ElementAt(0).ReturnDate);
-
                 this.LoggedIn = true;
                 return true;
             }
@@ -88,45 +74,9 @@ namespace Tier1User.Data
             return itemArray;
         }
 
-        //RETURNS ALL BORROWED NOT RETURNED BUT BEFORE DEADLINE
-        public async Task<List<Borrowed>> GetBorrowedForUserAsync(string email)
+        public async Task<bool> ReserveItemAsync(long Id)
         {
-            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Borrowed/"+email);
-
-            Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
-
-            List<Borrowed> BorrowedByArray = array.ToObject<List<Borrowed>>();
-
-            return BorrowedByArray;
-        }
-
-        //RETURNS ALL BORROWED AFTER DEADLINE
-        public async Task<List<Borrowed>> GetFinesForUserAsync(string email)
-        {
-            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Borrowed/Fines/" + email);
-
-            Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
-
-            List<Borrowed> FinesArray = array.ToObject<List<Borrowed>>();
-
-            return FinesArray;
-        }
-
-        public async Task<List<Reservation>> GetReservedForUserAsync(string email)
-        {
-            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Reservation/"+email);
-
-            Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
-
-            List<Reservation> ReservationArray = array.ToObject<List<Reservation>>();
-
-            return ReservationArray;
-        }
-
-
-        public async Task<bool> ReserveItemAsync()
-        {
-            //should make InStock value in stock 
+            
             return true;
         }
 
