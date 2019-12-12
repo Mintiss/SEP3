@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -14,8 +16,8 @@
             <Button layoutX="734.0" layoutY="121.0" mnemonicParsing="false" onAction="#LentItemAction" text="Lend Item" />
             <Button layoutX="835.0" layoutY="121.0" mnemonicParsing="false" onAction="#AddItemAction" text="Add Item" />
             <Button layoutX="735.0" layoutY="175.0" mnemonicParsing="false" onAction="#EditItemAction" text="Edit Item" />
-            <TextField fx:id="SearchField" layoutX="73.0" layoutY="60.0" onAction="#SearchTextField" promptText="Search" />
-            <Button layoutX="225.0" layoutY="57.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
+            <TextField fx:id="SearchField" layoutX="73.0" layoutY="60.0" promptText="Search" />
+            <Button layoutX="237.0" layoutY="60.0" mnemonicParsing="false" onAction="#SearchAction" text="Search" />
             <Button layoutX="829.0" layoutY="175.0" mnemonicParsing="false" onAction="#DeleteItemAction" text="Delete Item" />
             <Button layoutX="719.0" layoutY="325.0" mnemonicParsing="false" onAction="#OpenReservedItemsList" text="Reserved Items" />
             <Button layoutX="831.0" layoutY="325.0" mnemonicParsing="false" onAction="#OpenLentItemsList" text="Lent Items" />
@@ -30,6 +32,11 @@
                   <TableColumn fx:id="QuantityColumn" prefWidth="67.99993896484375" text="Quantity" />
               </columns>
             </TableView>
+            <Label layoutX="355.0" layoutY="32.0" text="Search by:" />
+            <RadioButton fx:id="IdRadio" layoutX="323.0" layoutY="64.0" mnemonicParsing="false" onAction="#IdRadioAction" text="Id" />
+            <RadioButton fx:id="AuthorRadio" layoutX="367.0" layoutY="64.0" mnemonicParsing="false" onAction="#AuthorRadioAction" text="Author" />
+            <RadioButton fx:id="TitleRadio" layoutX="439.0" layoutY="64.0" mnemonicParsing="false" onAction="#TitleRadioAction" selected="true" text="Title" />
+            <Button layoutX="508.0" layoutY="60.0" mnemonicParsing="false" onAction="#RefreshListAction" text="Refresh List" />
          </children>
     </AnchorPane>
   </children>

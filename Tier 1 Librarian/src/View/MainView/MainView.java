@@ -25,6 +25,9 @@ public class MainView {
     @FXML
     private TableColumn<String,String> QuantityColumn;
 
+    @FXML
+    private RadioButton IdRadio, AuthorRadio, TitleRadio;
+
     private Item storedItem;
 
     private MainViewModel mainViewModel;
@@ -39,10 +42,15 @@ public class MainView {
         TypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         QuantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
+        mainViewModel.searchProperty().bindBidirectional(SearchField.textProperty());
+
+
         mainTable.itemsProperty().bind(mainViewModel.getList());
     }
 
     public void LentItemAction(ActionEvent actionEvent) {
+        mainViewModel.setStoredValue(mainTable.getSelectionModel().getSelectedItem());
+        mainViewModel.openLendItemView();
     }
 
     public void AddItemAction(ActionEvent actionEvent) {
@@ -54,14 +62,17 @@ public class MainView {
 
             mainViewModel.setStoredValue(mainTable.getSelectionModel().getSelectedItem());
             mainViewModel.openEditView();
-
-
-    }
-
-    public void SearchTextField(ActionEvent actionEvent) {
     }
 
     public void SearchAction(ActionEvent actionEvent) {
+        if(IdRadio.isSelected())
+            mainViewModel.searchId();
+        else if(TitleRadio.isSelected())
+            mainViewModel.searchTitle();
+        else if (AuthorRadio.isSelected())
+            mainViewModel.searchAuthor();
+        else
+            mainViewModel.noSearchSelected();
     }
 
     public void DeleteItemAction(ActionEvent actionEvent) {
@@ -79,9 +90,29 @@ public class MainView {
     
 
     public void OpenFineList(ActionEvent actionEvent) {
+        mainViewModel.openFineList();
     }
 
     public void OpenUserList(ActionEvent actionEvent) {
         mainViewModel.openUsersView();
+    }
+
+    public void IdRadioAction(ActionEvent actionEvent) {
+        AuthorRadio.setSelected(false);
+        TitleRadio.setSelected(false);
+    }
+
+    public void AuthorRadioAction(ActionEvent actionEvent) {
+            TitleRadio.setSelected(false);
+            IdRadio.setSelected(false);
+    }
+
+    public void TitleRadioAction(ActionEvent actionEvent) {
+        IdRadio.setSelected(false);
+        AuthorRadio.setSelected(false);
+    }
+
+    public void RefreshListAction(ActionEvent actionEvent) {
+        mainViewModel.refreshTable();
     }
 }

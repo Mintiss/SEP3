@@ -31,8 +31,24 @@ public class Item {
         return itemId;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
-    public java.lang.String toString() {
+    public String toString() {
         return "Item{" +
                 "itemId=" + itemId +
                 ", author=" + author +

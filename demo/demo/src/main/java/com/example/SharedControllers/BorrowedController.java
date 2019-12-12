@@ -36,4 +36,13 @@ public class BorrowedController {
         return borrowed;
     }
 
+    public void putBorrowed(Borrowed borrowed){
+        restTemplate.put("http://localhost:5000/api/Borrowed/" + borrowed.getBorrowedId(),borrowed);
+    }
+
+
+    public void borrowItem(Borrowed fromJson) {
+        System.out.println(gson.toJson(fromJson));
+        restTemplate.postForObject("http://localhost:5000/api/Borrowed",fromJson, Borrowed.class);
+    }
 }

@@ -3,11 +3,13 @@ package Model;
 import Shared.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import networkingC.Client;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Model implements IModel {
@@ -21,8 +23,10 @@ public class Model implements IModel {
     private ArrayList<Borrowed> borrowedTable;
     private ArrayList<Reservation> reservationTable;
     private ArrayList<User> usersTable;
+    private ArrayList<Borrowed> finesTable;
     private Item storedItem;
     private User storedUser;
+    private Borrowed storedBorrow;
 
 
     public Model() {
@@ -30,6 +34,7 @@ public class Model implements IModel {
         borrowedTable = new ArrayList<Borrowed>();
         reservationTable = new ArrayList<Reservation>();
         usersTable = new ArrayList<User>();
+        finesTable = new ArrayList<Borrowed>();
     }
 
     @Override
@@ -63,6 +68,16 @@ public class Model implements IModel {
         this.storedUser = storedUser;
     }
 
+    @Override
+    public void setStoredBorrow(Borrowed storedValue) {
+        this.storedBorrow = storedValue;
+    }
+
+    @Override
+    public Borrowed getStoredBorrow() {
+        return storedBorrow;
+    }
+
     public void logInFailed() {
         support.firePropertyChange("LogInFailed",null,null);
     }
@@ -70,10 +85,20 @@ public class Model implements IModel {
     public void updateMainTable(){
         client.sendInfo("UpdateMainTable");
     }
-
+    @Override
+    public void returnItem()
+    {
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(storedBorrow),"ReturnedItem")));
+    }
     @Override
     public void updateBorrowedTable() {
         client.sendInfo("UpdateBorrowedTable");
+    }
+
+    @Override
+    public void updateFinesTable() {
+        client.sendInfo("UpdateFinesTable");
+
     }
 
     @Override
@@ -95,9 +120,18 @@ public class Model implements IModel {
 
     @Override
     public void setBorrowedTable(ArrayList<Borrowed> borrowed) {
+        System.out.println(borrowed.toString());
         borrowedTable = borrowed;
         System.out.println("borrowed table" + borrowedTable.toString());
         support.firePropertyChange("UpdateBorrowedTable",null,null);
+    }
+
+    @Override
+    public void setFinesTable(ArrayList<Borrowed> fines) {
+        System.out.println(fines.get(0).getBorrowDate().toString());
+        finesTable = fines;
+        System.out.println("borrowed table" + finesTable.toString());
+        support.firePropertyChange("UpdateFinesTable",null,null);
     }
 
     @Override
@@ -109,6 +143,16 @@ public class Model implements IModel {
         return usersTable;
     }
 
+    @Override
+    public void confirmBorrow(String value) {
+        LocalDate today = LocalDate.now();
+            client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(new Borrowed(
+                    getStoredUser().getUsername(),
+                    getStoredItem().getItemId(),
+                    today.plusMonths(Long.parseLong(value)),
+                    today
+            )),"BorrowItem")));
+    }
 
     @Override
     public void updateReservedTable() {
@@ -143,12 +187,29 @@ public class Model implements IModel {
         alert.setContentText(text);
         alert.showAndWait();
     }
+
+    @Override
+    public void noItemsLeft() {
+        Platform.runLater(()->error("No Items Left To Borrow."));
+    }
+
     @Override
     public void info(String text)
     {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(text);
         alert.showAndWait();
+    }
+
+    @Override
+    public void searchMainId(String value) {
+        client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainId")));
+    }@Override
+    public void searchMainTitle(String value) {
+        client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainTitle")));
+    }@Override
+    public void searchMainAuthor(String value) {
+        client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainAuthor")));
     }
 
     @Override
@@ -183,4 +244,9 @@ public class Model implements IModel {
     public ArrayList<Borrowed> getBorrowedTable() {
         return borrowedTable;
     }
+    @Override
+    public ArrayList<Borrowed> getFinesTable() {
+        return finesTable;
+    }
+
 }

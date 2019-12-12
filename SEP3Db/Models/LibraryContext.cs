@@ -24,27 +24,5 @@ namespace SEP3Db.Models
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Borrowed> Borrowed { get; set; }
         public DbSet<User> Users { get; set; }
-
-    //     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    //{
-    //        modelBuilder.Entity<Borrowed>()
-    //            .HasOne(p => p.Item)
-    //            .WithMany()
-    //            .HasForeignKey(p => p.ItemId);
-    //        modelBuilder.Entity<Borrowed>()
-    //            .HasOne(p => p.User)
-    //            .WithMany()
-    //            .HasForeignKey(p => p.Username);
-    //        modelBuilder.Entity<Reservation>()
-    //            .HasOne(p => p.Item)
-    //            .WithMany()
-    //            .HasForeignKey(p => p.ItemId);
-    //        modelBuilder.Entity<Reservation>()
-    //            .HasOne(p => p.User)
-    //            .WithMany()
-    //            .HasForeignKey(p => p.Username);
-
-    //    }
-
     }
 }

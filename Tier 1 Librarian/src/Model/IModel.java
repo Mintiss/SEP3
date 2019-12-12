@@ -18,6 +18,8 @@ public interface IModel {
 
     void setStoredUser(User storedUser);
 
+    Borrowed getStoredBorrow();
+
     void logInFailed();
     void addListener(String eventName, PropertyChangeListener listener);
     void updateMainTable();
@@ -39,6 +41,12 @@ public interface IModel {
 
     void info(String text);
 
+    void searchMainId(String value);
+
+    void searchMainTitle(String value);
+
+    void searchMainAuthor(String value);
+
     void editItem(Item item);
 
     void addItem(Item item);
@@ -57,4 +65,17 @@ public interface IModel {
 
     void deleteUser();
 
+    void confirmBorrow(String value);
+
+    void noItemsLeft();
+
+    ArrayList<Borrowed> getFinesTable();
+
+    void updateFinesTable();
+
+    void setFinesTable(ArrayList<Borrowed> fines);
+
+    void setStoredBorrow(Borrowed storedValue);
+
+    void returnItem();
 }
