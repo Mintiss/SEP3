@@ -7,9 +7,7 @@ namespace Tier1User.Data
 {
     public class Item
     {
-        public long Id { get; set; }
-
-        public DateTime Date { get; set; }
+        public int Id { get; set; }
 
         public string Title { get; set; }
 
@@ -19,6 +17,6 @@ namespace Tier1User.Data
 
         public string InStock { get; set; }
 
-        public string Location { get; set; }
+        //public string Location { get; set; }
     }
 }
