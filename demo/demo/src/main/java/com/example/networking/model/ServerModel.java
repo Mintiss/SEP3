@@ -52,29 +52,18 @@ public class ServerModel {
         }
     }
 
-    //FIX IT DO LOGIC IN T3
     public void checkUserInfoOnLogin(User user){
 
-        User userGotFromDB =uc.getUserFromDB(user.getUsername());
+        User userGotFromDB =uc.checkLogInTier1Librarian(user);
 
-        if (userGotFromDB.getUsername()==null)
+        if (userGotFromDB==null)
         {
             System.out.println("null");
-        support.firePropertyChange("LogInFailed",null,null);
+            support.firePropertyChange("LogInFailed",null,user);
         }
-        else if (userGotFromDB.getUsername().equals(user.getUsername())){
-            if (userGotFromDB.getType()==1)
-            {
-                if (userGotFromDB.getPassword().equals(user.getPassword()))
-                    support.firePropertyChange("LogInSuccess",null,null);
-                else
-                    support.firePropertyChange("LogInFailed",null,null);
-
-            }
-            else
-                support.firePropertyChange("LogInFailed",null,null);
+        else{
+            support.firePropertyChange("LogInSuccess",null,user);
         }
-
     }
 
     public void UpdateMainTable() {
