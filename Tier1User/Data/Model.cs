@@ -168,5 +168,23 @@ namespace Tier1User.Data
             return arrayOfItems.Find(author => author.ItemId.Equals(ItemId)).Author;
         }
 
+        public List<Item> SearchItemsName(string searchInput)
+        {
+            List<Item> SearchResults=new List<Item>();
+            int i = 0;
+
+
+            foreach (Item item in this.arrayOfItems) {
+
+                if (arrayOfItems.ElementAt(i).Title.ToLower().Contains(searchInput.ToLower()))
+                {
+                    SearchResults.Add(arrayOfItems.ElementAt(i));
+                }
+
+                i++;
+            }
+
+            return SearchResults;
+        }
     }
 }
