@@ -35,9 +35,6 @@ namespace Tier1User
                 .AddCircuitOptions(options => { options.DetailedErrors = true; });
             
             services.AddSingleton<Model>();
-            services.AddAuthentication();
-            services.AddAuthorization();
-            //services.AddSingleton<ItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -34,13 +34,13 @@ public class ItemController {
 
     public Item getItem(int id)
     {
-        String itemJson=restTemplate.getForObject("https://localhost:44376/api/Items/" + id, String.class);
+        String itemJson=restTemplate.getForObject("http://localhost:5000/api/Items/" + id, String.class);
         return gson.fromJson(itemJson,Item.class);
     }
 
     public ArrayList<Item> getItems()
     {
-        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Items", String.class);
+        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Items", String.class);
 
         System.out.println(itemsJson);
         ArrayList<Item> items = gson.fromJson(itemsJson, arrayOfItemsType);
@@ -49,17 +49,17 @@ public class ItemController {
     }
 
     public void putItem(Item item){
-        restTemplate.put("https://localhost:44376/api/Items/" + item.getItemId(),item);
+        restTemplate.put("http://localhost:5000/api/Items/" + item.getItemId(),item);
     }
 
     public void decrementQuantityReserveBlazor(int id){
         Item item=getItem(id);
         item.setQuantity(item.getQuantity()-1);
-        restTemplate.put("https://localhost:44376/api/Items/"+id,item);
+        restTemplate.put("http://localhost:5000/api/Items/"+id,item);
     }
 
     public void postItem(Item fromJson) {
-        restTemplate.postForObject("https://localhost:44376/api/Items",fromJson, Item.class);
+        restTemplate.postForObject("http://localhost:5000/api/Items",fromJson, Item.class);
     }
 
     public void deleteItem(String id) {

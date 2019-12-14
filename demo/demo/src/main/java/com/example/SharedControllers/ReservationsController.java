@@ -50,7 +50,7 @@ public class ReservationsController {
 
     public ArrayList<Reservation> getBorrowedByReservation(String username)
     {
-        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Reservations/User/"+username, String.class);
+        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Reservations/User/"+username, String.class);
 
         ArrayList<Reservation> reservations = gson.fromJson(itemsJson, arrayOfItemsType);
 
@@ -72,7 +72,7 @@ public class ReservationsController {
 
         Reservation reservation=new Reservation(part2,part1, LocalDate.now(),LocalDate.now().plusWeeks(1));
 
-        restTemplate.postForObject("https://localhost:44376/api/Reservations",reservation,Reservation.class);
+        restTemplate.postForObject("http://localhost:5000/api/Reservations",reservation,Reservation.class);
     }
 
 

@@ -25,7 +25,16 @@
 }
 else
 {
-    
+    @if (reservation == true)
+    {
+        <div class="alert alert-success">
+            <strong>Reserved</strong>
+        </div>
+
+        reservation = false;
+    }
+
+
     <table class="table">
         <thead>
             <tr>
@@ -39,22 +48,15 @@ else
         <tbody>
             @foreach (var item in model.arrayOfItems)
             {
-            <tr>
-                <td>@item.ItemId</td>
-                <td>@item.Title</td>
-                <td>@item.Type</td>
-                <td>@item.Author</td>
-                <td>@item.Quantity</td>
-                <td><button class="btn btn-success" @onclick="@(async ()  =>  await Do(item.ItemId))">Reserve</button></td>
-                @if (reservation == true)
-                {
-                    <div class="alert alert-success">
-                        <strong>Reserved</strong>
-                    </div>
 
-                    reservation = false;
-                }
-            </tr>
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Type</td>
+                    <td>@item.Author</td>
+                    <td>@item.Quantity</td>
+                    <td><button class="btn btn-success" @onclick="@(async ()  =>  await Do(item.ItemId))">Reserve</button></td>
+
+                </tr>
             }
         </tbody>
     </table>
@@ -64,6 +66,7 @@ else
     async Task Do(int id)
     {
         await this.model.ReserveItemAsync(id);
+        reservation = true;
     }
 }
 
@@ -71,6 +74,7 @@ else
     Item[] items;
     string search = string.Empty;
     bool reservation;
+
 
 
     protected void SearchClick()

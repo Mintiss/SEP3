@@ -154,5 +154,19 @@ namespace Tier1User.Data
         {
             return this.LoggedIn;
         }
+
+        public string GetItemsNames(int ItemId)
+        {
+            return arrayOfItems.Find(name => name.ItemId.Equals(ItemId)).Title;
+        }
+        public string GetItemsTypes(int ItemId)
+        {
+            return arrayOfItems.Find(type => type.ItemId.Equals(ItemId)).Type;
+        }
+        public string GetItemsAuthors(int ItemId)
+        {
+            return arrayOfItems.Find(author => author.ItemId.Equals(ItemId)).Author;
+        }
+
     }
 }
