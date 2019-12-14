@@ -1,0 +1,82 @@
+﻿@page "/search"
+
+<h3>Search</h3>
+@using Tier1User.Data
+
+@inject Model model
+
+
+<h1>Items</h1>
+
+<div class="row margin-bottom-20">
+
+    <div class="col-md-9">
+        <input placeholder="Search" type="search" @bind="searchInput" />
+        <button class="btn btn-success" type="button" @onclick="@(async ()  =>  await SearchClick(searchInput))">Search</button>
+    </div>
+</div>
+
+
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Author</th>
+                <th>InStock</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+
+                @foreach (var item in searchResults)
+                {
+
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Type</td>
+                        <td>@item.Author</td>
+                        <td>@item.Quantity</td>
+                        <td><button class="btn btn-success" @onclick="@(async () => await Do(item.ItemId))">Reserve</button></td>
+
+                    </tr>
+                }
+            
+            
+                @if (searchResults.Count() == 0  && !string.IsNullOrEmpty(searchInput))
+                 {
+                    <div class="alert alert-danger">
+                        <strong>No Matches</strong>
+                    </div>
+                 }
+            
+            </tbody>
+    </table>
+
+
+@functions{
+
+    
+
+    async Task Do(int id)
+    {
+        await this.model.ReserveItemAsync(id);
+        reservation = true;
+    }
+}
+
+@code {
+    Item[] items;
+    string searchInput = string.Empty;
+    bool reservation;
+    public List<Item> searchResults  =  new List<Item>();
+    
+   async Task SearchClick(string searchInput)
+    {
+         searchResults = this.model.SearchItemsName(searchInput);
+    }
+    
+}
