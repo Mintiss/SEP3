@@ -43,8 +43,6 @@ namespace Tier1User.Data
             {
                 this.arrayOfItems = GetItemsAsync().Result;
 
-                Debug.WriteLine(this.arrayOfItems.ElementAt(0).ItemId);
-
                 this.arrayOfBorrwedItems = GetBorrowedForUserAsync(emailInput).Result;
 
                 this.arrayOfReservedItems = GetReservedForUserAsync(emailInput).Result;
@@ -106,6 +104,9 @@ namespace Tier1User.Data
             Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
 
             List<Borrowed> FinesArray = array.ToObject<List<Borrowed>>();
+
+            foreach (Borrowed fine in FinesArray)
+                fine.setFine();
 
             return FinesArray;
         }
