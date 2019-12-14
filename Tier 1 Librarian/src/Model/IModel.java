@@ -96,4 +96,22 @@ public interface IModel {
     void deleteReservation();
 
     void moveToBorrowed(String months);
+
+    void searchReservedId(String value);
+
+    void searchReservedItemId(String value);
+
+    void searchReservedUsername(String value);
+
+    void searchBorrowedId(String value);
+
+    void searchBorrowedItemId(String value);
+
+    void searchBorrowedUsername(String value);
+
+    void searchFinesId(String value);
+
+    void searchFinesItemId(String value);
+
+    void searchFinesUsername(String value);
 }

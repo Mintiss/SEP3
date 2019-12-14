@@ -44,18 +44,29 @@ public class SocketClient implements Client{
     public void searchBookResult(List<Item> items) {
         ;
     }
-
+    @Override
     public void logIn(){
         model.logInConfirmed();
     }
-
+    @Override
     public void logInFailed(){
         model.logInFailed();
     }
-
+    @Override
     public void noItemsLeft()
     {
         model.noItemsLeft();
+    }
+
+    @Override
+    public void cannotDeleteUser() {
+        Platform.runLater(()->model.error("Can not delete a user that is currently reserving\n or borrowing an item."));
+    }
+
+    @Override
+    public void cannotDeleteItem() {
+        Platform.runLater(()->model.error("Can not delete an item that is currently reserved\n or borrowed."));
+
     }
 
     @Override

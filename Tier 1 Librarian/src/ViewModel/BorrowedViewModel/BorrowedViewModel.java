@@ -6,6 +6,8 @@ import Shared.Item;
 import View.ViewHandler;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 
 public class BorrowedViewModel {
 
+    private SimpleStringProperty search;
     private ListProperty<Borrowed> list;
     private Borrowed storedValue;
 
@@ -28,6 +31,8 @@ public class BorrowedViewModel {
         ObservableList<Borrowed> oList = FXCollections.observableArrayList(model.getBorrowedTable());
         list.setValue(oList);
 
+        search = new SimpleStringProperty();
+
         model.addListener("UpdateBorrowedTable",this::updateList);
 
     }
@@ -36,6 +41,8 @@ public class BorrowedViewModel {
         ObservableList<Borrowed> oList = FXCollections.observableArrayList(model.getBorrowedTable());
         list.setValue(oList);
     }
+
+    public StringProperty searchProperty(){return search;}
 
     public Borrowed getStoredValue() {
         return storedValue;
@@ -58,5 +65,25 @@ public class BorrowedViewModel {
             model.setStoredBorrow(getStoredValue());
             model.returnItem();
         }
+    }
+
+    public void refresh() {
+        model.updateBorrowedTable();
+    }
+
+    public void searchId() {
+        model.searchBorrowedId(search.getValue());
+    }
+
+    public void noSearchSelected() {
+        model.error("Please select a search category");
+    }
+
+    public void searchItemId() {
+        model.searchBorrowedItemId(search.getValue());
+    }
+
+    public void searchUsername() {
+        model.searchBorrowedUsername(search.getValue());
     }
 }

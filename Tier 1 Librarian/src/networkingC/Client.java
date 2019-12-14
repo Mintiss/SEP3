@@ -22,4 +22,13 @@ public interface Client {
 
     void UpdateReservationsTable(ArrayList<Reservation> fromJson);
 
+    void logIn();
+
+    void logInFailed();
+
+    void noItemsLeft();
+
+    void cannotDeleteUser();
+
+    void cannotDeleteItem();
 }

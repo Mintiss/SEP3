@@ -44,6 +44,10 @@ public class ServerSocketHandler implements Runnable{
         model.addListener("NoItemsLeft", this::noItemsLeft);
         model.addListener("ItemBorrowed", this::ItemBorrowed);
         model.addListener("FinePaid", this::FinePaid);
+        model.addListener("CannotDeleteUser", this::CannotDeleteUser);
+        model.addListener("CannotDeleteItem", this::CannotDeleteItem);
+
+
 
     }
 
@@ -113,6 +117,33 @@ public class ServerSocketHandler implements Runnable{
                         }
                         if(jsonInstruction.getInstruction().equals("SearchMainAuthor")){
                             model.searchMainAuthor(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchReservedId")){
+                            model.searchReservedId(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchReservedItemId")){
+                            model.searchReservedItemId(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchReservedUsername")){
+                            model.searchReservedUsername(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchBorrowedId")){
+                            model.searchBorrowedId(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchBorrowedItemId")){
+                            model.searchBorrowedItemId(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchBorrowedUsername")){
+                            model.searchBorrowedUsername(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchFinesId")){
+                            model.searchFinesId(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchFinesItemId")){
+                            model.searchFinesItemId(jsonInstruction.getJson());
+                        }
+                        if(jsonInstruction.getInstruction().equals("SearchFinesUsername")){
+                            model.searchFinesUsername(jsonInstruction.getJson());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchLendItem")){
                             model.searchLendItem(jsonInstruction.getJson());
@@ -213,6 +244,21 @@ public class ServerSocketHandler implements Runnable{
     private void noItemsLeft(PropertyChangeEvent propertyChangeEvent) {
         try {
             outToClient.writeObject("NoItemsLeft");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void CannotDeleteUser(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject("CannotDeleteUser");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void CannotDeleteItem(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject("CannotDeleteItem");
         } catch (IOException e) {
             e.printStackTrace();
         }

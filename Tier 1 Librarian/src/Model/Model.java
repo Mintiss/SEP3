@@ -193,13 +193,19 @@ public class Model implements IModel {
 
     @Override
     public void confirmBorrow(String value) {
-        LocalDate today = LocalDate.now();
+        try {
+            LocalDate today = LocalDate.now();
             client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(new Borrowed(
                     getStoredUser().getUsername(),
                     getStoredItem().getItemId(),
                     today.plusMonths(Long.parseLong(value)),
                     today
-            )),"BorrowItem")));
+            )), "BorrowItem")));
+        }
+        catch (Exception e)
+        {
+            error("Enter a number in the months field");
+        }
     }
 
     @Override
@@ -268,6 +274,79 @@ public class Model implements IModel {
         else
         client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainAuthor")));
     }
+
+    @Override
+    public void searchReservedId(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchReservedId")));
+    }
+
+    @Override
+    public void searchReservedItemId(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchReservedItemId")));
+    }
+
+    @Override
+    public void searchReservedUsername(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchReservedUsername")));
+    }
+
+    @Override
+    public void searchBorrowedId(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchBorrowedId")));
+    }
+
+    @Override
+    public void searchBorrowedItemId(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchBorrowedItemId")));
+    }
+
+    @Override
+    public void searchBorrowedUsername(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchBorrowedUsername")));
+    }
+
+    @Override
+    public void searchFinesId(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchFinesId")));
+    }
+
+    @Override
+    public void searchFinesItemId(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchFinesItemId")));
+    }
+
+    @Override
+    public void searchFinesUsername(String value) {
+        if(value.equals("")|| value==null)
+            error("Search is empty");
+        else
+            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchFinesUsername")));
+    }
+
     @Override
     public void searchLendItem(String search) {
         if(search.equals("")|| search==null)
@@ -297,13 +376,11 @@ public class Model implements IModel {
     @Override
     public void deleteItem() {
         client.sendInfo(gson.toJson(new JsonInstruction(Integer.toString(getStoredItem().getItemId()),"DeleteItem")));
-        info("Item Deleted.");
     }
 
     @Override
     public void deleteUser() {
         client.sendInfo(gson.toJson(new JsonInstruction(getStoredUser().getUsername(),"DeleteUser")));
-        info("String Deleted.");
     }
 
     @Override

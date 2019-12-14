@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -48,6 +49,8 @@ public class FinesViewModel {
 
     public ListProperty<Borrowed> getList() { return list;  }
 
+    public StringProperty searchProperty(){return search;}
+
     public void backToMain() {
         viewHandler.openMainView();
     }
@@ -59,5 +62,25 @@ public class FinesViewModel {
             model.setStoredFine(getStoredValue());
             model.payFine(getStoredValue());
         }
+    }
+
+    public void refresh() {
+        model.updateFinesTable();
+    }
+
+    public void searchId() {
+        model.searchFinesId(search.getValue());
+    }
+
+    public void noSearchSelected() {
+        model.error("Please select a search category");
+    }
+
+    public void searchItemId() {
+        model.searchFinesItemId(search.getValue());
+    }
+
+    public void searchUsername() {
+        model.searchFinesUsername(search.getValue());
     }
 }

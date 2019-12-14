@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 public class ReservedViewModel {
 
     private SimpleStringProperty months;
+    private SimpleStringProperty search;
     private ListProperty<Reservation> list;
     private Reservation storedValue;
 
@@ -30,6 +31,7 @@ public class ReservedViewModel {
         ObservableList<Reservation> oList = FXCollections.observableArrayList(model.getReservedTable());
         list.setValue(oList);
 
+        search = new SimpleStringProperty();
         months = new SimpleStringProperty();
 
         model.addListener("UpdateReservationTable",this::updateList);
@@ -46,6 +48,8 @@ public class ReservedViewModel {
     }
 
     public StringProperty monthsProperty(){return months;}
+    public StringProperty searchProperty(){return search;}
+
 
     public void setStoredValue(Reservation storedValue) {
         this.storedValue = storedValue;
@@ -74,5 +78,25 @@ public class ReservedViewModel {
             model.setStoredReservation(getStoredValue());
             model.moveToBorrowed(months.getValue());
         }
+    }
+
+    public void refresh() {
+        model.updateReservedTable();
+    }
+
+    public void searchId() {
+        model.searchReservedId(search.getValue());
+    }
+
+    public void noSearchSelected() {
+        model.error("Please select a search category");
+    }
+
+    public void searchItemId() {
+        model.searchReservedItemId(search.getValue());
+    }
+
+    public void searchUsername() {
+        model.searchReservedUsername(search.getValue());
     }
 }

@@ -108,10 +108,31 @@ public class ServerModel {
         support.firePropertyChange("UpdateMainTable",null,null);
     }
 
-    public void deleteItem(java.lang.String json) {
-        ic.deleteItem(json);
-        this.items = ic.getItems();
-        support.firePropertyChange("UpdateMainTable",null,null);
+    public void deleteItem(String json) {
+        ArrayList<Borrowed> borrowed = bc.getBorrowed();
+        ArrayList<Reservation> reservations = rc.getReservations();
+        boolean containsUser = false;
+        for(int i = 0; i<borrowed.size();i++)
+        {
+            if(borrowed.get(i).getItemId()==Integer.parseInt(json))
+                if(!borrowed.get(i).isReturned())
+                    containsUser = true;
+        }
+        for(int i = 0; i<reservations.size();i++)
+        {
+            if(reservations.get(i).getItemId()==Integer.parseInt(json))
+                containsUser = true;
+        }
+        if (!containsUser){
+            ic.deleteItem(json);
+            this.items = ic.getItems();
+            support.firePropertyChange("UpdateMainTable",null,null);
+        }
+        else {
+            support.firePropertyChange("CannotDeleteItem",null,null);
+
+        }
+
     }
     public void UpdateReservationTable() {
         this.reservations = rc.getReservations();
@@ -154,10 +175,30 @@ public class ServerModel {
         return reservations;
     }
 
-    public void deleteUser(java.lang.String json) {
-        uc.deleteUser(json);
-        this.users = uc.getUsers();
-        support.firePropertyChange("UpdateUsersTable",null,null);
+    public void deleteUser(String json) {
+        ArrayList<Borrowed> borrowed = bc.getBorrowed();
+        ArrayList<Reservation> reservations = rc.getReservations();
+        boolean containsUser = false;
+        for(int i = 0; i<borrowed.size();i++)
+        {
+            if(borrowed.get(i).getUsername().equals(json))
+                if(!borrowed.get(i).isReturned())
+                    containsUser = true;
+        }
+        for(int i = 0; i<reservations.size();i++)
+        {
+            if(reservations.get(i).getUsername().equals(json))
+                containsUser = true;
+        }
+        if (!containsUser){
+            uc.deleteUser(json);
+            this.users = uc.getUsers();
+            support.firePropertyChange("UpdateUsersTable",null,null);
+        }
+        else {
+            support.firePropertyChange("CannotDeleteUser",null,null);
+
+        }
 
     }
 
@@ -261,7 +302,7 @@ public class ServerModel {
     public void deleteReservation(Reservation fromJson) {
         rc.deleteReservation(Integer.toString(fromJson.getReservationId()));
         this.reservations = rc.getReservations();
-        support.firePropertyChange("UpdateReservationTable", null, null);
+        support.firePropertyChange("UpdateReservationsTable", null, null);
     }
 
     public void setBorrowedMonths(String json) {
@@ -277,5 +318,141 @@ public class ServerModel {
     }
 
 
+    public void searchReservedId(String json) {
+        ArrayList<Reservation> reservations = rc.getReservations();
+        ArrayList<Reservation> searchReservations = new ArrayList<Reservation>();
 
-}//return date and borrow date
+        for (int i = 0; i < reservations.size(); i++) {
+            if (reservations.get(i).getReservationId()==Integer.parseInt(json)) {
+                searchReservations.add(reservations.get(i));
+                System.out.println("match found");
+                System.out.println(reservations.get(i).getReservationId());
+            }
+        }
+        this.reservations = searchReservations;
+        support.firePropertyChange("UpdateReservationsTable", null, null);
+    }
+
+    public void searchReservedItemId(String json) {
+        ArrayList<Reservation> reservations = rc.getReservations();
+        ArrayList<Reservation> searchReservations = new ArrayList<Reservation>();
+
+        for (int i = 0; i < reservations.size(); i++) {
+            if (reservations.get(i).getItemId()==Integer.parseInt(json)) {
+                searchReservations.add(reservations.get(i));
+                System.out.println("match found");
+                System.out.println(reservations.get(i).getItemId());
+            }
+        }
+        this.reservations = searchReservations;
+        support.firePropertyChange("UpdateReservationsTable", null, null);
+    }
+
+    public void searchReservedUsername(String json) {
+        ArrayList<Reservation> reservations = rc.getReservations();
+        ArrayList<Reservation> searchReservations = new ArrayList<Reservation>();
+
+        for (int i = 0; i < reservations.size(); i++) {
+            if (reservations.get(i).getUsername().contains(json)) {
+                searchReservations.add(reservations.get(i));
+                System.out.println("match found");
+                System.out.println(reservations.get(i).getUsername());
+            }
+        }
+        this.reservations = searchReservations;
+        support.firePropertyChange("UpdateReservationsTable", null, null);
+    }
+
+    public void searchBorrowedId(String json) {
+        ArrayList<Borrowed> borrowed = bc.getBorrowed();
+        ArrayList<Borrowed> searchBorrowed = new ArrayList<Borrowed>();
+
+        for (int i = 0; i < borrowed.size(); i++) {
+            if (borrowed.get(i).getBorrowedId()==Integer.parseInt(json)) {
+                searchBorrowed.add(borrowed.get(i));
+                System.out.println("match found");
+                System.out.println(borrowed.get(i).getBorrowedId());
+            }
+        }
+        this.borrowed = searchBorrowed;
+        support.firePropertyChange("UpdateBorrowedTable", null, null);
+    }
+
+    public void searchBorrowedItemId(String json) {
+        ArrayList<Borrowed> borrowed = bc.getBorrowed();
+        ArrayList<Borrowed> searchBorrowed = new ArrayList<Borrowed>();
+
+        for (int i = 0; i < borrowed.size(); i++) {
+            if (borrowed.get(i).getItemId()==Integer.parseInt(json)) {
+                searchBorrowed.add(borrowed.get(i));
+                System.out.println("match found");
+                System.out.println(borrowed.get(i).getItemId());
+            }
+        }
+        this.borrowed = searchBorrowed;
+        support.firePropertyChange("UpdateBorrowedTable", null, null);
+    }
+
+    public void searchBorrowedUsername(String json) {
+        ArrayList<Borrowed> borrowed = bc.getBorrowed();
+        ArrayList<Borrowed> searchBorrowed = new ArrayList<Borrowed>();
+
+        for (int i = 0; i < borrowed.size(); i++) {
+            if (borrowed.get(i).getUsername().contains(json)) {
+                searchBorrowed.add(borrowed.get(i));
+                System.out.println("match found");
+                System.out.println(borrowed.get(i).getUsername());
+            }
+        }
+        this.borrowed = searchBorrowed;
+        support.firePropertyChange("UpdateBorrowedTable", null, null);
+    }
+
+    public void searchFinesId(String json) {
+        UpdateFinesTable();
+        ArrayList<Borrowed> fines = getFines();
+        ArrayList<Borrowed> searchFines = new ArrayList<Borrowed>();
+
+        for (int i = 0; i < fines.size(); i++) {
+            if (fines.get(i).getBorrowedId()==Integer.parseInt(json)) {
+                searchFines.add(fines.get(i));
+                System.out.println("match found");
+                System.out.println(fines.get(i).getBorrowedId());
+            }
+        }
+        this.fines = searchFines;
+        support.firePropertyChange("UpdateFinesTable", null, null);
+    }
+
+    public void searchFinesItemId(String json) {
+        UpdateFinesTable();
+        ArrayList<Borrowed> fines = getFines();
+        ArrayList<Borrowed> searchFines = new ArrayList<Borrowed>();
+
+        for (int i = 0; i < fines.size(); i++) {
+            if (fines.get(i).getItemId()==Integer.parseInt(json)) {
+                searchFines.add(fines.get(i));
+                System.out.println("match found");
+                System.out.println(fines.get(i).getItemId());
+            }
+        }
+        this.fines = searchFines;
+        support.firePropertyChange("UpdateFinesTable", null, null);
+    }
+
+    public void searchFinesUsername(String json) {
+        UpdateFinesTable();
+        ArrayList<Borrowed> fines = getFines();
+        ArrayList<Borrowed> searchFines = new ArrayList<Borrowed>();
+
+        for (int i = 0; i < fines.size(); i++) {
+            if (fines.get(i).getUsername().equals(json)) {
+                searchFines.add(fines.get(i));
+                System.out.println("match found");
+                System.out.println(fines.get(i).getBorrowedId());
+            }
+        }
+        this.fines = searchFines;
+        support.firePropertyChange("UpdateFinesTable", null, null);
+    }
+}

@@ -61,6 +61,7 @@ public class LendItemViewModel {
     }
 
     public void confirmBorrow() {
+
         if(getStoredValue()==null){
             model.error("Please select a User");
         }

@@ -46,6 +46,10 @@ public class ClientSocketHandler implements Runnable {
                         client.noItemsLeft();
                     else if("ItemBorrowed".equals(obj))
                         client.itemBorrowed();
+                    else if("CannotDeleteUser".equals(obj))
+                        client.cannotDeleteUser();
+                    else if("CannotDeleteItem".equals(obj))
+                        client.cannotDeleteItem();
                     else {
                         JsonInstruction jsonInstruction = gson.fromJson((String) obj, JsonInstruction.class);
 
