@@ -20,5 +20,16 @@ namespace Tier1User.Data
         public bool IsReturned { get; set; }
 
         public long Fine { get; set; }
+
+        public void setFine()
+        {
+            TimeSpan DaysOverdue = new TimeSpan(DateTime.Now.Ticks-DateTime.Parse(ReturnDate).Ticks);
+            double Days=DaysOverdue.TotalDays;
+            while (Days >= 1)
+            {
+                this.Fine++;
+                Days --;
+            }
+        }
     }
 }
