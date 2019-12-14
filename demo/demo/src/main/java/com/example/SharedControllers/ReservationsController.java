@@ -72,7 +72,7 @@ public class ReservationsController {
 
         Reservation reservation=new Reservation(part2,part1, LocalDate.now(),LocalDate.now().plusWeeks(1));
 
-        restTemplate.postForObject("https://localhost:44376/api/Reservations",reservation,Reservation.class);
+        restTemplate.postForObject("http://localhost:5000/api/Reservations",reservation,Reservation.class);
     }
 
 

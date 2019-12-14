@@ -7,7 +7,7 @@
 
 <p>The Items are in the code, not in the DB</p>
 
-@if (items == null)
+@if (model.arrayOfReservedItems == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -19,15 +19,22 @@ else
                 <th>Title</th>
                 <th>Type</th>
                 <th>Author</th>
+                <th>Reservation Date</th>
+                <th>Reservation Expiration Date</th>
+                
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in items)
+            @foreach (var item in model.arrayOfReservedItems)
             {
+                
                 <tr>
-                    <td>@item.Title</td>
-                    <td>@item.Type</td>
-                    <td>@item.Author</td>
+                    
+                    <td>@model.GetItemsNames(item.ItemId)</td>
+                    <td>@model.GetItemsTypes(item.ItemId)</td>
+                    <td>@model.GetItemsAuthors(item.ItemId)</td>
+                    <td>@item.ReservedAt</td>
+                    <td>@item.ReservationExpirationDate</td>
                 </tr>
             }
         </tbody>

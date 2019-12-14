@@ -6,9 +6,7 @@
 
 <h1>Borrowed Items</h1>
 
-<p>The Items are in the code, not in the DB</p>
-
-@if (items == null)
+@if (model.arrayOfBorrwedItems == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -17,20 +15,23 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
+                
                 <th>Title</th>
                 <th>Type</th>
                 <th>Author</th>
+                <th>Return Date</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in items)
+            @foreach (var item in model.arrayOfBorrwedItems)
             {
-                <tr>
-                    <td>@item.Title</td>
-                    <td>@item.Type</td>
-                    <td>@item.Author</td>
-                </tr>
+            <tr>
+                <td>@model.GetItemsNames(item.ItemId)</td>
+                <td>@model.GetItemsTypes(item.ItemId)</td>
+                <td>@model.GetItemsAuthors(item.ItemId)</td>
+                <td>@item.ReturnDate</td>
+
+            </tr>
             }
         </tbody>
     </table>

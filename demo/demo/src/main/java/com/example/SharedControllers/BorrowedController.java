@@ -44,7 +44,7 @@ public class BorrowedController {
 
     public ArrayList<Borrowed> getBorrowedByUsername(String username)
     {
-        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Borrowed/User/"+username, String.class);
+        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Borrowed/User/"+username, String.class);
 
         ArrayList<Borrowed> borrowed = gson.fromJson(itemsJson, arrayOfItemsType);
 
@@ -56,7 +56,7 @@ public class BorrowedController {
 
     public ArrayList<Borrowed> getFinesByUsername(String username)
     {
-        String itemsJson=restTemplate.getForObject("https://localhost:44376/api/Borrowed/User/Fines/"+username, String.class);
+        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Borrowed/User/Fines/"+username, String.class);
 
         ArrayList<Borrowed> borrowed = gson.fromJson(itemsJson, arrayOfItemsType);
 
@@ -66,13 +66,13 @@ public class BorrowedController {
     }
 
     public void putBorrowed(Borrowed borrowed){
-        restTemplate.put("https://localhost:44376/api/Borrowed/" + borrowed.getBorrowedId(),borrowed);
+        restTemplate.put("http://localhost:5000/api/Borrowed/" + borrowed.getBorrowedId(),borrowed);
     }
 
 
     public void borrowItem(Borrowed fromJson) {
         System.out.println(gson.toJson(fromJson));
-        restTemplate.postForObject("https://localhost:44376/api/Borrowed",fromJson, Borrowed.class);
+        restTemplate.postForObject("http://localhost:5000/api/Borrowed",fromJson, Borrowed.class);
     }
 
     @RequestMapping(method = GET, value = "/{username}")
