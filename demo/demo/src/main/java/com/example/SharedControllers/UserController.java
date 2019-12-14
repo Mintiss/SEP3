@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+@SuppressWarnings("ALL")
 @RestController
 @RequestMapping("/Users")
 public class UserController {
@@ -35,12 +36,13 @@ public class UserController {
 
     public ArrayList<User> getUsers()
     {
-        java.lang.String usersJson=restTemplate.getForObject("http://localhost:5000/api/Users", java.lang.String.class);
+        java.lang.String usersJson=restTemplate.getForObject("http://localhost:5000/api/Users/", java.lang.String.class);
 
         System.out.println(usersJson);
         ArrayList<User> users = gson.fromJson(usersJson, arrayOfItemsType);
         return users;
     }
+
         public User getUserFromDB(String userFromLogin)
         {
             User userGotFromDB;
@@ -54,6 +56,20 @@ public class UserController {
             return userGotFromDB;
 
         }
+
+    public User checkLogInTier1Librarian(User user)
+    {
+        User userGotFromDB;
+
+        try {
+            userGotFromDB = restTemplate.getForObject("https://localhost:44376/api/Users/" + user.getUsername() + "/" + user.getPassword(), User.class);
+        } catch (Exception e){
+            userGotFromDB=null;
+        }
+
+        return userGotFromDB;
+
+    }
 
     public void deleteUser(java.lang.String id) {
         restTemplate.delete("http://localhost:5000/api/Users/" + id);
@@ -83,6 +99,6 @@ public class UserController {
             String part2 = parts[1];
             User user=new User(part1,part2,0);
 
-            restTemplate.postForObject("http://localhost:5000/api/Users",user,User.class);
+            restTemplate.postForObject("http://localhost:5000/api/Users/",user,User.class);
     }
 }

@@ -26,6 +26,8 @@ namespace Tier1User.Data
 
         public List<Reservation> arrayOfReservedItems;
 
+        public string LoggedInEmail;
+
         public Model()
         {
             service = new Service();
@@ -41,19 +43,13 @@ namespace Tier1User.Data
             {
                 this.arrayOfItems = GetItemsAsync().Result;
 
-                Debug.WriteLine(this.arrayOfItems.ElementAt(0).Author);
-
                 this.arrayOfBorrwedItems = GetBorrowedForUserAsync(emailInput).Result;
 
-                Debug.WriteLine(this.arrayOfBorrwedItems.ElementAt(0).ItemId);
+                this.arrayOfReservedItems = GetReservedForUserAsync(emailInput).Result;
 
-/*                this.arrayOfReservedItems = GetReservedForUserAsync(emailInput).Result;
-
-                Debug.WriteLine(this.arrayOfReservedItems.ElementAt(0).User);
-*/
                 this.arrayOfFines = GetFinesForUserAsync(emailInput).Result;
 
-                Debug.WriteLine(this.arrayOfFines.ElementAt(0).ReturnDate);
+                this.LoggedInEmail = emailInput;
 
                 this.LoggedIn = true;
                 return true;
@@ -109,12 +105,15 @@ namespace Tier1User.Data
 
             List<Borrowed> FinesArray = array.ToObject<List<Borrowed>>();
 
+            foreach (Borrowed fine in FinesArray)
+                fine.setFine();
+
             return FinesArray;
         }
 
         public async Task<List<Reservation>> GetReservedForUserAsync(string email)
         {
-            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Reservation/"+email);
+            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Reservations/User/"+email);
 
             Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
 
@@ -124,15 +123,68 @@ namespace Tier1User.Data
         }
 
 
-        public async Task<bool> ReserveItemAsync()
+        public async Task<bool> ReserveItemAsync(int id)
         {
-            //should make InStock value in stock 
-            return true;
+
+            Debug.WriteLine(id);
+
+            foreach(Item item in this.arrayOfItems)
+            {
+                if (item.ItemId == id)
+                {
+                    var jsonall = Newtonsoft.Json.JsonConvert.SerializeObject(item.ItemId + "," + this.LoggedInEmail);
+
+                    var stringContent = new StringContent(jsonall, UnicodeEncoding.UTF8, "application/json");
+
+                    Debug.WriteLine(stringContent);
+
+                    await service.getClient().PostAsync("http://localhost:8543/Reservations/", stringContent).ConfigureAwait(false);
+
+                    item.DecrementQuanitity();
+
+                    return true;
+
+                }
+            }
+
+            return false;
         }
 
         public bool LoggedInCheck()
         {
             return this.LoggedIn;
+        }
+
+        public string GetItemsNames(int ItemId)
+        {
+            return arrayOfItems.Find(name => name.ItemId.Equals(ItemId)).Title;
+        }
+        public string GetItemsTypes(int ItemId)
+        {
+            return arrayOfItems.Find(type => type.ItemId.Equals(ItemId)).Type;
+        }
+        public string GetItemsAuthors(int ItemId)
+        {
+            return arrayOfItems.Find(author => author.ItemId.Equals(ItemId)).Author;
+        }
+
+        public List<Item> SearchItemsName(string searchInput)
+        {
+            List<Item> SearchResults=new List<Item>();
+            int i = 0;
+
+
+            foreach (Item item in this.arrayOfItems) {
+
+                if (arrayOfItems.ElementAt(i).Title.ToLower().Contains(searchInput.ToLower()))
+                {
+                    SearchResults.Add(arrayOfItems.ElementAt(i));
+                }
+
+                i++;
+            }
+
+            return SearchResults;
         }
     }
 }

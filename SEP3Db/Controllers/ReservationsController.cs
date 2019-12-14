@@ -42,6 +42,21 @@ namespace SEP3Db.Controllers
             return reservation;
         }
 
+
+        [HttpGet("User/{username}")]
+        public async Task<List<Reservation>> GetReservationsForUser(string username)
+        {
+            var reserved = _context.Reservations.Where(Reservation => Reservation.Username.Equals(username) && Reservation.ReservationExpirationDate > DateTime.Now).ToList();
+
+            if (reserved == null)
+            {
+                return null;
+            }
+
+
+            return reserved;
+        }
+
         // PUT: api/Reservations/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

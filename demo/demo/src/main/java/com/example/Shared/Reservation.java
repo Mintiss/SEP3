@@ -14,6 +14,14 @@ public class Reservation {
     public Reservation() {
     }
 
+    public Reservation(String username, int itemId, LocalDate reservedAt, LocalDate reservationExpirationDate) {
+
+        this.username = username;
+        this.itemId = itemId;
+        this.reservedAt = reservedAt.toString();
+        this.reservationExpirationDate = reservationExpirationDate.toString();
+    }
+
     public Reservation(int reservationId, String username, int itemId, LocalDate reservedAt, LocalDate reservationExpirationDate) {
 
         this.reservationId = reservationId;

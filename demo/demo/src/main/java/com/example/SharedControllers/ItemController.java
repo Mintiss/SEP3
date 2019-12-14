@@ -28,7 +28,7 @@ public class ItemController {
         restTemplate=new RestTemplate();
         gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")
-                .create();
+                 .create();
         arrayOfItemsType = new TypeToken<ArrayList<Item>>() {}.getType();
     }
 
@@ -50,6 +50,12 @@ public class ItemController {
 
     public void putItem(Item item){
         restTemplate.put("http://localhost:5000/api/Items/" + item.getItemId(),item);
+    }
+
+    public void decrementQuantityReserveBlazor(int id){
+        Item item=getItem(id);
+        item.setQuantity(item.getQuantity()-1);
+        restTemplate.put("http://localhost:5000/api/Items/"+id,item);
     }
 
     public void postItem(Item fromJson) {

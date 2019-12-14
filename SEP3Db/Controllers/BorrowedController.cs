@@ -46,7 +46,7 @@ namespace SEP3Db.Controllers
         [HttpGet("User/{username}")]
         public async Task<List<Borrowed>> GetBorrowedBeforeDate(string username)
         {
-            var borrowed = _context.Borrowed.Where(Borrowed => Borrowed.Username.Equals(username) && Borrowed.IsReturned==false && Borrowed.ReturnDate>DateTime.Now).ToList();
+            var borrowed = _context.Borrowed.Where(Borrowed => Borrowed.Username.Equals(username) && Borrowed.IsReturned==false && Borrowed.ReturnDate>=DateTime.Now).ToList();
             
             if (borrowed == null)
             {

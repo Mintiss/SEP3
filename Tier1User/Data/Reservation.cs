@@ -11,7 +11,7 @@ namespace Tier1User.Data
 
         public string User { get; set; }
 
-        public int Item { get; set; }
+        public int ItemId { get; set; }
 
         public string ReservedAt { get; set; }
 
