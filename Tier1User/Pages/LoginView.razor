@@ -12,14 +12,20 @@
 <div class="login">
 
     <div class="content px-4">
-        @if(isValid == false)
+        @if (isValid == false)
         {
             <div class="alert alert-danger" role="alert" @on>
                 Wrong username or password
-            </div> 
+            </div>
         }
-        
-        <h5>Enter Your Email</h5>
+        @if (empty)
+        {
+            <div class="alert alert-danger" role="alert" @on>
+                Invalid information!
+            </div>
+        }
+
+        <h5>Enter Your Username</h5>
         <input placeholder="Username" type="email" @bind="emailInput" />
         <h5>Enter Your Password</h5>
         <input placeholder="Password" type="password" @bind="passwordInput" />
@@ -37,19 +43,25 @@
     string emailInput = string.Empty;
     string passwordInput = string.Empty;
     bool isValid = true;
-
+    bool empty;
 
 
     public void checkData()
     {
-
-        isValid = model.CheckUser(emailInput, passwordInput).Result;
-
-        if (isValid == true)
+        if (emailInput.Length != 0)
         {
-            goTo.NavigateTo("");
+            if (passwordInput.Length != 0)
+            {
+                isValid = model.CheckUser(emailInput, passwordInput).Result;
+
+                if (isValid == true)
+                {
+                    goTo.NavigateTo("");
+                }
+            }
+            else empty = true;
         }
-        
+        else empty = true;
 
     }
 

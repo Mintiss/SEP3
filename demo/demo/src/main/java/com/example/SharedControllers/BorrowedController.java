@@ -67,7 +67,7 @@ public class BorrowedController {
     }
 
     public void putBorrowed(Borrowed borrowed){
-        restTemplate.put(url + borrowed.getBorrowedId(),borrowed);
+        restTemplate.put(url +"/"+ borrowed.getBorrowedId(),borrowed);
     }
 
 

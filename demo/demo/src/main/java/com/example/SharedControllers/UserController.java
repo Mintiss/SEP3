@@ -40,7 +40,6 @@ public class UserController {
     {
         java.lang.String usersJson=restTemplate.getForObject(url+"/", java.lang.String.class);
 
-        System.out.println(usersJson);
         ArrayList<User> users = gson.fromJson(usersJson, arrayOfItemsType);
         return users;
     }
@@ -63,6 +62,7 @@ public class UserController {
     {
         User userGotFromDB;
 
+
         try {
             userGotFromDB = restTemplate.getForObject(url+"/" + user.getUsername() + "/" + user.getPassword(), User.class);
         } catch (Exception e){
@@ -70,7 +70,6 @@ public class UserController {
         }
 
         return userGotFromDB;
-
     }
 
     public void deleteUser(java.lang.String id) {
@@ -81,13 +80,21 @@ public class UserController {
         restTemplate.put(url+"/" + user.getUsername(),user);
     }
 
+    public boolean checkIfExist(String id){
+        ArrayList<User> users= getUsers();
+        for (int i=0;i<users.size();i++) {
+            if (users.get(i).getUsername().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     //Exposing web api
 
-    @RequestMapping(method = GET, value = "/{id}")
-    public String getUserBlazor(@PathVariable String id) {
-        System.out.println(gson.toJson(getUserFromDB(id)));
-        return gson.toJson(getUserFromDB(id));
+    @RequestMapping(method = GET, value = "/{id}/{password}")
+    public String getUserBlazor(@PathVariable String id,@PathVariable String password) {
+        return gson.toJson(checkLogInTier1Librarian(new User(id,password,0)));
     }
 
 
@@ -102,5 +109,14 @@ public class UserController {
             User user=new User(part1,part2,0);
 
             restTemplate.postForObject(url+"/",user,User.class);
+    }
+
+    @RequestMapping(method = GET, value = "/{id}")
+    public String getUserBlazor(@PathVariable String id) {
+        if(this.checkIfExist(id)==true) {
+            return gson.toJson("yes");
+        }
+        else
+            return gson.toJson("no");
     }
 }

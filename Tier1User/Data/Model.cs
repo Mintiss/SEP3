@@ -35,7 +35,7 @@ namespace Tier1User.Data
 
         public async Task<bool> CheckUser(string emailInput, string passwordInput)
         {            
-            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Users/"+emailInput).ConfigureAwait(false);
+            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Users/"+emailInput+"/"+passwordInput).ConfigureAwait(false);
 
             var jsonall = Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
 
@@ -66,11 +66,31 @@ namespace Tier1User.Data
             var stringContent = new StringContent(jsonall, UnicodeEncoding.UTF8, "application/json");
 
             Debug.WriteLine(stringContent);
-
-            await service.getClient().PostAsync("http://localhost:8543/Users/",stringContent).ConfigureAwait(false);
-
-            return true;
+         
+            if (this.CheckIfUserExistInDB(emailInput).Result==true)
+            {
+                await service.getClient().PostAsync("http://localhost:8543/Users/", stringContent).ConfigureAwait(false);
+                return true;
+            }
+            else
+                return false;
         
+        }
+
+        public async Task<bool> CheckIfUserExistInDB(string emailInput)
+        {
+            var gotFromServer = service.getClient().GetStringAsync("http://localhost:8543/Users/" + emailInput).Result;
+
+            string s =(string)Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
+            
+            if (s.Length==3)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public async Task<List<Item>> GetItemsAsync()

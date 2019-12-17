@@ -175,7 +175,6 @@ public class Model implements IModel {
 
     @Override
     public void setFinesTable(ArrayList<Borrowed> fines) {
-        System.out.println(fines.get(0).getBorrowDate().toString());
         finesTable = fines;
         System.out.println("borrowed table" + finesTable.toString());
         support.firePropertyChange("UpdateFinesTable",null,null);
@@ -364,12 +363,36 @@ public class Model implements IModel {
 
     @Override
     public void editItem(Item item) {
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(item),this.loggedInUser,"EditItem")));
+        if (item.getAuthor().isBlank()){
+            error("Author empty");
+        }
+        else if (item.getTitle().isBlank()){
+            error("Title empty");
+        }
+        else if (item.getType().isBlank()){
+            error("Type empty");
+        }
+        else {
+            client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(item), this.loggedInUser, "EditItem")));
+            info("Item has been added.");
+        }
     }
 
     @Override
     public void addItem(Item item) {
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(item),this.loggedInUser,"AddItem")));
+        if (item.getAuthor().isBlank()){
+            error("Author empty");
+        }
+        else if (item.getTitle().isBlank()){
+            error("Title empty");
+        }
+        else if (item.getType().isBlank()){
+            error("Type empty");
+        }
+        else {
+            client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(item), this.loggedInUser, "AddItem")));
+            info("Item has been added.");
+        }
     }
 
     @Override

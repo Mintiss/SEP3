@@ -42,9 +42,12 @@ public class EditViewModel {
 
     public void editItem(String location) {
         int id = model.getStoredItem().getItemId();
-        model.editItem(new Item(id, author.getValue(), title.getValue(), type.getValue(), Integer.parseInt(quantity.getValue()), location));
-        model.info("Item has been edited.");
-
+        try {
+            model.editItem(new Item(id, author.getValue(), title.getValue(), type.getValue(), Integer.parseInt(quantity.getValue()), location));
+        }catch (NumberFormatException e)
+        {
+            model.error("Quantity must be a number.");
+        }
     }
 
     public void selectLocation() {

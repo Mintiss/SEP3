@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+@SuppressWarnings("Duplicates")
 public class ServerModel {
 
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
@@ -219,8 +220,18 @@ public class ServerModel {
         ArrayList<Item> items = ic.getItems();
         ArrayList<Item> searchItems = new ArrayList<Item>();
 
+        int intjson;
+
+        try{
+            intjson=Integer.parseInt(json);
+        }
+        catch (Exception e){
+            intjson=-1;
+        }
+
+
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getItemId()==Integer.parseInt(json)) {
+            if (items.get(i).getItemId()==intjson) {
                 searchItems.add(items.get(i));
                 System.out.println("match found");
                 System.out.println(items.get(i).getItemId());
@@ -310,8 +321,18 @@ public class ServerModel {
         ArrayList<Reservation> reservations = rc.getReservations();
         ArrayList<Reservation> searchReservations = new ArrayList<Reservation>();
 
+        int intjson;
+
+        try{
+            intjson=Integer.parseInt(json);
+        }
+        catch (Exception e){
+            intjson=-1;
+        }
+
+
         for (int i = 0; i < reservations.size(); i++) {
-            if (reservations.get(i).getReservationId()==Integer.parseInt(json)) {
+            if (reservations.get(i).getReservationId()==intjson) {
                 searchReservations.add(reservations.get(i));
                 System.out.println("match found");
                 System.out.println(reservations.get(i).getReservationId());
@@ -325,8 +346,18 @@ public class ServerModel {
         ArrayList<Reservation> reservations = rc.getReservations();
         ArrayList<Reservation> searchReservations = new ArrayList<Reservation>();
 
+        int intjson;
+
+        try{
+            intjson=Integer.parseInt(json);
+        }
+        catch (Exception e){
+            intjson=-1;
+        }
+
+
         for (int i = 0; i < reservations.size(); i++) {
-            if (reservations.get(i).getItemId()==Integer.parseInt(json)) {
+            if (reservations.get(i).getItemId()==intjson) {
                 searchReservations.add(reservations.get(i));
                 System.out.println("match found");
                 System.out.println(reservations.get(i).getItemId());
@@ -355,8 +386,17 @@ public class ServerModel {
         ArrayList<Borrowed> borrowed = bc.getBorrowed();
         ArrayList<Borrowed> searchBorrowed = new ArrayList<Borrowed>();
 
+        int intjson;
+
+        try{
+            intjson=Integer.parseInt(json);
+        }
+        catch (Exception e){
+            intjson=-1;
+        }
+
         for (int i = 0; i < borrowed.size(); i++) {
-            if (borrowed.get(i).getBorrowedId()==Integer.parseInt(json)) {
+            if (borrowed.get(i).getBorrowedId()==intjson) {
                 searchBorrowed.add(borrowed.get(i));
                 System.out.println("match found");
                 System.out.println(borrowed.get(i).getBorrowedId());
@@ -370,8 +410,18 @@ public class ServerModel {
         ArrayList<Borrowed> borrowed = bc.getBorrowed();
         ArrayList<Borrowed> searchBorrowed = new ArrayList<Borrowed>();
 
+        int intjson;
+
+        try{
+            intjson=Integer.parseInt(json);
+        }
+        catch (Exception e){
+            intjson=-1;
+        }
+
         for (int i = 0; i < borrowed.size(); i++) {
-            if (borrowed.get(i).getItemId()==Integer.parseInt(json)) {
+
+            if (borrowed.get(i).getItemId() == intjson) {
                 searchBorrowed.add(borrowed.get(i));
                 System.out.println("match found");
                 System.out.println(borrowed.get(i).getItemId());
@@ -401,8 +451,18 @@ public class ServerModel {
         ArrayList<Borrowed> fines = getFines();
         ArrayList<Borrowed> searchFines = new ArrayList<Borrowed>();
 
+        int intjson;
+
+        try{
+            intjson=Integer.parseInt(json);
+        }
+        catch (Exception e){
+            intjson=-1;
+        }
+
+
         for (int i = 0; i < fines.size(); i++) {
-            if (fines.get(i).getBorrowedId()==Integer.parseInt(json)) {
+            if (fines.get(i).getBorrowedId()==intjson) {
                 searchFines.add(fines.get(i));
                 System.out.println("match found");
                 System.out.println(fines.get(i).getBorrowedId());
@@ -417,8 +477,18 @@ public class ServerModel {
         ArrayList<Borrowed> fines = getFines();
         ArrayList<Borrowed> searchFines = new ArrayList<Borrowed>();
 
+        int intjson;
+
+        try{
+            intjson=Integer.parseInt(json);
+        }
+        catch (Exception e){
+            intjson=-1;
+        }
+
+
         for (int i = 0; i < fines.size(); i++) {
-            if (fines.get(i).getItemId()==Integer.parseInt(json)) {
+            if (fines.get(i).getItemId()==intjson) {
                 searchFines.add(fines.get(i));
                 System.out.println("match found");
                 System.out.println(fines.get(i).getItemId());
