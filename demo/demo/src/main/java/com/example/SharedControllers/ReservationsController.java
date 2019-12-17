@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Type;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+@SuppressWarnings("Duplicates")
 @RestController
 @RequestMapping("/Reservations")
 public class ReservationsController {
@@ -26,6 +26,7 @@ public class ReservationsController {
     private Gson gson;
     private Type arrayOfItemsType;
     private ItemController ic;
+    private String url="https://localhost:44376/api/Reservations";
 
 
     public ReservationsController() {
@@ -38,14 +39,15 @@ public class ReservationsController {
         ic = new ItemController();
     }
     public void deleteReservation(String id) {
-        restTemplate.delete("http://localhost:5000/api/Reservations/" + id);
+        restTemplate.delete(url+"/" + id);
     }
 
     public ArrayList<Reservation> getReservations()
     {
-        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Reservations", String.class);
+        String itemsJson=restTemplate.getForObject(url, String.class);
 
         System.out.println(itemsJson);
+
         ArrayList<Reservation> items = gson.fromJson(itemsJson, arrayOfItemsType);
 
         return items;
@@ -53,7 +55,7 @@ public class ReservationsController {
 
     public ArrayList<Reservation> getBorrowedByReservation(String username)
     {
-        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Reservations/User/"+username, String.class);
+        String itemsJson=restTemplate.getForObject(url+"/User/"+username, String.class);
 
         ArrayList<Reservation> reservations = gson.fromJson(itemsJson, arrayOfItemsType);
 
@@ -61,6 +63,19 @@ public class ReservationsController {
 
         return reservations;
     }
+
+
+    public Reservation getBorrowedByReservationID(int id)
+    {
+        String itemJson=restTemplate.getForObject(url+"/"+id, String.class);
+
+        Reservation reservation = gson.fromJson(itemJson,Reservation.class );
+
+        System.out.println(reservation);
+
+        return reservation;
+    }
+
 
     @RequestMapping(method = POST, value = "/", consumes = "application/json")
     public void postReserveItemBlazor(@RequestBody StringContent reservationBody){
@@ -73,11 +88,19 @@ public class ReservationsController {
 
         ic.decrementQuantityReserveBlazor(part1);
 
-        Reservation reservation=new Reservation(part2,part1, LocalDate.now(),LocalDate.now().plusWeeks(1));
 
-        restTemplate.postForObject("http://localhost:5000/api/Reservations",reservation,Reservation.class);
+
+        Reservation reservation=new Reservation(part2,part1, LocalDateTime.now(),LocalDateTime.now().plusWeeks(1));
+
+        restTemplate.postForObject(url,reservation,Reservation.class);
     }
 
+
+    @RequestMapping(method = DELETE, value = "/{id}")
+    public void cancelReservationBlazor(@PathVariable String id) {
+        ic.incrementQuantityReserveBlazor(getBorrowedByReservationID(Integer.parseInt(id)).getItemId());
+        restTemplate.delete(url+"/"+id);
+    }
 
     @RequestMapping(method = GET, value = "/User/{username}")
     public String getBorrowedBlazor(@PathVariable String username) {

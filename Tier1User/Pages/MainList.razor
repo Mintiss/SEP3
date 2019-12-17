@@ -13,15 +13,22 @@
 }
 else
 {
-    @if (reservation == true)
+    @if (reservation == false && clicked.Equals("c"))
     {
+        clicked = "";
+        <div class="alert alert-danger" role="alert" @on>
+            Out of stock or reserved too many!
+        </div>
+            }
+            else if (clicked.Equals("c") && reservation==true)
+            {
+                clicked = "";
         <div class="alert alert-success">
             <strong>Reserved</strong>
         </div>
-
+        
         reservation = false;
     }
-
 
     <table class="table">
         <thead>
@@ -30,6 +37,7 @@ else
                 <th>Type</th>
                 <th>Author</th>
                 <th>InStock</th>
+                <th>Location</th>
                 <th></th>
             </tr>
         </thead>
@@ -42,6 +50,7 @@ else
                     <td>@item.Type</td>
                     <td>@item.Author</td>
                     <td>@item.Quantity</td>
+                    <td>@item.Location</td>
                     <td><button class="btn btn-success" @onclick="@(async ()  =>  await Do(item.ItemId))">Reserve</button></td>
 
                 </tr>
@@ -53,8 +62,8 @@ else
 @functions{
     async Task Do(int id)
     {
-        await this.model.ReserveItemAsync(id);
-        reservation = true;
+        reservation = await this.model.ReserveItemAsync(id);
+        clicked = "c";
     }
 }
 
@@ -62,14 +71,14 @@ else
     Item[] items;
     string searchInput = string.Empty;
     bool reservation;
-   
+    string clicked = "";
 
 
     protected void SearchClick()
     {
 
     }
-     protected void Search()
+    protected void Search()
     {
 
     }

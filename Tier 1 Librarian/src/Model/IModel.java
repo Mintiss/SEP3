@@ -114,4 +114,6 @@ public interface IModel {
     void searchFinesItemId(String value);
 
     void searchFinesUsername(String value);
+
+    String getLoggedIn();
 }

@@ -31,4 +31,6 @@ public interface Client {
     void cannotDeleteUser();
 
     void cannotDeleteItem();
+
+    String getLoggedIn();
 }

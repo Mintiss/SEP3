@@ -107,4 +107,7 @@ public class SocketClient implements Client{
     public void updateUsersTable(ArrayList<User> users){
         model.setUsersTable(users);
     }
+
+    @Override
+    public String getLoggedIn(){return model.getLoggedIn();}
 }

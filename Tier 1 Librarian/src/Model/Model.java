@@ -4,8 +4,6 @@ import Shared.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import networkingC.Client;
 
@@ -31,7 +29,7 @@ public class Model implements IModel {
     private Borrowed storedBorrow;
     private Borrowed storedFine;
     private Reservation storedReservation;
-
+    private String loggedInUser;
 
     public Model() {
         mainTable = new ArrayList<Item>();
@@ -55,7 +53,8 @@ public class Model implements IModel {
     }
 
     public void logInAction(String username, String password){
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(new User(username,password)),"LoginInfo")));
+        this.loggedInUser=username;
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(new User(username,password)),this.loggedInUser,"LoginInfo")));
     }
 
 
@@ -104,31 +103,31 @@ public class Model implements IModel {
     }
 
     public void updateMainTable(){
-        client.sendInfo("UpdateMainTable");
+        client.sendInfo(gson.toJson(new JsonInstruction(null,this.loggedInUser,"UpdateMainTable")));
     }
     @Override
     public void returnItem()
     {
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(storedBorrow),"ReturnedItem")));
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(storedBorrow),this.loggedInUser,"ReturnedItem")));
     }
 
     @Override
     public void deleteReservation() {
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(getStoredReservation()),"DeleteReservation")));
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(getStoredReservation()),this.loggedInUser,"DeleteReservation")));
 
     }
 
     @Override
     public void payFine(Borrowed storedValue) {
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(storedValue),"PayFine")));
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(storedValue),this.loggedInUser,"PayFine")));
     }
 
     @Override
     public void moveToBorrowed(String months) {
         try{
 
-            client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(Integer.parseInt(months)),"Months")));
-            client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(getStoredReservation()),"MoveToBorrowed")));
+            client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(Integer.parseInt(months)),this.loggedInUser,"Months")));
+            client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(getStoredReservation()),this.loggedInUser,"MoveToBorrowed")));
 
         }
         catch (Exception e)
@@ -140,17 +139,17 @@ public class Model implements IModel {
 
     @Override
     public void updateBorrowedTable() {
-        client.sendInfo("UpdateBorrowedTable");
+        client.sendInfo(gson.toJson(new JsonInstruction(null,this.loggedInUser,"UpdateBorrowedTable")));
     }
 
     @Override
     public void updateFinesTable() {
-        client.sendInfo("UpdateFinesTable");
+        client.sendInfo(gson.toJson(new JsonInstruction(null,this.loggedInUser,"UpdateFinesTable")));
 
     }
 
     @Override
-    public void updateUsersTable() { client.sendInfo("UpdateUsersTable");}
+    public void updateUsersTable() { client.sendInfo(gson.toJson(new JsonInstruction(null,this.loggedInUser,"UpdateUsersTable")));}
 
     @Override
     public void setMainTable(ArrayList<Item> items) {
@@ -200,7 +199,7 @@ public class Model implements IModel {
                     getStoredItem().getItemId(),
                     today.plusMonths(Long.parseLong(value)),
                     today
-            )), "BorrowItem")));
+            )),this.loggedInUser, "BorrowItem")));
         }
         catch (Exception e)
         {
@@ -210,7 +209,7 @@ public class Model implements IModel {
 
     @Override
     public void updateReservedTable() {
-        client.sendInfo("UpdateReservationTable");
+        client.sendInfo(gson.toJson(new JsonInstruction(null,this.loggedInUser,"UpdateReservationTable")));
     }
 
     @Override
@@ -260,19 +259,19 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainId")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchMainId")));
     }@Override
     public void searchMainTitle(String value) {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-        client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainTitle")));
+        client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchMainTitle")));
     }@Override
     public void searchMainAuthor(String value) {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-        client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchMainAuthor")));
+        client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchMainAuthor")));
     }
 
     @Override
@@ -280,7 +279,7 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchReservedId")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchReservedId")));
     }
 
     @Override
@@ -288,7 +287,7 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchReservedItemId")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchReservedItemId")));
     }
 
     @Override
@@ -296,7 +295,7 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchReservedUsername")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchReservedUsername")));
     }
 
     @Override
@@ -304,7 +303,7 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchBorrowedId")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchBorrowedId")));
     }
 
     @Override
@@ -312,7 +311,7 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchBorrowedItemId")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchBorrowedItemId")));
     }
 
     @Override
@@ -320,7 +319,7 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchBorrowedUsername")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchBorrowedUsername")));
     }
 
     @Override
@@ -328,7 +327,7 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchFinesId")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchFinesId")));
     }
 
     @Override
@@ -336,7 +335,7 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchFinesItemId")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchFinesItemId")));
     }
 
     @Override
@@ -344,7 +343,7 @@ public class Model implements IModel {
         if(value.equals("")|| value==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(value,"SearchFinesUsername")));
+            client.sendInfo(gson.toJson(new JsonInstruction(value,this.loggedInUser,"SearchFinesUsername")));
     }
 
     @Override
@@ -352,7 +351,7 @@ public class Model implements IModel {
         if(search.equals("")|| search==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(search,"SearchLendItem")));
+            client.sendInfo(gson.toJson(new JsonInstruction(search,this.loggedInUser,"SearchLendItem")));
     }
 
     @Override
@@ -360,32 +359,32 @@ public class Model implements IModel {
         if(search.equals("")|| search==null)
             error("Search is empty");
         else
-            client.sendInfo(gson.toJson(new JsonInstruction(search,"SearchUserList")));
+            client.sendInfo(gson.toJson(new JsonInstruction(search,this.loggedInUser,"SearchUserList")));
     }
 
     @Override
     public void editItem(Item item) {
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(item),"EditItem")));
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(item),this.loggedInUser,"EditItem")));
     }
 
     @Override
     public void addItem(Item item) {
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(item),"AddItem")));
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(item),this.loggedInUser,"AddItem")));
     }
 
     @Override
     public void deleteItem() {
-        client.sendInfo(gson.toJson(new JsonInstruction(Integer.toString(getStoredItem().getItemId()),"DeleteItem")));
+        client.sendInfo(gson.toJson(new JsonInstruction(Integer.toString(getStoredItem().getItemId()),this.loggedInUser,"DeleteItem")));
     }
 
     @Override
     public void deleteUser() {
-        client.sendInfo(gson.toJson(new JsonInstruction(getStoredUser().getUsername(),"DeleteUser")));
+        client.sendInfo(gson.toJson(new JsonInstruction(getStoredUser().getUsername(),this.loggedInUser,"DeleteUser")));
     }
 
     @Override
     public void changePassword(User user) {
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(user),"ChangePassword")));
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(user),this.loggedInUser,"ChangePassword")));
         info("Password Changed");
     }
 
@@ -398,4 +397,8 @@ public class Model implements IModel {
         return finesTable;
     }
 
+    @Override
+    public String getLoggedIn(){
+        return this.loggedInUser;
+    }
 }

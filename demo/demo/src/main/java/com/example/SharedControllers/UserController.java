@@ -25,8 +25,10 @@ public class UserController {
         private RestTemplate restTemplate;
         private Gson gson;
         private Type arrayOfItemsType;
+        private String url="https://localhost:44376/api/Users";
 
-        public UserController(){
+
+    public UserController(){
             restTemplate=new RestTemplate();
             gson = new GsonBuilder()
                     .setDateFormat("yyyy-MM-dd")
@@ -36,7 +38,7 @@ public class UserController {
 
     public ArrayList<User> getUsers()
     {
-        java.lang.String usersJson=restTemplate.getForObject("http://localhost:5000/api/Users/", java.lang.String.class);
+        java.lang.String usersJson=restTemplate.getForObject(url+"/", java.lang.String.class);
 
         System.out.println(usersJson);
         ArrayList<User> users = gson.fromJson(usersJson, arrayOfItemsType);
@@ -48,7 +50,7 @@ public class UserController {
             User userGotFromDB;
 
             try {
-                userGotFromDB = restTemplate.getForObject("http://localhost:5000/api/Users/" + userFromLogin, User.class);
+                userGotFromDB = restTemplate.getForObject(url+"/" + userFromLogin, User.class);
             } catch (Exception e){
                 userGotFromDB=null;
             }
@@ -62,7 +64,7 @@ public class UserController {
         User userGotFromDB;
 
         try {
-            userGotFromDB = restTemplate.getForObject("https://localhost:44376/api/Users/" + user.getUsername() + "/" + user.getPassword(), User.class);
+            userGotFromDB = restTemplate.getForObject(url+"/" + user.getUsername() + "/" + user.getPassword(), User.class);
         } catch (Exception e){
             userGotFromDB=null;
         }
@@ -72,11 +74,11 @@ public class UserController {
     }
 
     public void deleteUser(java.lang.String id) {
-        restTemplate.delete("http://localhost:5000/api/Users/" + id);
+        restTemplate.delete(url+"/" + id);
     }
 
     public void changePassword(User user){
-        restTemplate.put("http://localhost:5000/api/Users/" + user.getUsername(),user);
+        restTemplate.put(url+"/" + user.getUsername(),user);
     }
 
 
@@ -99,6 +101,6 @@ public class UserController {
             String part2 = parts[1];
             User user=new User(part1,part2,0);
 
-            restTemplate.postForObject("http://localhost:5000/api/Users/",user,User.class);
+            restTemplate.postForObject(url+"/",user,User.class);
     }
 }

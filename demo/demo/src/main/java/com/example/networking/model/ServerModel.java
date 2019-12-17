@@ -53,51 +53,50 @@ public class ServerModel {
         }
     }
 
-    public void checkUserInfoOnLogin(User user){
-
+    public void checkUserInfoOnLogin(User user,String username){
         User userGotFromDB =uc.checkLogInTier1Librarian(user);
 
         if (userGotFromDB==null)
         {
             System.out.println("null");
-            support.firePropertyChange("LogInFailed",null,user);
+            support.firePropertyChange("LogInFailed",null,username);
         }
         else{
-            support.firePropertyChange("LogInSuccess",null,user);
+            support.firePropertyChange("LogInSuccess",null,username);
         }
     }
 
-    public void UpdateMainTable() {
+    public void UpdateMainTable(String user) {
         this.items = ic.getItems();
-        support.firePropertyChange("UpdateMainTable",null,null);
+        support.firePropertyChange("UpdateMainTable",null,user);
     }
 
     public ArrayList<Borrowed> getBorrowed() {
         return borrowed;
     }
 
-    public void UpdateBorrowedTable() {
+    public void UpdateBorrowedTable(String username) {
         this.borrowed = bc.getBorrowed();
-        support.firePropertyChange("UpdateBorrowedTable", null, null);
+        support.firePropertyChange("UpdateBorrowedTable", null, username);
     }
 
     public ArrayList<Item> getItems() {
         return items;
     }
 
-    public void editItem(Item fromJson) {
+    public void editItem(Item fromJson,String username) {
         ic.putItem(fromJson);
         this.items = ic.getItems();
-        support.firePropertyChange("UpdateMainTable",null,null);
+        support.firePropertyChange("UpdateMainTable",null,username);
     }
 
-    public void addItem(Item fromJson) {
+    public void addItem(Item fromJson,String username) {
         ic.postItem(fromJson);
         this.items = ic.getItems();
-        support.firePropertyChange("UpdateMainTable",null,null);
+        support.firePropertyChange("UpdateMainTable",null,username);
     }
 
-    public void deleteItem(String json) {
+    public void deleteItem(String json,String username) {
         ArrayList<Borrowed> borrowed = bc.getBorrowed();
         ArrayList<Reservation> reservations = rc.getReservations();
         boolean containsUser = false;
@@ -115,24 +114,24 @@ public class ServerModel {
         if (!containsUser){
             ic.deleteItem(json);
             this.items = ic.getItems();
-            support.firePropertyChange("UpdateMainTable",null,null);
+            support.firePropertyChange("UpdateMainTable",null,username);
         }
         else {
-            support.firePropertyChange("CannotDeleteItem",null,null);
+            support.firePropertyChange("CannotDeleteItem",null,username);
 
         }
 
     }
-    public void UpdateReservationTable() {
+    public void UpdateReservationTable(String username) {
         this.reservations = rc.getReservations();
-        support.firePropertyChange("UpdateReservationsTable", null, null);
+        support.firePropertyChange("UpdateReservationsTable", null, username);
     }
 
-    public void UpdateUsersTable() {
+    public void UpdateUsersTable(String username) {
         this.users = uc.getUsers();
-        support.firePropertyChange("UpdateUsersTable", null, null);
+        support.firePropertyChange("UpdateUsersTable", null, username);
     }
-    public void UpdateFinesTable() {
+    public void UpdateFinesTable(String username) {
         ArrayList<Borrowed> borrowedTable = bc.getBorrowed();
         ArrayList<Borrowed> fines = new ArrayList<Borrowed>();
         LocalDate returnDate;
@@ -149,7 +148,7 @@ public class ServerModel {
             }
         }
         this.fines= fines;
-        support.firePropertyChange("UpdateFinesTable", null, null);
+        support.firePropertyChange("UpdateFinesTable", null, username);
     }
 
     public ArrayList<Borrowed> getFines() {
@@ -164,7 +163,7 @@ public class ServerModel {
         return reservations;
     }
 
-    public void deleteUser(String json) {
+    public void deleteUser(String json,String username) {
         ArrayList<Borrowed> borrowed = bc.getBorrowed();
         ArrayList<Reservation> reservations = rc.getReservations();
         boolean containsUser = false;
@@ -182,23 +181,23 @@ public class ServerModel {
         if (!containsUser){
             uc.deleteUser(json);
             this.users = uc.getUsers();
-            support.firePropertyChange("UpdateUsersTable",null,null);
+            support.firePropertyChange("UpdateUsersTable",null,username);
         }
         else {
-            support.firePropertyChange("CannotDeleteUser",null,null);
+            support.firePropertyChange("CannotDeleteUser",null,username);
 
         }
 
     }
 
-    public void changePassword(User user) {
+    public void changePassword(User user,String username) {
         uc.changePassword(user);
         this.users = uc.getUsers();
-        support.firePropertyChange("UpdateUsersTable",null,null);
+        support.firePropertyChange("UpdateUsersTable",null,username);
 
     }
 
-    public void borrowItem(Borrowed fromJson) {
+    public void borrowItem(Borrowed fromJson,String username) {
         Item borrowItem = ic.getItem(fromJson.getItemId());
         if (borrowItem.getQuantity()>=1) {
             borrowItem.setQuantity(borrowItem.getQuantity()-1);
@@ -206,17 +205,17 @@ public class ServerModel {
             bc.borrowItem(fromJson);
             this.items = ic.getItems();
             this.borrowed = bc.getBorrowed();
-            support.firePropertyChange("UpdateBorrowedTable", null, null);
-            support.firePropertyChange("UpdateMainTable", null, null);
-            support.firePropertyChange("ItemBorrowed", null, null);
+            support.firePropertyChange("UpdateBorrowedTable", null, username);
+            support.firePropertyChange("UpdateMainTable", null, username);
+            support.firePropertyChange("ItemBorrowed", null, username);
 
         }
         else
-            support.firePropertyChange("NoItemsLeft", null, null);
+            support.firePropertyChange("NoItemsLeft", null, username);
 
     }
 
-    public void searchMainId(String json) {
+    public void searchMainId(String json,String username) {
         ArrayList<Item> items = ic.getItems();
         ArrayList<Item> searchItems = new ArrayList<Item>();
 
@@ -228,10 +227,10 @@ public class ServerModel {
             }
         }
         this.items = searchItems;
-        support.firePropertyChange("UpdateMainTable", null, null);
+        support.firePropertyChange("UpdateMainTable", null, username);
     }
 
-    public void searchMainAuthor(String json) {
+    public void searchMainAuthor(String json,String username) {
         ArrayList<Item> items = ic.getItems();
         ArrayList<Item> searchItems = new ArrayList<Item>();
 
@@ -243,9 +242,9 @@ public class ServerModel {
             }
         }
         this.items = searchItems;
-        support.firePropertyChange("UpdateMainTable", null, null);
+        support.firePropertyChange("UpdateMainTable", null, username);
     }
-    public void searchMainTitle(String json) {
+    public void searchMainTitle(String json,String username) {
         ArrayList<Item> items = ic.getItems();
         ArrayList<Item> searchItems = new ArrayList<Item>();
 
@@ -257,9 +256,9 @@ public class ServerModel {
             }
         }
         this.items = searchItems;
-        support.firePropertyChange("UpdateMainTable", null, null);
+        support.firePropertyChange("UpdateMainTable", null, username);
     }
-    public void searchLendItem(String json) {
+    public void searchLendItem(String json,String username) {
         ArrayList<User> users = uc.getUsers();
         ArrayList<User> searchUsers = new ArrayList<User>();
 
@@ -271,10 +270,10 @@ public class ServerModel {
             }
         }
         this.users = searchUsers;
-        support.firePropertyChange("UpdateUsersTable", null, null);
+        support.firePropertyChange("UpdateUsersTable", null, username);
     }
 
-    public void returnItem(Borrowed borrowed) {
+    public void returnItem(Borrowed borrowed,String username) {
         Item borrowedItem  = ic.getItem(borrowed.getItemId());
         borrowedItem.setQuantity(borrowedItem.getQuantity()+1);
         ic.putItem(borrowedItem);
@@ -282,32 +281,32 @@ public class ServerModel {
         bc.putBorrowed(borrowed);
         this.items = ic.getItems();
         this.borrowed = bc.getBorrowed();
-        support.firePropertyChange("UpdateMainTable", null, null);
-        support.firePropertyChange("UpdateBorrowedTable", null, null);
-        UpdateFinesTable();
+        support.firePropertyChange("UpdateMainTable", null, username);
+        support.firePropertyChange("UpdateBorrowedTable", null, username);
+        UpdateFinesTable(username);
     }
 
 
-    public void deleteReservation(Reservation fromJson) {
+    public void deleteReservation(Reservation fromJson,String username) {
         rc.deleteReservation(Integer.toString(fromJson.getReservationId()));
         this.reservations = rc.getReservations();
-        support.firePropertyChange("UpdateReservationsTable", null, null);
+        support.firePropertyChange("UpdateReservationsTable", null, username);
     }
 
     public void setBorrowedMonths(String json) {
         this.borrowedMonths = Integer.parseInt(json);
     }
 
-    public void moveToBorrowed(Reservation reservation) {
+    public void moveToBorrowed(Reservation reservation,String username) {
         rc.deleteReservation(Integer.toString(reservation.getReservationId()));
         Borrowed borrowed = new Borrowed(0,reservation.getUsername(), reservation.getItemId(),LocalDate.now().plusMonths(borrowedMonths),LocalDate.now());
         System.out.println(borrowed);
-        borrowItem(borrowed);
-        UpdateReservationTable();
+        borrowItem(borrowed,username);
+        UpdateReservationTable(username);
     }
 
 
-    public void searchReservedId(String json) {
+    public void searchReservedId(String json,String username) {
         ArrayList<Reservation> reservations = rc.getReservations();
         ArrayList<Reservation> searchReservations = new ArrayList<Reservation>();
 
@@ -319,10 +318,10 @@ public class ServerModel {
             }
         }
         this.reservations = searchReservations;
-        support.firePropertyChange("UpdateReservationsTable", null, null);
+        support.firePropertyChange("UpdateReservationsTable", null, username);
     }
 
-    public void searchReservedItemId(String json) {
+    public void searchReservedItemId(String json,String username) {
         ArrayList<Reservation> reservations = rc.getReservations();
         ArrayList<Reservation> searchReservations = new ArrayList<Reservation>();
 
@@ -334,10 +333,10 @@ public class ServerModel {
             }
         }
         this.reservations = searchReservations;
-        support.firePropertyChange("UpdateReservationsTable", null, null);
+        support.firePropertyChange("UpdateReservationsTable", null, username);
     }
 
-    public void searchReservedUsername(String json) {
+    public void searchReservedUsername(String json,String username) {
         ArrayList<Reservation> reservations = rc.getReservations();
         ArrayList<Reservation> searchReservations = new ArrayList<Reservation>();
 
@@ -349,10 +348,10 @@ public class ServerModel {
             }
         }
         this.reservations = searchReservations;
-        support.firePropertyChange("UpdateReservationsTable", null, null);
+        support.firePropertyChange("UpdateReservationsTable", null, username);
     }
 
-    public void searchBorrowedId(String json) {
+    public void searchBorrowedId(String json,String username) {
         ArrayList<Borrowed> borrowed = bc.getBorrowed();
         ArrayList<Borrowed> searchBorrowed = new ArrayList<Borrowed>();
 
@@ -364,10 +363,10 @@ public class ServerModel {
             }
         }
         this.borrowed = searchBorrowed;
-        support.firePropertyChange("UpdateBorrowedTable", null, null);
+        support.firePropertyChange("UpdateBorrowedTable", null, username);
     }
 
-    public void searchBorrowedItemId(String json) {
+    public void searchBorrowedItemId(String json,String username) {
         ArrayList<Borrowed> borrowed = bc.getBorrowed();
         ArrayList<Borrowed> searchBorrowed = new ArrayList<Borrowed>();
 
@@ -379,10 +378,10 @@ public class ServerModel {
             }
         }
         this.borrowed = searchBorrowed;
-        support.firePropertyChange("UpdateBorrowedTable", null, null);
+        support.firePropertyChange("UpdateBorrowedTable", null, username);
     }
 
-    public void searchBorrowedUsername(String json) {
+    public void searchBorrowedUsername(String json,String username) {
         ArrayList<Borrowed> borrowed = bc.getBorrowed();
         ArrayList<Borrowed> searchBorrowed = new ArrayList<Borrowed>();
 
@@ -394,11 +393,11 @@ public class ServerModel {
             }
         }
         this.borrowed = searchBorrowed;
-        support.firePropertyChange("UpdateBorrowedTable", null, null);
+        support.firePropertyChange("UpdateBorrowedTable", null, username);
     }
 
-    public void searchFinesId(String json) {
-        UpdateFinesTable();
+    public void searchFinesId(String json,String username) {
+        UpdateFinesTable(username);
         ArrayList<Borrowed> fines = getFines();
         ArrayList<Borrowed> searchFines = new ArrayList<Borrowed>();
 
@@ -410,11 +409,11 @@ public class ServerModel {
             }
         }
         this.fines = searchFines;
-        support.firePropertyChange("UpdateFinesTable", null, null);
+        support.firePropertyChange("UpdateFinesTable", null, username);
     }
 
-    public void searchFinesItemId(String json) {
-        UpdateFinesTable();
+    public void searchFinesItemId(String json,String username) {
+        UpdateFinesTable(username);
         ArrayList<Borrowed> fines = getFines();
         ArrayList<Borrowed> searchFines = new ArrayList<Borrowed>();
 
@@ -426,11 +425,11 @@ public class ServerModel {
             }
         }
         this.fines = searchFines;
-        support.firePropertyChange("UpdateFinesTable", null, null);
+        support.firePropertyChange("UpdateFinesTable", null, username);
     }
 
-    public void searchFinesUsername(String json) {
-        UpdateFinesTable();
+    public void searchFinesUsername(String json,String username) {
+        UpdateFinesTable(username);
         ArrayList<Borrowed> fines = getFines();
         ArrayList<Borrowed> searchFines = new ArrayList<Borrowed>();
 
@@ -442,6 +441,6 @@ public class ServerModel {
             }
         }
         this.fines = searchFines;
-        support.firePropertyChange("UpdateFinesTable", null, null);
+        support.firePropertyChange("UpdateFinesTable", null, username);
     }
 }
