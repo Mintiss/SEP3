@@ -31,10 +31,8 @@ public class ClientSocketHandler implements Runnable {
     @Override
     public void run() {
         try {
-
             while (true) {
                 Object obj=inFromServer.readObject();
-
                 JsonInstruction jsonInstruction = gson.fromJson((String) obj, JsonInstruction.class);
 
                 if (jsonInstruction.getJson()==null){

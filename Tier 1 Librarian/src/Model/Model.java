@@ -54,7 +54,8 @@ public class Model implements IModel {
 
     public void logInAction(String username, String password){
         this.loggedInUser=username;
-        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(new User(username,password)),this.loggedInUser,"LoginInfo")));
+        client.sendInfo(gson.toJson(new JsonInstruction(gson.toJson(new User(username,password))
+                ,this.loggedInUser,"LoginInfo")));
     }
 
 
@@ -103,7 +104,8 @@ public class Model implements IModel {
     }
 
     public void updateMainTable(){
-        client.sendInfo(gson.toJson(new JsonInstruction(null,this.loggedInUser,"UpdateMainTable")));
+        client.sendInfo(gson.toJson(new JsonInstruction(null
+                ,this.loggedInUser,"UpdateMainTable")));
     }
     @Override
     public void returnItem()
