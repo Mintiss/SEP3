@@ -1,18 +1,41 @@
-﻿ @page "/register"
+﻿@page "/register"
 @using Microsoft.AspNetCore.Components.Authorization
 @inject NavigationManager goTo
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using Tier1User.Data
 @inject Model model
 
+@if (wrongInfo == true)
+{
+    <div class="alert alert-danger" role="alert" @on>
+        Invalid register information!
+    </div>
+    wrongInfo = false;
+}
+
+@if (passwordsDontMatch == true)
+{
+    <div class="alert alert-danger" role="alert" @on>
+        Passwords dont match!
+    </div>
+    passwordsDontMatch = false;
+}
+
+@if (exists == true)
+{
+    <div class="alert alert-danger" role="alert" @on>
+        Username already exist!
+    </div>
+    exists = false;
+}
 
 <div class="register">
 
     <div class="content px-4">
         <h3>Register</h3>
 
-        <h5>Enter Your Email</h5>
-        <input placeholder="Email" type="email" @bind="emailInput" />
+        <h5>Enter Your Username</h5>
+        <input placeholder="Username" type="email" @bind="emailInput" />
         <h5>Enter Your Password</h5>
         <input placeholder="Password" type="password" @bind="passwordInput" />
         <h5>Repeat Your Password</h5>
@@ -28,23 +51,38 @@
     string emailInput = string.Empty;
     string passwordInput = string.Empty;
     string passwordImput2 = string.Empty;
-
-
+    bool wrongInfo = false;
+    bool passwordsDontMatch = false;
+    bool exists = false;
 
     public void checkData()
     {
-
-        if (Equals(passwordInput, passwordImput2))
+        if (emailInput.Length != 0)
         {
-            bool isValid = model.RegisterUser(emailInput, passwordInput).Result;
-
-            if (isValid == true)
+            if (passwordInput.Length != 0)
             {
-                goTo.NavigateTo("");
-            }
-        }
-        
+                if (Equals(passwordInput, passwordImput2))
+                {
+                    bool isValid = model.RegisterUser(emailInput, passwordInput).Result;
 
+                    if (isValid == true)
+                    {
+                        goTo.NavigateTo("");
+                    }
+                    else
+                    {
+                        exists = true;
+                    }
+                }
+                else passwordsDontMatch = true;
+            }
+            else
+                wrongInfo = true;
+        }
+        else
+        {
+            wrongInfo = true;
+        }
     }
 
 }

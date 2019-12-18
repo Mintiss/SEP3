@@ -25,8 +25,10 @@ public class UserController {
         private RestTemplate restTemplate;
         private Gson gson;
         private Type arrayOfItemsType;
+        private String url="https://localhost:44376/api/Users";
 
-        public UserController(){
+
+    public UserController(){
             restTemplate=new RestTemplate();
             gson = new GsonBuilder()
                     .setDateFormat("yyyy-MM-dd")
@@ -36,9 +38,8 @@ public class UserController {
 
     public ArrayList<User> getUsers()
     {
-        java.lang.String usersJson=restTemplate.getForObject("http://localhost:5000/api/Users/", java.lang.String.class);
+        java.lang.String usersJson=restTemplate.getForObject(url+"/", java.lang.String.class);
 
-        System.out.println(usersJson);
         ArrayList<User> users = gson.fromJson(usersJson, arrayOfItemsType);
         return users;
     }
@@ -48,7 +49,7 @@ public class UserController {
             User userGotFromDB;
 
             try {
-                userGotFromDB = restTemplate.getForObject("http://localhost:5000/api/Users/" + userFromLogin, User.class);
+                userGotFromDB = restTemplate.getForObject(url+"/" + userFromLogin, User.class);
             } catch (Exception e){
                 userGotFromDB=null;
             }
@@ -61,31 +62,39 @@ public class UserController {
     {
         User userGotFromDB;
 
+
         try {
-            userGotFromDB = restTemplate.getForObject("http://localhost:5000/api/Users/" + user.getUsername() + "/" + user.getPassword(), User.class);
+            userGotFromDB = restTemplate.getForObject(url+"/" + user.getUsername() + "/" + user.getPassword(), User.class);
         } catch (Exception e){
             userGotFromDB=null;
         }
 
         return userGotFromDB;
-
     }
 
     public void deleteUser(java.lang.String id) {
-        restTemplate.delete("http://localhost:5000/api/Users/" + id);
+        restTemplate.delete(url+"/" + id);
     }
 
     public void changePassword(User user){
-        restTemplate.put("http://localhost:5000/api/Users/" + user.getUsername(),user);
+        restTemplate.put(url+"/" + user.getUsername(),user);
     }
 
+    public boolean checkIfExist(String id){
+        ArrayList<User> users= getUsers();
+        for (int i=0;i<users.size();i++) {
+            if (users.get(i).getUsername().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     //Exposing web api
 
-    @RequestMapping(method = GET, value = "/{id}")
-    public String getUserBlazor(@PathVariable String id) {
-        System.out.println(gson.toJson(getUserFromDB(id)));
-        return gson.toJson(getUserFromDB(id));
+    @RequestMapping(method = GET, value = "/{id}/{password}")
+    public String getUserBlazor(@PathVariable String id,@PathVariable String password) {
+        return gson.toJson(checkLogInTier1Librarian(new User(id,password,0)));
     }
 
 
@@ -99,6 +108,15 @@ public class UserController {
             String part2 = parts[1];
             User user=new User(part1,part2,0);
 
-            restTemplate.postForObject("http://localhost:5000/api/Users/",user,User.class);
+            restTemplate.postForObject(url+"/",user,User.class);
+    }
+
+    @RequestMapping(method = GET, value = "/{id}")
+    public String getUserBlazor(@PathVariable String id) {
+        if(this.checkIfExist(id)==true) {
+            return gson.toJson("yes");
+        }
+        else
+            return gson.toJson("no");
     }
 }

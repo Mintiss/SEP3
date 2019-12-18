@@ -2,6 +2,7 @@ package com.example.Shared;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Reservation {
 
@@ -14,7 +15,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String username, int itemId, LocalDate reservedAt, LocalDate reservationExpirationDate) {
+    public Reservation(String username, int itemId, LocalDateTime reservedAt, LocalDateTime reservationExpirationDate) {
 
         this.username = username;
         this.itemId = itemId;

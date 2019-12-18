@@ -17,7 +17,7 @@ namespace Tier1User.Data
 
         public int Quantity { get; set; }
 
-        //public string Location { get; set; }
+        public string Location { get; set; }
 
         public void DecrementQuanitity()
         {

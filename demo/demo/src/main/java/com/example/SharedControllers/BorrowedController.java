@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+@SuppressWarnings("Duplicates")
 @RestController
 @RequestMapping("/Borrowed")
 public class BorrowedController {
@@ -21,7 +22,7 @@ public class BorrowedController {
     private RestTemplate restTemplate;
     private Gson gson;
     private Type arrayOfItemsType;
-
+    private String url="https://localhost:44376/api/Borrowed";
 
     public BorrowedController(){
         restTemplate=new RestTemplate();
@@ -33,7 +34,7 @@ public class BorrowedController {
 
     public ArrayList<Borrowed> getBorrowed()
     {
-        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Borrowed", String.class);
+        String itemsJson=restTemplate.getForObject(url, String.class);
 
         System.out.println(itemsJson);
         ArrayList<Borrowed> borrowed = gson.fromJson(itemsJson, arrayOfItemsType);
@@ -44,7 +45,7 @@ public class BorrowedController {
 
     public ArrayList<Borrowed> getBorrowedByUsername(String username)
     {
-        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Borrowed/User/"+username, String.class);
+        String itemsJson=restTemplate.getForObject(url + "/User/"+username, String.class);
 
         ArrayList<Borrowed> borrowed = gson.fromJson(itemsJson, arrayOfItemsType);
 
@@ -56,7 +57,7 @@ public class BorrowedController {
 
     public ArrayList<Borrowed> getFinesByUsername(String username)
     {
-        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Borrowed/User/Fines/"+username, String.class);
+        String itemsJson=restTemplate.getForObject(url +"/User/Fines/"+username, String.class);
 
         ArrayList<Borrowed> borrowed = gson.fromJson(itemsJson, arrayOfItemsType);
 
@@ -66,13 +67,13 @@ public class BorrowedController {
     }
 
     public void putBorrowed(Borrowed borrowed){
-        restTemplate.put("http://localhost:5000/api/Borrowed/" + borrowed.getBorrowedId(),borrowed);
+        restTemplate.put(url +"/"+ borrowed.getBorrowedId(),borrowed);
     }
 
 
     public void borrowItem(Borrowed fromJson) {
         System.out.println(gson.toJson(fromJson));
-        restTemplate.postForObject("http://localhost:5000/api/Borrowed",fromJson, Borrowed.class);
+        restTemplate.postForObject(url,fromJson, Borrowed.class);
     }
 
     @RequestMapping(method = GET, value = "/{username}")

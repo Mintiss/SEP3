@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 
+@SuppressWarnings("Duplicates")
 @RestController
 @RequestMapping("/Items")
 public class ItemController {
@@ -22,6 +23,7 @@ public class ItemController {
     private RestTemplate restTemplate;
     private Gson gson;
     private Type arrayOfItemsType;
+    private String url="https://localhost:44376/api/Items";
 
 
     public ItemController(){
@@ -34,36 +36,43 @@ public class ItemController {
 
     public Item getItem(int id)
     {
-        String itemJson=restTemplate.getForObject("http://localhost:5000/api/Items/" + id, String.class);
+        String itemJson=restTemplate.getForObject(url +"/" + id, String.class);
         return gson.fromJson(itemJson,Item.class);
     }
 
     public ArrayList<Item> getItems()
     {
-        String itemsJson=restTemplate.getForObject("http://localhost:5000/api/Items", String.class);
+        String itemsJson=restTemplate.getForObject(url, String.class);
 
         System.out.println(itemsJson);
+
         ArrayList<Item> items = gson.fromJson(itemsJson, arrayOfItemsType);
 
         return items;
     }
 
     public void putItem(Item item){
-        restTemplate.put("http://localhost:5000/api/Items/" + item.getItemId(),item);
+        restTemplate.put(url+"/" + item.getItemId(),item);
     }
 
     public void decrementQuantityReserveBlazor(int id){
         Item item=getItem(id);
         item.setQuantity(item.getQuantity()-1);
-        restTemplate.put("http://localhost:5000/api/Items/"+id,item);
+        restTemplate.put(url+"/"+id,item);
+    }
+
+    public void incrementQuantityReserveBlazor(int id){
+        Item item=getItem(id);
+        item.setQuantity(item.getQuantity()+1);
+        restTemplate.put(url+"/"+id,item);
     }
 
     public void postItem(Item fromJson) {
-        restTemplate.postForObject("http://localhost:5000/api/Items",fromJson, Item.class);
+        restTemplate.postForObject(url,fromJson, Item.class);
     }
 
     public void deleteItem(String id) {
-        restTemplate.delete("http://localhost:5000/api/Items/" + id);
+        restTemplate.delete(url+"/" + id);
     }
 
 

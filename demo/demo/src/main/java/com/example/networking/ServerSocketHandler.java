@@ -60,108 +60,111 @@ public class ServerSocketHandler implements Runnable{
             try {
                 Object obj=inFromClient.readObject();
 
-                if (obj instanceof java.lang.String)
+                System.out.println(obj);
+                JsonInstruction jsonInstruction = gson.fromJson((java.lang.String) obj, JsonInstruction.class);
+
+                if (jsonInstruction.getJson()==null)
                 {
                     System.out.println(obj);
-                    if (((String)obj).equals("UpdateMainTable"))
+                    if ((jsonInstruction.getInstruction().equals("UpdateMainTable")))
                     {
-                        model.UpdateMainTable();
+                        model.UpdateMainTable(jsonInstruction.getUsername());
                     }
-                    else if(((String)obj).equals("UpdateBorrowedTable"))
+                    else if((jsonInstruction.getInstruction().equals("UpdateBorrowedTable")))
                     {
-                        model.UpdateBorrowedTable();
+                        model.UpdateBorrowedTable(jsonInstruction.getUsername());
                     }
-                    else if(((String)obj).equals("UpdateUsersTable"))
+                    else if((jsonInstruction.getInstruction().equals("UpdateUsersTable")))
                     {
-                        model.UpdateUsersTable();
+                        model.UpdateUsersTable(jsonInstruction.getUsername());
                     }
-                    else if(((String)obj).equals("UpdateFinesTable"))
+                    else if((jsonInstruction.getInstruction().equals("UpdateFinesTable")))
                     {
-                        model.UpdateFinesTable();
+                        model.UpdateFinesTable(jsonInstruction.getUsername());
                     }
-                    else if(((String)obj).equals("UpdateReservationTable"))
+                    else if((jsonInstruction.getInstruction().equals("UpdateReservationTable")))
                     {
-                        model.UpdateReservationTable();
+                        model.UpdateReservationTable(jsonInstruction.getUsername());
                     }
+                }
                     else {
-                        JsonInstruction jsonInstruction = gson.fromJson((java.lang.String) obj, JsonInstruction.class);
 
                         if (jsonInstruction.getInstruction().equals("LoginInfo")) {
                             System.out.println(jsonInstruction.getInstruction());
                             User user = gson.fromJson(jsonInstruction.getJson(), User.class);
-                            model.checkUserInfoOnLogin(user);
+                            model.checkUserInfoOnLogin(user,jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("EditItem")){
-                            model.editItem(gson.fromJson(jsonInstruction.getJson(), Item.class));
+                            model.editItem(gson.fromJson(jsonInstruction.getJson(), Item.class),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("AddItem")){
-                            model.addItem(gson.fromJson(jsonInstruction.getJson(), Item.class));
+                            model.addItem(gson.fromJson(jsonInstruction.getJson(), Item.class),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("DeleteItem")){
-                            model.deleteItem(jsonInstruction.getJson());
+                            model.deleteItem(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("DeleteUser")){
-                            model.deleteUser(jsonInstruction.getJson());
+                            model.deleteUser(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("ChangePassword")){
-                            model.changePassword(gson.fromJson(jsonInstruction.getJson(), User.class));
+                            model.changePassword(gson.fromJson(jsonInstruction.getJson(), User.class),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("BorrowItem")){
-                            model.borrowItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class));
+                            model.borrowItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchMainId")){
-                            model.searchMainId(jsonInstruction.getJson());
+                            model.searchMainId(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchMainTitle")){
-                            model.searchMainTitle(jsonInstruction.getJson());
+                            model.searchMainTitle(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchMainAuthor")){
-                            model.searchMainAuthor(jsonInstruction.getJson());
+                            model.searchMainAuthor(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchReservedId")){
-                            model.searchReservedId(jsonInstruction.getJson());
+                            model.searchReservedId(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchReservedItemId")){
-                            model.searchReservedItemId(jsonInstruction.getJson());
+                            model.searchReservedItemId(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchReservedUsername")){
-                            model.searchReservedUsername(jsonInstruction.getJson());
+                            model.searchReservedUsername(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchBorrowedId")){
-                            model.searchBorrowedId(jsonInstruction.getJson());
+                            model.searchBorrowedId(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchBorrowedItemId")){
-                            model.searchBorrowedItemId(jsonInstruction.getJson());
+                            model.searchBorrowedItemId(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchBorrowedUsername")){
-                            model.searchBorrowedUsername(jsonInstruction.getJson());
+                            model.searchBorrowedUsername(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchFinesId")){
-                            model.searchFinesId(jsonInstruction.getJson());
+                            model.searchFinesId(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchFinesItemId")){
-                            model.searchFinesItemId(jsonInstruction.getJson());
+                            model.searchFinesItemId(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchFinesUsername")){
-                            model.searchFinesUsername(jsonInstruction.getJson());
+                            model.searchFinesUsername(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchLendItem")){
-                            model.searchLendItem(jsonInstruction.getJson());
+                            model.searchLendItem(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("SearchUserList")){
-                            model.searchLendItem(jsonInstruction.getJson());
+                            model.searchLendItem(jsonInstruction.getJson(),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("ReturnedItem")){
-                            model.returnItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class));
+                            model.returnItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("PayFine")){
-                            model.returnItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class));
+                            model.returnItem(gson.fromJson(jsonInstruction.getJson(), Borrowed.class),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("DeleteReservation")){
-                            model.deleteReservation(gson.fromJson(jsonInstruction.getJson(), Reservation.class));
+                            model.deleteReservation(gson.fromJson(jsonInstruction.getJson(), Reservation.class),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("MoveToBorrowed")){
-                            model.moveToBorrowed(gson.fromJson(jsonInstruction.getJson(), Reservation.class));
+                            model.moveToBorrowed(gson.fromJson(jsonInstruction.getJson(), Reservation.class),jsonInstruction.getUsername());
                         }
                         if(jsonInstruction.getInstruction().equals("Months")){
                             model.setBorrowedMonths(jsonInstruction.getJson());
@@ -171,7 +174,7 @@ public class ServerSocketHandler implements Runnable{
 
 
                     }
-                }
+
             } catch (SocketException e)
             {
                 try {
@@ -192,7 +195,8 @@ public class ServerSocketHandler implements Runnable{
 
     private void updateMainTable(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getItems()),"UpdateMainTable")));
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getItems()),user,"UpdateMainTable")));
         }
         catch (IOException e){
             e.printStackTrace();
@@ -201,7 +205,8 @@ public class ServerSocketHandler implements Runnable{
 
     private void updateReservationsTable(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getReservations()),"UpdateReservationsTable")));
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getReservations()),user,"UpdateReservationsTable")));
         }
         catch (IOException e){
             e.printStackTrace();
@@ -210,7 +215,8 @@ public class ServerSocketHandler implements Runnable{
 
     private void updateFinesTable(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getFines()),"UpdateFinesTable")));
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getFines()),user,"UpdateFinesTable")));
         }
         catch (IOException e){
             e.printStackTrace();
@@ -219,7 +225,8 @@ public class ServerSocketHandler implements Runnable{
 
     private void updateUsersTable(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getUsers()),"UpdateUsersTable")));
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getUsers()),user,"UpdateUsersTable")));
         }
         catch (IOException e){
             e.printStackTrace();
@@ -227,7 +234,8 @@ public class ServerSocketHandler implements Runnable{
     }
     private void updateBorrowedTable(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getBorrowed()),"UpdateBorrowedTable")));
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(gson.toJson(model.getBorrowed()),user,"UpdateBorrowedTable")));
         }
         catch (IOException e){
             e.printStackTrace();
@@ -236,14 +244,16 @@ public class ServerSocketHandler implements Runnable{
 
     public void logInTheUser(PropertyChangeEvent evt){
         try {
-            outToClient.writeObject("Log");
+            String user=(String)evt.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(null,user,"Log")));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     private void noItemsLeft(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject("NoItemsLeft");
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(null,user,"NoItemsLeft")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -251,14 +261,16 @@ public class ServerSocketHandler implements Runnable{
 
     private void CannotDeleteUser(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject("CannotDeleteUser");
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(null,user,"CannotDeleteUser")));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     private void CannotDeleteItem(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject("CannotDeleteItem");
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(null,user,"CannotDeleteItem")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -266,14 +278,16 @@ public class ServerSocketHandler implements Runnable{
 
     private void FinePaid(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject("FinePaid");
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(null,user,"FinePaid")));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     private void ItemBorrowed(PropertyChangeEvent propertyChangeEvent) {
         try {
-            outToClient.writeObject("ItemBorrowed");
+            String user=(String)propertyChangeEvent.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(null,user,"ItemBorrowed")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -282,7 +296,8 @@ public class ServerSocketHandler implements Runnable{
 
     public void failLogInTheUser(PropertyChangeEvent evt){
         try {
-            outToClient.writeObject("LogFail");
+            String user=(String)evt.getNewValue();
+            outToClient.writeObject(gson.toJson(new JsonInstruction(null,user,"LogFail")));
         } catch (IOException e) {
             e.printStackTrace();
         }

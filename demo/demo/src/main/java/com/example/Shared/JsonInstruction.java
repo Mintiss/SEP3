@@ -4,10 +4,21 @@ public class JsonInstruction {
 
     private String json;
     private String instruction;
+    private String username;
 
-    public JsonInstruction(String json, String instruction) {
+    public JsonInstruction(String json, String username, String instruction) {
         this.json = json;
         this.instruction = instruction;
+        this.username=username;
+    }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getJson() {

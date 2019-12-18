@@ -35,7 +35,7 @@ namespace Tier1User.Data
 
         public async Task<bool> CheckUser(string emailInput, string passwordInput)
         {            
-            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Users/"+emailInput).ConfigureAwait(false);
+            var gotFromServer = await service.getClient().GetStringAsync("http://localhost:8543/Users/"+emailInput+"/"+passwordInput).ConfigureAwait(false);
 
             var jsonall = Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
 
@@ -66,11 +66,31 @@ namespace Tier1User.Data
             var stringContent = new StringContent(jsonall, UnicodeEncoding.UTF8, "application/json");
 
             Debug.WriteLine(stringContent);
-
-            await service.getClient().PostAsync("http://localhost:8543/Users/",stringContent).ConfigureAwait(false);
-
-            return true;
+         
+            if (this.CheckIfUserExistInDB(emailInput).Result==true)
+            {
+                await service.getClient().PostAsync("http://localhost:8543/Users/", stringContent).ConfigureAwait(false);
+                return true;
+            }
+            else
+                return false;
         
+        }
+
+        public async Task<bool> CheckIfUserExistInDB(string emailInput)
+        {
+            var gotFromServer = service.getClient().GetStringAsync("http://localhost:8543/Users/" + emailInput).Result;
+
+            string s =(string)Newtonsoft.Json.JsonConvert.DeserializeObject(gotFromServer);
+            
+            if (s.Length==3)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public async Task<List<Item>> GetItemsAsync()
@@ -123,29 +143,55 @@ namespace Tier1User.Data
         }
 
 
+
+        public async Task<bool> CancelReservation(int id,string reservedAt)
+        {
+            foreach (Reservation reservation in this.arrayOfReservedItems)
+            {
+                if (reservation.ItemId==id && reservation.ReservedAt.Equals(reservedAt))
+                {
+                    await service.getClient().DeleteAsync("http://localhost:8543/Reservations/" + reservation.ReservationId);
+
+                    this.arrayOfReservedItems = await GetReservedForUserAsync(this.LoggedInEmail);
+
+                    this.arrayOfItems = await GetItemsAsync();
+
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public async Task<bool> ReserveItemAsync(int id)
         {
 
-            Debug.WriteLine(id);
-
-            foreach(Item item in this.arrayOfItems)
+            if (this.arrayOfReservedItems.Count <= 10)
             {
-                if (item.ItemId == id)
+                foreach (Item item in this.arrayOfItems)
                 {
-                    var jsonall = Newtonsoft.Json.JsonConvert.SerializeObject(item.ItemId + "," + this.LoggedInEmail);
+                    if (item.ItemId == id)
+                    {
+                        if (item.Quantity > 0)
+                        {
+                            var jsonall = Newtonsoft.Json.JsonConvert.SerializeObject(item.ItemId + "," + this.LoggedInEmail);
 
-                    var stringContent = new StringContent(jsonall, UnicodeEncoding.UTF8, "application/json");
+                            var stringContent = new StringContent(jsonall, UnicodeEncoding.UTF8, "application/json");
 
-                    Debug.WriteLine(stringContent);
+                            Debug.WriteLine(stringContent);
 
-                    await service.getClient().PostAsync("http://localhost:8543/Reservations/", stringContent).ConfigureAwait(false);
+                            await service.getClient().PostAsync("http://localhost:8543/Reservations/", stringContent).ConfigureAwait(false);
 
-                    item.DecrementQuanitity();
+                            item.DecrementQuanitity();
 
-                    return true;
+                            this.arrayOfReservedItems = await GetReservedForUserAsync(this.LoggedInEmail);
 
+                            return true;
+                        }
+                    }
                 }
             }
+
+            Debug.WriteLine("false");
 
             return false;
         }
@@ -183,7 +229,7 @@ namespace Tier1User.Data
 
                 i++;
             }
-
+ 
             return SearchResults;
         }
     }

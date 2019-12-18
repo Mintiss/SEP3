@@ -39,7 +39,6 @@ public class AddViewModel {
     public void addItem(String location) {
         try {
             model.addItem(new Item(0,author.getValue(),title.getValue(), type.getValue(), Integer.parseInt(quantity.getValue()), location));
-            model.info("Item has been added.");
         }
         catch (NumberFormatException e)
         {

@@ -20,25 +20,34 @@ else
                 <th>Author</th>
                 <th>Reservation Date</th>
                 <th>Reservation Expiration Date</th>
-                
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in model.arrayOfReservedItems)
             {
-                
+
                 <tr>
-                    
+
                     <td>@model.GetItemsNames(item.ItemId)</td>
                     <td>@model.GetItemsTypes(item.ItemId)</td>
                     <td>@model.GetItemsAuthors(item.ItemId)</td>
                     <td>@item.ReservedAt</td>
                     <td>@item.ReservationExpirationDate</td>
+                    <td><button class="btn btn-success" @onclick="@(async ()  =>  await Do(item.ItemId,item.ReservedAt))">Cancel</button></td>
                 </tr>
             }
         </tbody>
     </table>
 }
+
+@functions{
+    async Task<bool> Do(int id,string reservedAt)
+    {
+        return await this.model.CancelReservation(id,reservedAt);
+    }
+}
+
 
 @code {
     Item[] items;

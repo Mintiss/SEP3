@@ -31,29 +31,34 @@ public class ClientSocketHandler implements Runnable {
     @Override
     public void run() {
         try {
-
             while (true) {
                 Object obj=inFromServer.readObject();
+                JsonInstruction jsonInstruction = gson.fromJson((String) obj, JsonInstruction.class);
 
-                if (obj instanceof String){
-                    if ("Log".equals(obj)){
-                        client.logIn();
+                if (jsonInstruction.getJson()==null){
+                        if (jsonInstruction.getUsername().equals(client.getLoggedIn()))
+                        {
+                            if (jsonInstruction.getInstruction().equals("Log")){
+                                client.logIn();
+                            }
+                            else if (jsonInstruction.getInstruction().equals("LogFail"))
+                                client.logInFailed();
+                            else if(jsonInstruction.getInstruction().equals("NoItemsLeft"))
+                                client.noItemsLeft();
+                            else if(jsonInstruction.getInstruction().equals("ItemBorrowed"))
+                                client.itemBorrowed();
+                            else if(jsonInstruction.getInstruction().equals("CannotDeleteUser"))
+                                client.cannotDeleteUser();
+                            else if(jsonInstruction.getInstruction().equals("CannotDeleteItem"))
+                                client.cannotDeleteItem();
+                        }
+
                     }
-                    else if ("LogFail".equals(obj)){
-                        client.logInFailed();
-                    }
-                    else if("NoItemsLeft".equals(obj))
-                        client.noItemsLeft();
-                    else if("ItemBorrowed".equals(obj))
-                        client.itemBorrowed();
-                    else if("CannotDeleteUser".equals(obj))
-                        client.cannotDeleteUser();
-                    else if("CannotDeleteItem".equals(obj))
-                        client.cannotDeleteItem();
                     else {
-                        JsonInstruction jsonInstruction = gson.fromJson((String) obj, JsonInstruction.class);
 
-                        if (jsonInstruction.getInstruction().equals("UpdateMainTable")) {
+                        if (jsonInstruction.getUsername().equals(client.getLoggedIn())){
+
+                            if (jsonInstruction.getInstruction().equals("UpdateMainTable")) {
                             System.out.println(jsonInstruction);
                             client.updateMainTable(gson.fromJson(jsonInstruction.getJson(),new TypeToken<ArrayList<Item>>(){}.getType()));
                         }
@@ -73,9 +78,9 @@ public class ClientSocketHandler implements Runnable {
                             System.out.println(jsonInstruction);
                             client.UpdateReservationsTable(gson.fromJson(jsonInstruction.getJson(),new TypeToken<ArrayList<Reservation>>(){}.getType()));
                         }
-                    }
+                    } }
                 }
-            }
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

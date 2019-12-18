@@ -29,7 +29,7 @@ namespace SEP3Db.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}")]
+        /*[HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(string id)
         {
             var user = await _context.Users.FindAsync(id);
@@ -40,19 +40,19 @@ namespace SEP3Db.Controllers
             }
 
             return user;
-        }
+        }*/
 
         [HttpGet("{id}" + "/" + "{password}")]
-        public async Task<ActionResult<User>> GetLibrarinInfo(string id,string password)
+        public async Task<User> GetLibrarinInfo(string id,string password)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user =  _context.Users.Where(Users => Users.Username==id && Users.Password.Equals(password)).Single();
 
-            if (user == null || !user.Password.Equals(password))
+            if (user == null)
             {
-                return NotFound();
+                return null;
             }
             
-            return user;
+            return (User)user;
         }
 
         // PUT: api/Users/5

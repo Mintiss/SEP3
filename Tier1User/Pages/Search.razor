@@ -6,7 +6,7 @@
 @inject Model model
 
 
-<h1>Items</h1>
+<h1>Search items by title</h1>
 
 <div class="row margin-bottom-20">
 
@@ -27,6 +27,7 @@
                 <th>Type</th>
                 <th>Author</th>
                 <th>InStock</th>
+                <th>Location</th>
             </tr>
         </thead>
         <tbody>
@@ -35,14 +36,15 @@
                 @foreach (var item in searchResults)
                 {
 
-                    <tr>
-                        <td>@item.Title</td>
-                        <td>@item.Type</td>
-                        <td>@item.Author</td>
-                        <td>@item.Quantity</td>
-                        <td><button class="btn btn-success" @onclick="@(async () => await Do(item.ItemId))">Reserve</button></td>
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Type</td>
+                <td>@item.Author</td>
+                <td>@item.Quantity</td>
+                <td>@item.Location</td>
+                <td><button class="btn btn-success" @onclick="@(async () => await Do(item.ItemId))">Reserve</button></td>
 
-                    </tr>
+            </tr>
                 }
             
             

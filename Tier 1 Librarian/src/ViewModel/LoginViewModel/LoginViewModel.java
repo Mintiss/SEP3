@@ -1,7 +1,6 @@
 package ViewModel.LoginViewModel;
 
 import Model.IModel;
-import Model.Model;
 import View.ViewHandler;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -35,7 +34,6 @@ public class LoginViewModel {
 
     public void ConfirmPassword() {
         model.logInAction(username.getValue(),password.getValue());
-
     }
 
     public void logInFailed(PropertyChangeEvent evt){
@@ -43,8 +41,8 @@ public class LoginViewModel {
             @Override
             public void run() {
                 Alert alert=new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("fasf");
-                alert.setContentText("asf");
+                alert.setTitle("Invalid information");
+                alert.setContentText("Try different");
                 alert.showAndWait();
             }
         });
