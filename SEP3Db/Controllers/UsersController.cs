@@ -43,15 +43,15 @@ namespace SEP3Db.Controllers
         }*/
 
         [HttpGet("{id}" + "/" + "{password}")]
-        public async Task<User> GetLibrarinInfo(string id,string password)
+        public User GetLibrarinInfo(string id, string password)
         {
-            var user =  _context.Users.Where(Users => Users.Username==id && Users.Password.Equals(password)).Single();
+            var user = _context.Users.Where(Users => Users.Username == id && Users.Password.Equals(password)).Single();
 
             if (user == null)
             {
                 return null;
             }
-            
+
             return (User)user;
         }
 

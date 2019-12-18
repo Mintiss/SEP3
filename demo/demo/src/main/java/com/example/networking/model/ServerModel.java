@@ -57,7 +57,7 @@ public class ServerModel {
     public void checkUserInfoOnLogin(User user,String username){
         User userGotFromDB =uc.checkLogInTier1Librarian(user);
 
-        if (userGotFromDB==null)
+        if (userGotFromDB==null || userGotFromDB.getType()==0)
         {
             System.out.println("null");
             support.firePropertyChange("LogInFailed",null,username);
