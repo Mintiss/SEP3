@@ -62,7 +62,7 @@ public class UserController {
         User userGotFromDB;
 
         try {
-            userGotFromDB = restTemplate.getForObject("https://localhost:44376/api/Users/" + user.getUsername() + "/" + user.getPassword(), User.class);
+            userGotFromDB = restTemplate.getForObject("http://localhost:5000/api/Users/" + user.getUsername() + "/" + user.getPassword(), User.class);
         } catch (Exception e){
             userGotFromDB=null;
         }

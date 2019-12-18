@@ -4,8 +4,6 @@ import Shared.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import networkingC.Client;
 
